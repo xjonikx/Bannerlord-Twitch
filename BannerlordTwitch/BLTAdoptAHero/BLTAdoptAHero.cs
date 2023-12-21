@@ -203,9 +203,9 @@ namespace BLTAdoptAHero
             previousModel.CalculateDefendedBlowStunMultipliers(attackerAgent, defenderAgent, collisionResult, attackerWeapon, defenderWeapon, out attackerStunMultiplier, out defenderStunMultiplier);
         }
 
-        public override float CalculateStaggerThresholdMultiplier(Agent defenderAgent)
+        public override float CalculateStaggerThresholdDamage(Agent defenderAgent, in Blow blow)
         {
-            return previousModel.CalculateStaggerThresholdMultiplier(defenderAgent);
+            return previousModel.CalculateStaggerThresholdDamage(defenderAgent, blow);
         }
 
         public override float CalculateAlternativeAttackDamage(BasicCharacterObject attackerCharacter, WeaponComponentData weapon)

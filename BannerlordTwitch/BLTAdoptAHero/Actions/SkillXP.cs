@@ -70,7 +70,7 @@ namespace BLTAdoptAHero
             hero.HeroDeveloper.AddSkillXp(skill, amount,
                 isAffectedByFocusFactor: !BLTAdoptAHeroModule.CommonConfig.UseRawXP);
             // Force this immediately instead of waiting for the daily campaign tick
-            Campaign.Current?.GetCampaignBehavior<CharacterDevelopmentCampaignBehavior>()?.DevelopCharacterStats(hero);
+            hero.HeroDeveloper.DevelopCharacterStats();
 
             int newXp = hero.HeroDeveloper.GetSkillXpProgress(skill);
             int realGainedXp = newXp - prevSkill;

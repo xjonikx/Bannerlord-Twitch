@@ -15,6 +15,7 @@ using Helpers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
+using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -420,12 +421,13 @@ namespace BLTAdoptAHero
                                 ), 0, 300)
                         );
                 }
-
-                HeroHelper.DetermineInitialLevel(newHero);
+                
+                //TODO FIX
+                //HeroHelper.DetermineInitialLevel(newHero);
 #if e159 || e1510
                 CharacterDevelopmentCampaignBehaivor.DevelopCharacterStats(newHero);
 #else
-                Campaign.Current?.GetCampaignBehavior<CharacterDevelopmentCampaignBehavior>()?.DevelopCharacterStats(newHero);
+                newHero.HeroDeveloper.DevelopCharacterStats();
 #endif
             }
 
