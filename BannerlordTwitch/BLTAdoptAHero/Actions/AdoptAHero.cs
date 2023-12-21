@@ -422,13 +422,7 @@ namespace BLTAdoptAHero
                         );
                 }
                 
-                //TODO FIX
-                //HeroHelper.DetermineInitialLevel(newHero);
-#if e159 || e1510
-                CharacterDevelopmentCampaignBehaivor.DevelopCharacterStats(newHero);
-#else
-                newHero.HeroDeveloper.DevelopCharacterStats();
-#endif
+                newHero.HeroDeveloper.InitializeHeroDeveloper();
             }
 
             // A wanderer MUST have at least 1 skill point, or they get killed on load 
