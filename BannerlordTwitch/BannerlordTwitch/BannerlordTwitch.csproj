@@ -14,7 +14,7 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>BannerlordTwitch</RootNamespace>
         <AssemblyName>BannerlordTwitch</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <LangVersion>9</LangVersion>
         <ProjectGuid>{A858B7FE-DD3E-4969-9D30-670042C75B16}</ProjectGuid>
@@ -33,10 +33,6 @@
         <StartArguments>/singleplayer _MODULES_%2aBannerlord.Harmony%2aNative%2aSandBoxCore%2aCustomBattle%2aSandbox%2aStoryMode%2aBannerlordTwitch%2aBLTAdoptAHero%2aBLTBuffet%2aBLTConfigure%2a_MODULES_</StartArguments>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0Harmony, Version=2.0.4.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\packages\Lib.Harmony.2.0.4\lib\net48\0Harmony.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="$(BANNERLORD_GAME_DIR)\bin\Win64_Shipping_Client\TaleWorlds.*.dll">
             <HintPath>%(Identity)</HintPath>
             <Private>False</Private>
@@ -56,6 +52,9 @@
         <Reference Include="$(BANNERLORD_GAME_DIR)\Modules\StoryMode\bin\Win64_Shipping_Client\*.dll">
             <HintPath>%(Identity)</HintPath>
             <Private>False</Private>
+        </Reference>
+        <Reference Include="0Harmony, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\Lib.Harmony.2.3.0-prerelease.2\lib\net472\0Harmony.dll</HintPath>
         </Reference>
         <Reference Include="dnlib, Version=3.3.2.0, Culture=neutral, PublicKeyToken=50e96378b6e77999">
             <HintPath>..\packages\dnlib.3.3.2\lib\net45\dnlib.dll</HintPath>
@@ -129,6 +128,33 @@
         <Reference Include="Microsoft.Owin.StaticFiles, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
           <HintPath>..\packages\Microsoft.Owin.StaticFiles.4.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
           <Private>True</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+          <HintPath>..\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.dll</HintPath>
+        </Reference>
+        <Reference Include="Mono.Cecil.Mdb, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+          <HintPath>..\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+        </Reference>
+        <Reference Include="Mono.Cecil.Pdb, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+          <HintPath>..\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+        </Reference>
+        <Reference Include="Mono.Cecil.Rocks, Version=0.11.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+          <HintPath>..\packages\Mono.Cecil.0.11.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+        </Reference>
+        <Reference Include="MonoMod.Backports, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\MonoMod.Backports.1.0.0-prerelease.2\lib\net452\MonoMod.Backports.dll</HintPath>
+        </Reference>
+        <Reference Include="MonoMod.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\MonoMod.Core.1.0.0-prerelease.2\lib\net452\MonoMod.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="MonoMod.Iced, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\MonoMod.Core.1.0.0-prerelease.2\lib\net452\MonoMod.Iced.dll</HintPath>
+        </Reference>
+        <Reference Include="MonoMod.ILHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\MonoMod.ILHelpers.1.0.0-prerelease.2\lib\net452\MonoMod.ILHelpers.dll</HintPath>
+        </Reference>
+        <Reference Include="MonoMod.Utils, Version=25.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\MonoMod.Utils.25.0.0-prerelease.2\lib\net452\MonoMod.Utils.dll</HintPath>
         </Reference>
         <Reference Include="mscorlib" />
         <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">

@@ -148,8 +148,8 @@ namespace BannerlordTwitch
 
             // Group all effects by the final target agent
             var realTargetsAndModifiers = agentModifiersActive
-                .SelectMany(kv
-                    => kv.Value.Select(m => (
+                .SelectMany( kv
+                    => kv.Value.Select((AgentModifierConfig m) =>  (
                         agent: m.ApplyToMount ? kv.Key.MountAgent : kv.Key,
                         modifier: m
                     )))

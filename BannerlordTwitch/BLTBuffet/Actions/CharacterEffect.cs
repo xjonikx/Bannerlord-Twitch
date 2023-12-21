@@ -154,7 +154,7 @@ namespace BLTBuffet
             {
                 foreach (var (_, index) in target.SpawnEquipment.YieldArmorSlots())
                 {
-                    target.SpawnEquipment[index] = EquipmentElement.Invalid;
+                    target.SpawnEquipment[(int)index] = EquipmentElement.Invalid;
                 }
                 target.UpdateSpawnEquipmentAndRefreshVisuals(target.SpawnEquipment);
             }

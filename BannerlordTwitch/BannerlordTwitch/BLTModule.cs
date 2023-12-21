@@ -29,7 +29,7 @@ namespace BannerlordTwitch
 		[DllImport("user32.dll")]
 		private static extern int SetWindowText(IntPtr hWnd, string text);
 
-		private const string ExpectedVersion = "v1.2.4";
+		private const string ExpectedVersion = "v1.2.8";
 
 		static BLTModule()
 		{

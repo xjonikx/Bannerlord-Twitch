@@ -8,7 +8,7 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>BLTBuffet</RootNamespace>
         <AssemblyName>BLTBuffet</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <LangVersion>9</LangVersion>
         <ProjectGuid>{9C6729F7-A099-4878-BBBB-EC7911EA50B0}</ProjectGuid>
@@ -45,6 +45,9 @@
     </PropertyGroup>
     <Import Project="$(SolutionDir)BLTProperties.targets" />
     <ItemGroup>
+        <Reference Include="0Harmony">
+          <HintPath>..\packages\Lib.Harmony.2.3.0-prerelease.2\lib\net472\0Harmony.dll</HintPath>
+        </Reference>
         <Reference Include="0Harmony, Version=2.0.4.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\packages\Lib.Harmony.2.0.4\lib\net48\0Harmony.dll</HintPath>
             <Private>False</Private>
