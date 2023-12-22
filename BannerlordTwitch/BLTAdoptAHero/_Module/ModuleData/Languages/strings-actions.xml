@@ -103,6 +103,8 @@
         <string id="6W0OJKkA" text="Same faction only"/>
         <string id="Lg6V3rzn" text="Viewer selects culture"/>
         <string id="kps5JINU" text="Viewer selects faction"/>
+        <string id="EUJZfjFj" text="Viewer selects leader by Name"/>
+        <string id="y2U378lu" text="Viewer selects leader by Clan"/>
         <!-- Starting Age Range -->
         <string id="pDP8b5HR" text="Starting Age Range"/>
         <!-- Starting Gold -->

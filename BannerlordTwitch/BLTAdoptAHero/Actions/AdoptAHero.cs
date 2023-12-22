@@ -82,7 +82,10 @@ namespace BLTAdoptAHero
             {
                 Nothing,
                 Culture,
-                Faction
+                Faction,
+                Name,
+                Clan,
+                NameClan
             }
 
             [LocDisplayName("{=NoKO59t1}Viewer Selects"), 
@@ -187,6 +190,8 @@ namespace BLTAdoptAHero
                 if (OnlySameFaction) generator.Value("{=6W0OJKkA}Same faction only".Translate());
                 if (ViewerSelects == ViewerSelect.Culture) generator.Value("{=Lg6V3rzn}Viewer selects culture".Translate());
                 if (ViewerSelects == ViewerSelect.Faction) generator.Value("{=kps5JINU}Viewer selects faction".Translate());
+                if (ViewerSelects is ViewerSelect.Name or ViewerSelect.NameClan) generator.Value("{=EUJZfjFj}Viewer selects leader by Name".Translate());
+                if (ViewerSelects is ViewerSelect.Clan or ViewerSelect.NameClan) generator.Value("{=y2U378lu}Viewer selects leader by Clan".Translate());
 
                 if (OverrideAge)
                 {
@@ -316,6 +321,8 @@ namespace BLTAdoptAHero
 
             CultureObject desiredCulture = null;
             IFaction desiredFaction = null;
+            String desiredName = null;
+            String desiredClan = null;
             if (settings.ViewerSelects == Settings.ViewerSelect.Culture)
             {
                 if (contextArgs.Length > 1)
@@ -348,6 +355,38 @@ namespace BLTAdoptAHero
                 {
                     return (false, "{=jjUmUpia}Please enter part of the name of the faction you wish to join");
                 }                
+            }else if (settings.ViewerSelects == Settings.ViewerSelect.Name)
+            {
+                if (contextArgs.Length > 1)
+                {
+                    desiredName = contextArgs;
+                }
+                else
+                {
+                    return (false, "{=jjUmUpia}Please enter the name of the leader you wish to adopt");
+                }
+            }else if (settings.ViewerSelects == Settings.ViewerSelect.Clan)
+            {
+                if (contextArgs.Length > 1)
+                {
+                    desiredClan = contextArgs;
+                }
+                else
+                {
+                    return (false, "{=jjUmUpia}Please enter the name of the clan you wish to adopt");
+                }
+            }else if (settings.ViewerSelects == Settings.ViewerSelect.NameClan)
+            {
+                String[] nameClan = contextArgs.Split('/');
+                if (contextArgs.Length > 1 && nameClan.Length ==2)
+                {
+                    desiredName = nameClan[0].Replace(" ",string.Empty);
+                    desiredClan = nameClan[1].Replace(" ",string.Empty);
+                }
+                else
+                {
+                    return (false, "{=jjUmUpia}Please enter the name and clan of the leader you wish to adopt separated with /");
+                }
             }
             
             // Create or find a hero for adopting
@@ -364,6 +403,19 @@ namespace BLTAdoptAHero
             }
             else
             {
+                IEnumerable<Hero> testHero = BLTAdoptAHeroCampaignBehavior.GetAvailableHeroes(h=>                        (settings.AllowNoble || !h.IsLord) 
+                    && (settings.AllowWanderer || !h.IsWanderer)
+                    && (settings.AllowPartyLeader || !h.IsPartyLeader)
+                    && (settings.AllowMinorFactionHero || !h.IsMinorFactionHero)
+                    && (settings.AllowPlayerCompanion || !h.IsPlayerCompanion)
+                    // Select correct clan faction
+                    && (!settings.OnlySameFaction
+                        || Clan.PlayerClan?.MapFaction != null
+                        && Clan.PlayerClan?.MapFaction == h.Clan?.MapFaction)
+                    // Disallow rebel clans as they may get deleted if the rebellion fails
+                    && h.Clan?.IsRebelClan != true
+                    && (desiredCulture == null || desiredCulture == h.Culture)
+                    && (desiredFaction == null || desiredFaction == h.Clan?.Kingdom));
                 newHero = BLTAdoptAHeroCampaignBehavior.GetAvailableHeroes(h =>
                         // Filter by allowed types
                         (settings.AllowNoble || !h.IsLord) 
@@ -379,8 +431,12 @@ namespace BLTAdoptAHero
                         && h.Clan?.IsRebelClan != true
                         && (desiredCulture == null || desiredCulture == h.Culture)
                         && (desiredFaction == null || desiredFaction == h.Clan?.Kingdom)
-                    )
-                    .SelectRandom();
+                        && (desiredName ==null || desiredName == h.Name.ToString())
+                        && (desiredClan ==null || (h.Clan !=null && desiredClan == h.Clan.Name.ToString()))
+                    ).SelectRandom();
+                
+                
+
 
                 if (newHero == null && settings.OnlySameFaction && Clan.PlayerClan?.MapFaction?.StringId == "player_faction")
                 {
