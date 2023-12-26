@@ -51,7 +51,14 @@ $(document).ready(function () {
 
         const missionInfoHub = $.connection.missionInfoHub;
         missionInfoHub.client.update = function (heroes) {
+            let heroes_container = document.getElementById("mission-heroes-container")
+            if(heroes_container.offsetHeight > heroes_container.parentElement.offsetHeight){
+                heroes_container.classList.add("scroll-content")
+            }else{
+                heroes_container.classList.remove("scroll-content")
+            }
             mission.heroes = heroes;
+
         };
         missionInfoHub.client.setKeyLabels = function (keyLabels) {
             mission.keyLabels = keyLabels;

@@ -5,9 +5,29 @@
 
 #mission-heroes {
     display: flex;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+#mission-heroes-container{
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: stretch;
+    height: max-content;
+}
+
+.scroll-content{
+    animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateY(50%);
+    }
+    100% {
+        transform: translateY(calc(-100% - 10px)); /* Adjust -10px for smoother transition */
+    }
 }
 
 #mission-key {
