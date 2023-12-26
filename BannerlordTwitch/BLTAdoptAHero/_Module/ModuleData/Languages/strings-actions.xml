@@ -24,6 +24,7 @@
         <string id="r8nXZgcY" text="Couldn't find your hero, did you adopt one yet?"/>
         
         <!-- Create New -->
+        <string id="CVcUtTWc" text="Could not find the clan with the name {name}"/>
         <string id="TLrDxhlh" text="Create New"/>
         <!-- Create a new hero instead of adopting an existing one (they will be a wanderer at a random tavern) -->
         <string id="F1KDzuZZ" text="Create a new hero instead of adopting an existing one (they will be a wanderer at a random tavern)"/>
@@ -44,6 +45,8 @@
         <!-- Only allow heroes from same faction as player -->
         <string id="QvQGwFyl" text="Only allow heroes from same faction as player"/>
         <string id="NoKO59t1" text="Viewer Selects Faction"/>
+        <string id="VZ91tlYL" text="Create clan"/>
+        <string id="vyIJe4pb" text="Create desired clan if it doesn't exist"/>
         <string id="VSYokFLH" text="What criteria the viewer selects via text input (make sure to enable 'Is User Input Required' it in the Reward Specification > Misc section if you set this to something other than None). Faction selection is not compatible with Allow Wanderer, as wanderers do not have a faction until they are recruited."/>
         <!-- Inheritance -->
         <string id="dvbkxJQz" text="Inheritance"/>
@@ -99,6 +102,8 @@
         <string id="YucejFfO" text="Companions"/>
         <!-- Allowed -->
         <string id="UNtHwNhx" text="Allowed"/>
+        <string id="xjmF7XjL" text="xjmF7XjL"/>
+        <string id="q9m9Yp1F" text="Error could not find a clan with the name {clanName}"/>
         <!-- Same faction only -->
         <string id="6W0OJKkA" text="Same faction only"/>
         <string id="Lg6V3rzn" text="Viewer selects culture"/>
@@ -128,6 +133,8 @@
         <string id="SViljL0E" text="Please enter one of {Cultures} when adopting"/>
         <string id="k4Hj2rxu" text="No faction starting with '{Text}' found"/>
         <string id="jjUmUpia" text="Please enter part of the name of the faction you wish to join"/>
+        <string id="sN23nt5M" text="Please enter the name of the clan you wish to join"/>
+        <string id="4oDdDR9s" text="Please enter the name and clan of the leader you wish to adopt separated with /"/>
         
         <!-- No hero is available: player is not in a faction (disable Player Faction Only, or join a faction)! -->
         <string id="XlQUIIsg" text="No hero is available: player is not in a faction (disable Player Faction Only, or join a faction)!"/>
@@ -516,6 +523,18 @@
         <string id="mCcpMwrN" text="You cannot upgrade retinue, as a mission is active!"/>
         <!-- (number, or all) -->
         <string id="NexXxYvj" text="(number, or all)"/>
+        
+        <!-- Rejuvenate -->
+        <string id="YDcnEEbS" text="Rejuvenate"/>
+        <string id="22nn0uG5" text="Rejuvenate your hero"/>
+        <string id="7WIjNgF2" text="Price"/>
+        <string id="QaK58Z3j" text="The price to pay to rejuvenate"/>
+        <string id="eyrNUsxM" text="Age"/>
+        <string id="oyzYoByT" text="The amount of years you will rejuvenate"/>
+        <string id="wkhZ6q7b" text="You cannot rejuvenate, as a mission is active!"/>
+        <string id="Z4vYZzSq" text="Not enough gold !"/>
+        <string id="yWo2v3yu" text="You cannot rejuvenate bellow child age"/>
+        <string id="XidEZXAO" text="Your rejuvenated of {Age} years you are now {newAge}"/>
         
         <!-- RetireMyHero -->
         <!-- Retire Hero -->

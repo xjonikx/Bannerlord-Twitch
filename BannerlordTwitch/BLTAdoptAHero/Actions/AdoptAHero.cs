@@ -19,6 +19,7 @@ using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using YamlDotNet.Serialization;
 
@@ -87,6 +88,12 @@ namespace BLTAdoptAHero
                 Clan,
                 NameClan
             }
+            
+            [LocDisplayName("{=VZ91tlYL}Create clan"), 
+             LocCategory("Limits", "{=1lHWj3nT}Limits"), 
+             LocDescription("{=vyIJe4pb}Create desired clan if it doesn't exist"), 
+             PropertyOrder(6), UsedImplicitly]
+            public bool CreateClan { get; set; }
 
             [LocDisplayName("{=NoKO59t1}Viewer Selects"), 
              LocCategory("Limits", "{=1lHWj3nT}Limits"), 
@@ -186,6 +193,8 @@ namespace BLTAdoptAHero
                     if (AllowPlayerCompanion) allowed.Add("{=YucejFfO}Companions".Translate());
                     generator.PropertyValuePair("{=UNtHwNhx}Allowed".Translate(), string.Join(", ", allowed));
                 }
+
+                if (CreateClan) generator.Value("{=xjmF7XjL}Create the selected clan if it does not exist".Translate());
 
                 if (OnlySameFaction) generator.Value("{=6W0OJKkA}Same faction only".Translate());
                 if (ViewerSelects == ViewerSelect.Culture) generator.Value("{=Lg6V3rzn}Viewer selects culture".Translate());
@@ -312,6 +321,11 @@ namespace BLTAdoptAHero
             {
                 throw new Exception($"AdoptAHero config is incorrect: 'Viewer Select Faction' and 'Create New' cannot both be enabled as it creates wanderers, which do not have factions");
             }
+            
+            if ((settings.ViewerSelects is Settings.ViewerSelect.Name or Settings.ViewerSelect.NameClan) && settings.CreateNew)
+            {
+                throw new Exception($"AdoptAHero config is incorrect: 'Viewer Select Name' and 'Create New' cannot both be enabled because name is used to search of existing heroes");
+            }
 
             if (settings.ViewerSelects == Settings.ViewerSelect.Faction && settings.OnlySameFaction)
             {
@@ -322,7 +336,7 @@ namespace BLTAdoptAHero
             CultureObject desiredCulture = null;
             IFaction desiredFaction = null;
             String desiredName = null;
-            String desiredClan = null;
+            Clan desiredClan = null;
             if (settings.ViewerSelects == Settings.ViewerSelect.Culture)
             {
                 if (contextArgs.Length > 1)
@@ -369,11 +383,36 @@ namespace BLTAdoptAHero
             {
                 if (contextArgs.Length > 1)
                 {
-                    desiredClan = contextArgs;
+                    desiredClan = CampaignHelpers.AllHeroes.Select(h => h.Clan).Distinct().FirstOrDefault(c =>
+                    {
+                        if (c != null)
+                        {
+                            return c.Name.ToString() == contextArgs;
+                        }
+
+                        return false;
+
+                    });
+                    
+                    if (desiredClan == null )
+                    {
+                        if (settings.CreateClan)
+                        {
+                            desiredClan = Clan.CreateClan("blt_clan_" + contextArgs + "_" + (object) Clan.All.Count(t => t.Name.ToString() == contextArgs));
+                            CultureObject clanCulture = CampaignHelpers.MainCultures.SelectRandom();
+                            Banner clanBanner = Banner.CreateRandomBanner();
+                            desiredClan.InitializeClan(new TextObject(contextArgs),new TextObject(contextArgs),clanCulture,clanBanner);
+                        }
+                        else
+                        {
+                            return (false, "{=q9m9Yp1F}Error could not find a clan with the name {clanName}".Translate(("clanName",contextArgs)));
+                        }
+
+                    }
                 }
                 else
                 {
-                    return (false, "{=jjUmUpia}Please enter the name of the clan you wish to adopt");
+                    return (false, "{=sN23nt5M}Please enter the name of the clan you wish to join");
                 }
             }else if (settings.ViewerSelects == Settings.ViewerSelect.NameClan)
             {
@@ -381,11 +420,16 @@ namespace BLTAdoptAHero
                 if (contextArgs.Length > 1 && nameClan.Length ==2)
                 {
                     desiredName = nameClan[0].Replace(" ",string.Empty);
-                    desiredClan = nameClan[1].Replace(" ",string.Empty);
+                    string clanName = nameClan[1].Replace(" ", string.Empty);
+                    desiredClan = CampaignHelpers.AllHeroes.Select(h => h.Clan).Distinct().FirstOrDefault(c => c.Name.ToString()==clanName);
+                    if (desiredClan == null)
+                    {
+                        return (false, "{=CVcUtTWc}Could not find the clan with the name {name}".Translate(("name", clanName)));
+                    }
                 }
                 else
                 {
-                    return (false, "{=jjUmUpia}Please enter the name and clan of the leader you wish to adopt separated with /");
+                    return (false, "{=4oDdDR9s}Please enter the name and clan of the leader you wish to adopt separated with /");
                 }
             }
             
@@ -395,27 +439,19 @@ namespace BLTAdoptAHero
                 var character = desiredCulture != null 
                     ? CampaignHelpers.GetWandererTemplates(desiredCulture).SelectRandom()
                     : CampaignHelpers.AllWandererTemplates.SelectRandom();
+
                 if (character != null)
                 {
                     newHero = HeroCreator.CreateSpecialHero(character);
                     newHero.ChangeState(Hero.CharacterStates.Active);
+                    if (settings.ViewerSelects is Settings.ViewerSelect.Clan)
+                    {
+                        newHero.Clan = desiredClan;
+                    }
                 }
             }
             else
             {
-                IEnumerable<Hero> testHero = BLTAdoptAHeroCampaignBehavior.GetAvailableHeroes(h=>                        (settings.AllowNoble || !h.IsLord) 
-                    && (settings.AllowWanderer || !h.IsWanderer)
-                    && (settings.AllowPartyLeader || !h.IsPartyLeader)
-                    && (settings.AllowMinorFactionHero || !h.IsMinorFactionHero)
-                    && (settings.AllowPlayerCompanion || !h.IsPlayerCompanion)
-                    // Select correct clan faction
-                    && (!settings.OnlySameFaction
-                        || Clan.PlayerClan?.MapFaction != null
-                        && Clan.PlayerClan?.MapFaction == h.Clan?.MapFaction)
-                    // Disallow rebel clans as they may get deleted if the rebellion fails
-                    && h.Clan?.IsRebelClan != true
-                    && (desiredCulture == null || desiredCulture == h.Culture)
-                    && (desiredFaction == null || desiredFaction == h.Clan?.Kingdom));
                 newHero = BLTAdoptAHeroCampaignBehavior.GetAvailableHeroes(h =>
                         // Filter by allowed types
                         (settings.AllowNoble || !h.IsLord) 
@@ -430,9 +466,9 @@ namespace BLTAdoptAHero
                         // Disallow rebel clans as they may get deleted if the rebellion fails
                         && h.Clan?.IsRebelClan != true
                         && (desiredCulture == null || desiredCulture == h.Culture)
-                        && (desiredFaction == null || desiredFaction == h.Clan?.Kingdom)
+                        && (desiredFaction == null || desiredFaction == h.MapFaction)
                         && (desiredName ==null || desiredName == h.Name.ToString())
-                        && (desiredClan ==null || (h.Clan !=null && desiredClan == h.Clan.Name.ToString()))
+                        && (desiredClan ==null || (h.Clan !=null && desiredClan == h.Clan))
                     ).SelectRandom();
                 
                 
