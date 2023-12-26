@@ -333,6 +333,7 @@ namespace BLTAdoptAHero
             }
 
 
+            bool newClan = false;
             CultureObject desiredCulture = null;
             IFaction desiredFaction = null;
             String desiredName = null;
@@ -398,6 +399,7 @@ namespace BLTAdoptAHero
                     {
                         if (settings.CreateClan)
                         {
+                            newClan = true;
                             desiredClan = Clan.CreateClan("blt_clan_" + contextArgs + "_" + (object) Clan.All.Count(t => t.Name.ToString() == contextArgs));
                             CultureObject clanCulture = CampaignHelpers.MainCultures.SelectRandom();
                             Banner clanBanner = Banner.CreateRandomBanner();
@@ -483,6 +485,11 @@ namespace BLTAdoptAHero
             if (newHero == null)
             {
                 return (false, "{=E7wqQ2kg}You can't adopt a hero: no available hero matching the requirements was found!".Translate());
+            }
+
+            if (newClan)
+            {
+                desiredClan.SetLeader(newHero);
             }
 
             if (settings.OverrideAge)

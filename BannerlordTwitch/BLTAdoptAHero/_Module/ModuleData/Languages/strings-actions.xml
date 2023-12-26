@@ -89,6 +89,26 @@
         <!-- Starting class of the hero -->
         <string id="zgjyFL6i" text="Starting class of the hero"/>
         
+        <!-- Rebel -->
+        <string id="taztq4PM" text="Rebel"/>
+        <string id="jNfiU6Bt" text="Rebel against your lord"/>
+        <string id="Whn2gXwU" text="Price"/>
+        <string id="sUlA28HE" text="The price of the rebellion"/>
+        <string id="EmyPYxym" text="OnlyAgainstPlayer"/>
+        <string id="mcXKSmQu" text="If the rebellion can only occur against the player."/>
+        <string id="Z4vYZzSq" text="Not enough gold !"/>
+        <string id="KuvT6DAO" text="Cannot rebel while not under the player kingdom"/>
+        <string id="dG1tCXE4" text="Can't declare war the player is not the ruler of his kingdom or is not in a kingdom"/>
+        <string id="oVjxkppE" text="Cannot declare war on a member of your clan"/>
+        <string id="ve1C1aCl" text="You already are the ruling clan"/>
+        <string id="I4JTuTy3" text="You separated from {oldBoss} and declared war to his Kingdom"/>
+        <string id="CncsL1ix" text="You cannot rebel because the player is not in a kingdom"/>
+        <string id="Xa83dxVg" text="Wanderers cannot rebel"/>
+        <string id="rnI1oCBk" text="Cannot rebel you are not in a kingdom"/>
+        <string id="sXTHqwAg" text="Cannot rebel you are not the leader of your clan"/>
+        
+        
+        
         
         <!-- Subscriber Only -->
         <string id="4zAUTiSP" text="Subscriber Only"/>
