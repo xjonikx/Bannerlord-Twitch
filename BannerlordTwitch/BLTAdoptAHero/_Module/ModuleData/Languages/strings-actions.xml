@@ -107,6 +107,18 @@
         <string id="rnI1oCBk" text="Cannot rebel you are not in a kingdom"/>
         <string id="sXTHqwAg" text="Cannot rebel you are not the leader of your clan"/>
         
+        <!-- JoinKingdom -->
+        <string id="vQmXPUc2" text="UserChooseFaction"/>
+        <string id="KjzB7Rvm" text="Is the user able to choose the faction he want to join if disabled default faction is player faction"/>
+        <string id="pR9CDiLB" text="OnlyIndependants"/>
+        <string id="f1rBB354" text="Can heroes already in a kingdom leave it to join the new kingdom"/>
+        <string id="XmRVpiun" text="You are not the leader of your clan"/>
+        <string id="rnjTaxtu" text="Could not find the kingdom or player is not the ruler of a kingdom"/>
+        <string id="LCIqZfrG" text="You are a wanderer you cannot join a kingdom"/>
+        <string id="X7JOfZyK" text="OnlyIndependants is enabled you cannot leave your kingdom to join another"/>
+        <string id="5X6Dfjzp" text="You are now a vassal of the {king} kingdom"/>
+        
+        
         
         
         

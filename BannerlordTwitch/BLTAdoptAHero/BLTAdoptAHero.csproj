@@ -305,6 +305,7 @@
         <Compile Include="Actions\HeroCommandHandlerBase.cs" />
         <Compile Include="Actions\HeroInfoCommand.cs" />
         <Compile Include="Actions\ImproveAdoptedHero.cs" />
+        <Compile Include="Actions\JoinKingdom.cs" />
         <Compile Include="Actions\JoinTournament.cs" />
         <Compile Include="Actions\Marry.cs" />
         <Compile Include="Actions\NameItem.cs" />

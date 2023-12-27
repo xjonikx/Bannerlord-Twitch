@@ -6,8 +6,7 @@ using BannerlordTwitch.Rewards;
 using BannerlordTwitch.Util;
 using BLTAdoptAHero.Annotations;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.ViewModelCollection;
-using TaleWorlds.MountAndBlade;
+using TaleWorlds.CampaignSystem.Actions;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero
@@ -104,10 +103,13 @@ namespace BLTAdoptAHero
                 onFailure("{=ve1C1aCl}You already are the ruling clan".Translate());
                 return;
             }
+            
+            ChangeKingdomAction.ApplyByLeaveWithRebellionAgainstKingdom(adoptedHero.Clan);
  
             IFaction oldBoss = adoptedHero.Clan.Kingdom;
             adoptedHero.Clan.ClanLeaveKingdom();
-            FactionManager.DeclareWar(adoptedHero.Clan,oldBoss);
+            DeclareWarAction.ApplyByRebellion(adoptedHero.Clan,oldBoss);
+            //FactionManager.DeclareWar(adoptedHero.Clan,oldBoss);
             onSuccess("{=I4JTuTy3}You separated from {oldBoss} and declared war to his Kingdom".Translate(("oldBoss",oldBoss)));
         }
     }
