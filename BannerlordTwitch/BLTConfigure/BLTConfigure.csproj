@@ -79,6 +79,9 @@
             <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
             <Private>True</Private>
         </Reference>
+        <Reference Include="Microsoft.AspNet.SignalR.Core">
+          <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+        </Reference>
         <Reference Include="PresentationCore">
             <Private>False</Private>
         </Reference>

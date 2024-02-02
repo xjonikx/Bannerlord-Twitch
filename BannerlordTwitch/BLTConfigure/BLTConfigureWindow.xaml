@@ -126,7 +126,23 @@
                         The overlay should work from any computer on your network, as well as the one the game
                         is running on.
                     </TextBlock>
+                    <Separator Height="20"></Separator>
+                    <TextBlock FontSize="20">
+                        Overlay config
+                    </TextBlock>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock VerticalAlignment="Center" Margin="15 0">
+                            Heroes list max height :
+                        </TextBlock>
+                        <TextBox Width="50" PreviewTextInput="IsTextAllowed" Margin="0 0" VerticalAlignment="Center" >
+                            200
+                        </TextBox>
+                        <TextBlock VerticalAlignment="Center" Margin="2 0">
+                            px
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
+                
             </TabItem>
             <TabItem>
                 <TabItem.Header>

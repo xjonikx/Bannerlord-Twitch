@@ -1,5 +1,5 @@
 ﻿<div id='mission-container'>
-    <div id='mission-heroes' class='drop-shadow'>
+    <div id='mission-heroes' class='drop-shadow' v-bind:style="{'max-height': maxHeight + 'px'}">
         <div id="mission-heroes-container">
             <div class='mission-hero' v-for='hero in sortedHeroes' v-bind:key='hero.Name'>
                 <div class='mission-hero-inner'

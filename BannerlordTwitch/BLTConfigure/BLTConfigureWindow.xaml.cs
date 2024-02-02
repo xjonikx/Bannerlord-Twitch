@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
@@ -22,6 +23,7 @@ using System.Windows.Navigation;
 using BannerlordTwitch;
 using BannerlordTwitch.Annotations;
 using BannerlordTwitch.Util;
+using BLTAdoptAHero.UI;
 using BLTConfigure.UI;
 using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
@@ -67,6 +69,21 @@ namespace BLTConfigure
         public string OverlayUrl => BLTOverlay.BLTOverlay.UrlRoot;
 
         public ObservableCollection<LogMessage> LogEntries { get; } = new();
+        
+        private void IsTextAllowed(object sender, TextCompositionEventArgs textCompositionEventArgs)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            if (!regex.IsMatch(textCompositionEventArgs.Text))
+            {
+                
+                MissionInfoHub.SetMaxHeight(Convert.ToInt32(((TextBox)sender).Text + textCompositionEventArgs.Text));
+                textCompositionEventArgs.Handled = false;
+            }
+            else
+            {
+                textCompositionEventArgs.Handled = true;
+            }
+        }
         
         public BLTConfigureWindow()
         {
@@ -564,5 +581,6 @@ namespace BLTConfigure
                 ta.From = new Thickness(0, 0, 500, 0);
             (e.Content as UIElement)?.BeginAnimation(MarginProperty , ta);
         }
+        
     }
 }

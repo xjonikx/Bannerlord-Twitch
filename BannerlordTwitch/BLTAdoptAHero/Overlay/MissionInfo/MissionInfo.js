@@ -7,6 +7,7 @@ $(document).ready(function () {
             'progress-ring': ProgressRing
         },
         data: {
+            maxHeight: 200,
             heroes: [],
             keyLabels: {
                 Kills: '',
@@ -60,6 +61,10 @@ $(document).ready(function () {
             mission.heroes = heroes;
 
         };
+        missionInfoHub.client.setValues = function (values){
+            console.log("Received " + values.height)
+            Vue.set(mission, 'maxHeight', values.height);
+        }
         missionInfoHub.client.setKeyLabels = function (keyLabels) {
             mission.keyLabels = keyLabels;
         };
