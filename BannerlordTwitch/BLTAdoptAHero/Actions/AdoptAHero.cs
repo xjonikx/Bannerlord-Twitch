@@ -368,7 +368,7 @@ namespace BLTAdoptAHero
                 }
                 else
                 {
-                    return (false, "{=jjUmUpia}Please enter part of the name of the faction you wish to join");
+                    return (false, "{=jjUmUpia}Please enter part of the name of the faction you wish to join".Translate());
                 }                
             }else if (settings.ViewerSelects == Settings.ViewerSelect.Name)
             {
@@ -378,7 +378,7 @@ namespace BLTAdoptAHero
                 }
                 else
                 {
-                    return (false, "{=jjUmUpia}Please enter the name of the leader you wish to adopt");
+                    return (false, "{=jjUmUpia}Please enter the name of the leader you wish to adopt".Translate());
                 }
             }else if (settings.ViewerSelects == Settings.ViewerSelect.Clan)
             {
@@ -404,6 +404,7 @@ namespace BLTAdoptAHero
                             CultureObject clanCulture = CampaignHelpers.MainCultures.SelectRandom();
                             Banner clanBanner = Banner.CreateRandomBanner();
                             desiredClan.InitializeClan(new TextObject(contextArgs),new TextObject(contextArgs),clanCulture,clanBanner);
+                            desiredClan.UpdateHomeSettlement(Settlement.All.SelectRandom());
                         }
                         else
                         {
@@ -414,7 +415,7 @@ namespace BLTAdoptAHero
                 }
                 else
                 {
-                    return (false, "{=sN23nt5M}Please enter the name of the clan you wish to join");
+                    return (false, "{=sN23nt5M}Please enter the name of the clan you wish to join".Translate());
                 }
             }else if (settings.ViewerSelects == Settings.ViewerSelect.NameClan)
             {
@@ -431,7 +432,7 @@ namespace BLTAdoptAHero
                 }
                 else
                 {
-                    return (false, "{=4oDdDR9s}Please enter the name and clan of the leader you wish to adopt separated with /");
+                    return (false, "{=4oDdDR9s}Please enter the name and clan of the leader you wish to adopt separated with /".Translate());
                 }
             }
             

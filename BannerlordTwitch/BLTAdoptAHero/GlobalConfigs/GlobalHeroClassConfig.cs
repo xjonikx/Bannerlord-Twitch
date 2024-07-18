@@ -23,7 +23,7 @@ namespace BLTAdoptAHero
         private const string ID = "Adopt A Hero - Class Config";
         internal static void Register() => ActionManager.RegisterGlobalConfigType(ID, typeof(GlobalHeroClassConfig));
         internal static GlobalHeroClassConfig Get() => ActionManager.GetGlobalConfig<GlobalHeroClassConfig>(ID);
-        internal static GlobalHeroClassConfig Get(Settings fromSettings) => fromSettings.GetGlobalConfig<GlobalHeroClassConfig>(ID);
+        internal static GlobalHeroClassConfig Get(BannerlordTwitch.Settings fromSettings) => fromSettings.GetGlobalConfig<GlobalHeroClassConfig>(ID);
         #endregion
         
         #region User Editable
@@ -72,7 +72,7 @@ namespace BLTAdoptAHero
         #endregion
 
         #region IUpdateFromDefault
-        public void OnUpdateFromDefault(Settings defaultSettings)
+        public void OnUpdateFromDefault(BannerlordTwitch.Settings defaultSettings)
         {
             ClassDefs ??= new();
             ClassLevelRequirements ??= new();

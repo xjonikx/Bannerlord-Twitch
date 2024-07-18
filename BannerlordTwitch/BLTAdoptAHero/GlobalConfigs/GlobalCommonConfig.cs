@@ -36,7 +36,7 @@ namespace BLTAdoptAHero
 
         internal static void Register() => ActionManager.RegisterGlobalConfigType(ID, typeof(GlobalCommonConfig));
         internal static GlobalCommonConfig Get() => ActionManager.GetGlobalConfig<GlobalCommonConfig>(ID);
-        internal static GlobalCommonConfig Get(Settings fromSettings) => fromSettings.GetGlobalConfig<GlobalCommonConfig>(ID);
+        internal static GlobalCommonConfig Get(BannerlordTwitch.Settings fromSettings) => fromSettings.GetGlobalConfig<GlobalCommonConfig>(ID);
         #endregion
 
         #region User Editable
@@ -370,7 +370,7 @@ namespace BLTAdoptAHero
         #endregion
 
         #region IUpdateFromDefault
-        public void OnUpdateFromDefault(Settings defaultSettings)
+        public void OnUpdateFromDefault(BannerlordTwitch.Settings defaultSettings)
         {
             SettingsHelpers.MergeCollectionsSorted(
                 KillStreaks, 

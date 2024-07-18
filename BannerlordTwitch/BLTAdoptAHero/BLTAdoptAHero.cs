@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Rewards;
@@ -8,6 +10,7 @@ using BannerlordTwitch.Util;
 using BLTAdoptAHero.UI;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SandBox.GauntletUI.Missions;
 using SandBox.Tournaments.MissionLogics;
 using SandBox.View;
 using SandBox.View.Missions;
@@ -19,11 +22,14 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker;
 using TaleWorlds.MountAndBlade.Source.Missions;
+using TaleWorlds.MountAndBlade.View.Screens;
 
 #pragma warning disable 649
 
 namespace BLTAdoptAHero
 {
+
+
     [UsedImplicitly]
     [HarmonyPatch]
     public class BLTAdoptAHeroModule : MBSubModuleBase
@@ -52,14 +58,6 @@ namespace BLTAdoptAHero
         {
             try
             {
-                // Add the marker overlay for appropriate mission types
-                if (mission.GetMissionBehavior<MissionNameMarkerUIHandler>() == null
-                    && (mission.GetMissionBehavior<BattleSpawnLogic>() != null
-                        || mission.GetMissionBehavior<TournamentFightMissionController>() != null))
-                {
-                    mission.AddMissionBehavior(SandBoxViewCreator.CreateMissionNameMarkerUIHandler(mission));
-                }
-
                 mission.AddMissionBehavior(new BLTAdoptAHeroCommonMissionBehavior());
                 mission.AddMissionBehavior(new BLTAdoptAHeroCustomMissionBehavior());
                 mission.AddMissionBehavior(new BLTSummonBehavior());
@@ -71,7 +69,20 @@ namespace BLTAdoptAHero
                 Log.Exception(nameof(OnMissionBehaviorInitialize), e);
             }
         }
-        
+
+
+        [UsedImplicitly, HarmonyPostfix, HarmonyPatch(typeof(MissionScreen), "TaleWorlds.MountAndBlade.IMissionSystemHandler.OnMissionAfterStarting")]
+        static void OnMissionAfterStartingPostFix(MissionScreen __instance)
+        {
+            if (__instance.Mission.GetMissionBehavior<MissionNameMarkerUIHandler>() == null
+            && (__instance.Mission.GetMissionBehavior<BattleSpawnLogic>() != null
+                || __instance.Mission.GetMissionBehavior<TournamentFightMissionController>() != null))
+            {
+                __instance.AddMissionView(SandBoxViewCreator.CreateMissionNameMarkerUIHandler(__instance.Mission));
+            }
+        }
+
+
         [UsedImplicitly, HarmonyPostfix, 
          HarmonyPatch(typeof(MissionNameMarkerTargetVM), MethodType.Constructor, typeof(Agent), typeof(bool))]
         public static void MissionNameMarkerTargetVMConstructorPostfix(MissionNameMarkerTargetVM __instance, Agent agent)
@@ -96,6 +107,12 @@ namespace BLTAdoptAHero
             }
         }
 
+        [UsedImplicitly, HarmonyPrefix, HarmonyPatch(typeof(MissionGauntletNameMarkerView), "OnConversationEnd")]
+        public static bool OnConversationEndPrefix(MissionGauntletNameMarkerView __instance)
+        {
+            return __instance.Mission != null;
+        }
+
         [UsedImplicitly, HarmonyPostfix, HarmonyPatch(typeof(NameMarkerScreenWidget), "OnLateUpdate")]
         public static void NameMarkerScreenWidget_OnLateUpdatePostfix(List<NameMarkerListPanel> ____markers)
         {
@@ -104,6 +121,9 @@ namespace BLTAdoptAHero
                 marker.IsFocused = marker.IsInScreenBoundaries;
             }
         }
+
+
+
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
@@ -339,4 +359,5 @@ namespace BLTAdoptAHero
             return previousModel.GetHorseChargePenetration();
         }
     }
+
 }

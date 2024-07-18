@@ -76,6 +76,7 @@ namespace BLTAdoptAHero
             }
         }
 
+
         public override void OnAgentCreated(Agent agent)
         {
             SafeCall(() =>

@@ -173,15 +173,16 @@ Commands:
   RespondInOverlay: true
   RespondInTwitch: false
 - Documentation: '{=MpvqvKef}Get a hero in game. Almost all other actions require an adopted hero.'
-  Enabled: false
+  Enabled: true
   Handler: AdoptAHero
   HandlerConfig:
-    AllowMinorFactionHero: false
+    AllowMinorFactionHero: true
     AllowNoble: true
-    AllowPartyLeader: false
-    AllowPlayerCompanion: false
+    AllowPartyLeader: true
+    AllowPlayerCompanion: true
     AllowWanderer: true
-    CreateNew: false
+    CreateClan: true
+    CreateNew: true
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
@@ -207,7 +208,7 @@ Commands:
       MinLevel: 25
       Skill: Athletics
     SubscriberOnly: false
-    ViewerSelects: Nothing
+    ViewerSelects: Clan
   Help: ''
   HideHelp: false
   ID: e317c63a-5a1f-455c-b953-6dcb92dc9424
@@ -400,6 +401,57 @@ Commands:
   Name: customs
   RespondInOverlay: true
   RespondInTwitch: false
+- Documentation: ''
+  Enabled: true
+  Handler: SummonHero
+  HandlerConfig:
+    AlertSound: None
+    AllowFieldBattle: true
+    AllowFriendlyMission: true
+    AllowHideOut: true
+    AllowSiegeBattle: true
+    AllowVillageBattle: true
+    AllowWhenDepleted: false
+    GoldCost: 0
+    HealPerSecond: 0
+    OnPlayerSide: true
+    PreferredFormation: 
+  Help: ''
+  HideHelp: false
+  ID: 01a497f3-d529-4780-80dd-41343b3e05ad
+  Name: summon
+  RespondInOverlay: false
+  RespondInTwitch: false
+- Documentation: ''
+  Enabled: true
+  Handler: RetireMyHero
+  HandlerConfig: 
+  Help: ''
+  HideHelp: false
+  ID: dd5268c5-3732-4c27-b990-6e364e66cc84
+  Name: retire
+  RespondInOverlay: false
+  RespondInTwitch: false
+- Documentation: ''
+  Enabled: true
+  Handler: RetireMyHero
+  HandlerConfig: 
+  Help: ''
+  HideHelp: false
+  ID: 4ea01824-bfdd-4b38-a9d1-608b5296e022
+  Name: retire
+  RespondInOverlay: false
+  RespondInTwitch: true
+- Documentation: ''
+  Enabled: true
+  Handler: RetireMyHero
+  HandlerConfig: 
+  Help: ''
+  HideHelp: false
+  ID: 83270b28-0424-4cdb-ba4e-3f965797f0fb
+  Name: retire
+  RespondInOverlay: false
+  RespondInTwitch: true
 DisableAutomaticFulfillment: false
 GlobalConfigs:
 - Config:
@@ -415,9 +467,9 @@ GlobalConfigs:
         CustomWeight: 0
         MountWeight: 0
         Tier1Weight: 0
-        Tier2Weight: 0.649999976
-        Tier3Weight: 0.649999976
-        Tier4Weight: 0.649999976
+        Tier2Weight: 0.65
+        Tier3Weight: 0.65
+        Tier4Weight: 0.65
         Tier5Weight: 0
         Tier6Weight: 0
         WeaponWeight: 0
@@ -443,9 +495,9 @@ GlobalConfigs:
         Tier1Weight: 0
         Tier2Weight: 0
         Tier3Weight: 0
-        Tier4Weight: 0.649999976
-        Tier5Weight: 0.649999976
-        Tier6Weight: 0.649999976
+        Tier4Weight: 0.65
+        Tier5Weight: 0.65
+        Tier6Weight: 0.65
         WeaponWeight: 0
       Name: '{=fWTqF2sw}Trusted'
       NotificationText: '{=TAWcPGIc}[viewer] is [name]!'
@@ -464,7 +516,7 @@ GlobalConfigs:
         ArmorWeight: 0
         CustomItemName: '{=IvV04W31}{ITEMNAME} of Fealty'
         CustomItemPower: 1
-        CustomWeight: 0.550000012
+        CustomWeight: 0.55
         MountWeight: 0
         Tier1Weight: 0
         Tier2Weight: 0
@@ -493,9 +545,9 @@ GlobalConfigs:
         CustomWeight: 0
         MountWeight: 0
         Tier1Weight: 0
-        Tier2Weight: 0.649999976
-        Tier3Weight: 0.649999976
-        Tier4Weight: 0.649999976
+        Tier2Weight: 0.65
+        Tier3Weight: 0.65
+        Tier4Weight: 0.65
         Tier5Weight: 0
         Tier6Weight: 0
         WeaponWeight: 0
@@ -521,9 +573,9 @@ GlobalConfigs:
         Tier1Weight: 0
         Tier2Weight: 0
         Tier3Weight: 0
-        Tier4Weight: 0.649999976
-        Tier5Weight: 0.649999976
-        Tier6Weight: 0.649999976
+        Tier4Weight: 0.65
+        Tier5Weight: 0.65
+        Tier6Weight: 0.65
         WeaponWeight: 0
       Name: '{=gDHR7f8r}Traitorous'
       NotificationText: '{=TAWcPGIc}[viewer] is [name]!'
@@ -542,7 +594,7 @@ GlobalConfigs:
         ArmorWeight: 0
         CustomItemName: '{=UQtSgnog}Renegades {ITEMNAME}'
         CustomItemPower: 1
-        CustomWeight: 0.550000012
+        CustomWeight: 0.55
         MountWeight: 0
         Tier1Weight: 0
         Tier2Weight: 0
@@ -607,10 +659,10 @@ GlobalConfigs:
         Min: 1.25
       MountManeuver:
         Max: 1.5
-        Min: 1.10000002
+        Min: 1.1
       MountSpeed:
         Max: 1.5
-        Min: 1.10000002
+        Min: 1.1
       Power: 1
       ThrowingStack:
         Max: 6
@@ -624,10 +676,10 @@ GlobalConfigs:
       WeaponSpeed:
         Max: 20
         Min: 5
-    DeathChance: 0.0500000007
+    DeathChance: 0.05
     DifficultyScaling: 1
     DifficultyScalingMax: 3
-    DifficultyScalingMin: 0.200000003
+    DifficultyScalingMin: 0.2
     DifficultyScalingOnEnemySide: true
     DifficultyScalingOnPlayersSide: true
     GoldPerKill: 5000
@@ -650,7 +702,7 @@ GlobalConfigs:
     RawXPSkillCap: 330
     ReferenceLevelReward: 15
     RelativeLevelScaling: 0.5
-    RetinueDeathChance: 0.0250000004
+    RetinueDeathChance: 0.025
     RetinueGoldPerKill: 2500
     RetinueHealPerKill: 50
     RetinueUseHeroesFormation: false
@@ -687,7 +739,7 @@ GlobalConfigs:
       CustomItemName: '{=W47g8bCB}Reward {ITEMNAME}'
       CustomItemPower: 1
       CustomWeight: 1
-      MountWeight: 0.100000001
+      MountWeight: 0.1
       Tier1Weight: 0
       Tier2Weight: 0
       Tier3Weight: 0
@@ -3352,6 +3404,7 @@ Rewards:
     AllowPartyLeader: false
     AllowPlayerCompanion: false
     AllowWanderer: true
+    CreateClan: false
     CreateNew: false
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
@@ -3402,6 +3455,7 @@ Rewards:
     AllowPartyLeader: false
     AllowPlayerCompanion: false
     AllowWanderer: false
+    CreateClan: false
     CreateNew: false
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
@@ -3452,6 +3506,7 @@ Rewards:
     AllowPartyLeader: false
     AllowPlayerCompanion: false
     AllowWanderer: true
+    CreateClan: false
     CreateNew: false
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
@@ -3867,121 +3922,121 @@ SimTesting:
     Id: '{=wHqxd4kb}equip'
     ID: 06539d16-25cb-4314-8cdd-4aada76b27bc
     Type: Command
-    Weight: 0.400000006
+    Weight: 0.4
   - Args: ''
     Enabled: false
     Id: '{=fGfTaAoD}reequip'
     ID: 76efdf69-6fc5-4163-8271-4540402f28b3
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: ''
     Enabled: true
     Id: '{=IBrMU0VF}Tournament'
     ID: 4e066d86-ecac-48c2-9406-0ed931f14756
     Type: Reward
-    Weight: 0.200000003
+    Weight: 0.2
   - Args: ''
     Enabled: true
     Id: '{=mge9rH9J}retinue'
     ID: 9513732e-6522-429c-ab92-e1eab16518ef
     Type: Command
-    Weight: 0.200000003
+    Weight: 0.2
   - Args: '{=xSbB2Zw5}yes'
     Enabled: false
     Id: '{=AZMDg7St}Retire My Hero'
     ID: 4e5da88a-b670-4d59-9c89-820e24fb0ab1
     Type: Reward
-    Weight: 0.00999999978
+    Weight: 0.01
   - Args: ''
     Enabled: false
     Id: '{=Yc9dn4Sx}Adopt a Hero'
     ID: df2ee94a-7262-47d5-a97c-f09034d36240
     Type: Reward
-    Weight: 0.00999999978
+    Weight: 0.01
   - Args: ''
     Enabled: true
     Id: '{=MSpPJJhZ}Heal Streamer'
     ID: f1f5a043-fdf6-43e5-9fe5-e70009c56bf5
     Type: Reward
-    Weight: 0.0500000007
+    Weight: 0.05
   - Args: '{=m8bz4drX}infantry'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: a67ca1e9-d434-4af1-a3b6-69979b72d804
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=4tflp34a}archer'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 5e33c3f4-40de-44cd-8cf8-493f304c203a
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=JncRD8tX}heavyarcher'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 5e33c3f4-40de-44cd-8cf8-493f304c203a
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=wV6R9Si5}crossbow'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 5e33c3f4-40de-44cd-8cf8-493f304c203a
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=bpzytNbP}heavycrossbow'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 5e33c3f4-40de-44cd-8cf8-493f304c203a
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=jNaFWF9t}cavalry'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 6162aec8-8ffd-4d65-bcdd-0529081528ee
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=mJ8RVORq}camelry'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 6162aec8-8ffd-4d65-bcdd-0529081528ee
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=p5qJfkkp}horsearcher'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 2e320a55-f238-4d01-86de-c734d29bf7a5
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=HreZWoyd}camelarcher'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 2e320a55-f238-4d01-86de-c734d29bf7a5
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=9euSgzCd}skirmisher'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 7032b576-86b5-4540-b0b8-5d933f0fd87a
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=wVjXAFal}berserker'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 71a8a8de-3be2-4e3c-8844-60bf9e9f08d7
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: '{=4JffsJMD}looter'
     Enabled: true
     Id: '{=nV9iIsDC}class'
     ID: 71a8a8de-3be2-4e3c-8844-60bf9e9f08d7
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: ''
     Enabled: true
     Id: '{=likTlNpu}Heal Hero'
     ID: 584c161e-da84-46af-8fa4-3aeb3768663b
     Type: Reward
-    Weight: 0.0500000007
+    Weight: 0.05
   - Args: ''
     Enabled: true
     Id: '{=yoZSmM0b}Use Class Power'
@@ -3993,24 +4048,24 @@ SimTesting:
     Id: smithweapon
     ID: 71a8a8de-3be2-4e3c-8844-60bf9e9f08d7
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: ''
     Enabled: false
     Id: smitharmor
     ID: 71a8a8de-3be2-4e3c-8844-60bf9e9f08d7
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: ''
     Enabled: false
     Id: smithsale
     ID: 71a8a8de-3be2-4e3c-8844-60bf9e9f08d7
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   - Args: ''
     Enabled: false
     Id: buymount
     ID: 71a8a8de-3be2-4e3c-8844-60bf9e9f08d7
     Type: Command
-    Weight: 0.100000001
+    Weight: 0.1
   UserCount: 20
   UserStayTime: 300

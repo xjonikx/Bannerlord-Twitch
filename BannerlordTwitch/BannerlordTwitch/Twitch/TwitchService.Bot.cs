@@ -52,11 +52,7 @@ namespace BannerlordTwitch
             private void Connect()
             {
                 var credentials = new ConnectionCredentials(botUserName, authSettings.BotAccessToken, disableUsernameCheck: true);
-                var clientOptions = new ClientOptions
-                {
-                    MessagesAllowedInPeriod = 750,
-                    ThrottlingPeriod = TimeSpan.FromSeconds(30)
-                };
+                var clientOptions = new ClientOptions();
                 var customClient = new WebSocketClient(clientOptions);
                 // Double check to destroy the client
                 if (client != null)

@@ -60,7 +60,7 @@ namespace BLTAdoptAHero.Achievements
         #endregion
         
         #region ILoaded
-        public void OnLoaded(Settings settings)
+        public void OnLoaded(BannerlordTwitch.Settings settings)
         {
             ClassConfig = GlobalHeroClassConfig.Get(settings);
         }
