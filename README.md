@@ -1,4 +1,4 @@
-# [Download](https://github.com/jazz-ttv/Bannerlord-Twitch/releases/tag/4.5.2) | [Discord](https://discord.gg/q2p4eHsxFn) | [Github](https://github.com/jazz-ttv/Bannerlord-Twitch) | [Installation Guide](https://youtu.be/ATf5zilwNWk)
+# [Download](https://github.com/jazz-ttv/Bannerlord-Twitch/releases/tag/4.5.2) | [Discord](https://discord.gg/AnStVFb2jG) | [Github](https://github.com/jazz-ttv/Bannerlord-Twitch) | [Installation Guide](https://youtu.be/ATf5zilwNWk)
 
 # Bannerlord Twitch (BLT)
 This is a modification for [Mount & Blade II: Bannerlord](https://www.taleworlds.com/en/Games/Bannerlord) that adds Twitch integration to the game. This allows events in a Twitch stream to trigger actions in game, for instance redemption of Channel Point Rewards, or specific chat messages.
@@ -10,8 +10,8 @@ This is a modification for [Mount & Blade II: Bannerlord](https://www.taleworlds
 - Comes with the **Adopt a Hero module**, allowing viewers to "adopt" an in-game hero, improve them, and perform actions with them in game
 - Comes with the **BLT Buffet module**, allowing viewers to perform various actions to spawned agents in game (the player, friendlies, enemies) such as temporary stat changes, attached particle effects, triggering sounds, scaling the character up or down.
 
-## Adopt a Hero
-This is the first example action suite that comes with BLT.
+## Adopt a Hero & BLT Buffet Modules
+These are the first example action suites that comes with BLT.
 Viewers can "adopt" an in-game hero of types that can be specified in the config -- this will give the in-game hero the viewers name, and allow further interactions with them:
 - Upgrade battle equipment, civilian equipment, and horse
 - Buy skill points, attribute points, focus points
@@ -19,12 +19,6 @@ Viewers can "adopt" an in-game hero of types that can be specified in the config
 - Win / lose gold at the end of battles or fights, depending on the outcome
 - Queue to join the next tournament the player starts 
 - Call commands to show their health, gold, last known location, skills, attributes, equipment
-
-## BLT Buffet
-This is the second example action suite that comes with BLT.
-So far it contains an action/handler called CharacterEffect that is aimed at performing temporary changes to agents that are spawned in missions (i.e. in battle, siege, village, town walkabouts etc., NOT on the map view).  
-The changes can only last until the end of the mission at most, and can be limited by time also.  
-Possible changes:
 - Many agent stats, including things like swing speed, run speed, mount speed, armor, shield skill, courage, etc. [Full list here](https://raw.githubusercontent.com/billw2012/Bannerlord-Twitch/main/BannerlordTwitch/BLTBuffet/CharacterEffectProperties.txt)
 - Agent scaling: make giants or dwarves!
 - Apply damage or healing over time
@@ -42,7 +36,7 @@ Possible changes:
 
 1. Install [Bannerlord Harmony](https://www.nexusmods.com/mountandblade2bannerlord/mods/2006?tab=files)
    
-2. Unzip to the Bannerlord Modules directory (by default at `C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules`).
+2. Unzip the BLT Package to the Bannerlord Modules directory (by default at `C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules`).
    It should create the `BannerlordTwitch` directory, and the `BannerlordTwitch.dll` should be at `Modules\BannerlordTwitch\bin\Win64_Shipping_Client\BannerlordTwitch.dll`
    ![image](https://user-images.githubusercontent.com/1453936/115397098-9daae880-a1dd-11eb-87c7-0bda9af4c79d.png)
    It should also create the `BLTAdoptAHero`, `BLTBuffet`, and `BLTConfigure` directories.
@@ -67,7 +61,7 @@ Possible changes:
 ## Troubleshooting   
 If you have problems you can search for `[BLT]` lines in the `rgl_log` files at `C:\ProgramData\Mount and Blade II Bannerlord\logs`. I added logging for everything so you should see failures and critical errors in here.
 
-If you need help then join the [Discord](https://discord.gg/q2p4eHsxFn).
+If you need help then join the [Discord](https://discord.gg/AnStVFb2jG).
 
 # Developer Guide
 This guide only explains things specific to developing the BLT mod, if there are other words, concepts or procedures you don't understand mentioned here then you should google them!
@@ -105,3 +99,7 @@ First you should make sure to update the `ModuleVersion` property in `BLTPropert
 The Release config build process generates a sharable package which will be found in the `BannerlordTwitch\deploy\release` under the cloned repo. It should include the game and updated mod version number. This package can be released as is through appropriate channels.
 
 As per the LGPL (under which this code is licensed), deployment of changes in binary form also requires sharing of the source code of those changes. This is most easily done by using GitHub forks to make changes, and pushing changes back to them. 
+
+#Credits
+This is a continuation of the project, originally started by somebody else.
+Original: [Author](https://github.com/billw2012) | [Github](https://github.com/billw2012/Bannerlord-Twitch) | [Discord](https://discord.gg/q2p4eHsxFn) | [Youtube](https://www.youtube.com/@billw2461)
