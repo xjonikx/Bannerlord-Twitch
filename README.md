@@ -1,4 +1,4 @@
-# [Trailer](https://youtu.be/mFDuIjnoTQ0) | [Download](https://github.com/billw2012/Bannerlord-Twitch/releases) | [Discord](https://discord.gg/q2p4eHsxFn) | [Github](https://github.com/billw2012/Bannerlord-Twitch) | [Installation Guide](https://youtu.be/ATf5zilwNWk)
+# [Download](https://github.com/jazz-ttv/Bannerlord-Twitch/releases/tag/4.5.2) | [Discord](https://discord.gg/q2p4eHsxFn) | [Github](https://github.com/jazz-ttv/Bannerlord-Twitch) | [Installation Guide](https://youtu.be/ATf5zilwNWk)
 
 # Bannerlord Twitch (BLT)
 This is a modification for [Mount & Blade II: Bannerlord](https://www.taleworlds.com/en/Games/Bannerlord) that adds Twitch integration to the game. This allows events in a Twitch stream to trigger actions in game, for instance redemption of Channel Point Rewards, or specific chat messages.
@@ -40,7 +40,7 @@ Possible changes:
 
 ### [Installation Guide Video](https://youtu.be/ATf5zilwNWk)
 
-1. Install [Bannerlord Harmony](https://www.nexusmods.com/mountandblade2bannerlord/mods/2006?tab=files) and [ButterLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/2018?tab=files).
+1. Install [Bannerlord Harmony](https://www.nexusmods.com/mountandblade2bannerlord/mods/2006?tab=files)
    
 2. Unzip to the Bannerlord Modules directory (by default at `C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules`).
    It should create the `BannerlordTwitch` directory, and the `BannerlordTwitch.dll` should be at `Modules\BannerlordTwitch\bin\Win64_Shipping_Client\BannerlordTwitch.dll`
@@ -64,7 +64,7 @@ Possible changes:
 8. During startup watch for notification messages in the BLT Overlay window, that indicate if the mod initialized successfully and connected to your Twitch channel.
 9. Once you get to the main menu in game it should be initialized, and the default Channel Rewards should have been created automatically. You should also see the bot in your twitch channel.
 
-## Trouble Shooting   
+## Troubleshooting   
 If you have problems you can search for `[BLT]` lines in the `rgl_log` files at `C:\ProgramData\Mount and Blade II Bannerlord\logs`. I added logging for everything so you should see failures and critical errors in here.
 
 If you need help then join the [Discord](https://discord.gg/q2p4eHsxFn).
@@ -105,43 +105,3 @@ First you should make sure to update the `ModuleVersion` property in `BLTPropert
 The Release config build process generates a sharable package which will be found in the `BannerlordTwitch\deploy\release` under the cloned repo. It should include the game and updated mod version number. This package can be released as is through appropriate channels.
 
 As per the LGPL (under which this code is licensed), deployment of changes in binary form also requires sharing of the source code of those changes. This is most easily done by using GitHub forks to make changes, and pushing changes back to them. 
-
-## Writing an Extension
-You can implement new reward actions and command handlers quite easily:
-1. Make another mod that depends on `BannerlordTwitch` (in the `Submodule.xml`, AND reference the dll itself)
-2. Implement a new class derived from `IActionHandler` (for channel point rewards), `ICommandHandler` (for bot commands) or `ActionAndCommandBase` (to make both in one class)
-3. Register instances of your derived classes with the `RewardManager`, this can be done easily with a call to:
-   ```c#
-   RewardManager.RegisterAll(typeof(your module class).Assembly);
-   ```
-
-Example:
-```c#
-// Command handler to allow playing a sound effect in game, passed as the argument to the command itself
-public class PlaySfx : ICommandHandler
-{
-    public void Execute(ReplyContext context, object config)
-    {
-        // Play the specified sound on the main agent
-        if (!string.IsNullOrEmpty(context.Args) && Agent.Main != null)
-        {
-            Mission.Current.MakeSound(
-                SoundEvent.GetEventIdFromString(context.Args),
-                Agent.Main.AgentVisuals.GetGlobalFrame().origin,
-                false, true, Agent.Main.Index, -1);
-        }   
-    }
-
-    // We don't need any config for this
-    public Type HandlerConfigType => null;
-}
-```
-
-Rewards that have a `Handler` that matches the class name of your `IActionHandler` will be passed to your registered instance, along with the `HandlerConfig`.  
-Commands work the same, with `Handler` matching the class name of your `ICommandHandler`.
-
-Once compiled into a module and installed in the game, your handlers should show up in the BLT Configure tool (make sure the tool is loaded after your modules).
-
-See the `BLTBuffet` and `BLTAdoptAHero` projects for some more examples.
-
-
