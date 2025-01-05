@@ -100,6 +100,6 @@ The Release config build process generates a sharable package which will be foun
 
 As per the LGPL (under which this code is licensed), deployment of changes in binary form also requires sharing of the source code of those changes. This is most easily done by using GitHub forks to make changes, and pushing changes back to them. 
 
-#Credits
+# Credits
 This is a continuation of the project, originally started by somebody else.
 Original: [Author](https://github.com/billw2012) | [Github](https://github.com/billw2012/Bannerlord-Twitch) | [Discord](https://discord.gg/q2p4eHsxFn) | [Youtube](https://www.youtube.com/@billw2461)
