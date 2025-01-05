@@ -54,13 +54,9 @@
                 <DockPanel LastChildFill="True">
                     <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center">
                         <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" 
-                                   NavigateUri="https://discord.gg/q2p4eHsxFn">Discord</Hyperlink> |  
+                                   NavigateUri="https://discord.gg/AnStVFb2jG">Discord</Hyperlink> | 
                         <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" 
-                                   NavigateUri="https://www.nexusmods.com/mountandblade2bannerlord/mods/2933">
-                            NexusMods
-                        </Hyperlink> |  
-                        <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" 
-                                   NavigateUri="https://github.com/billw2012/Bannerlord-Twitch">GitHub</Hyperlink>
+                                   NavigateUri="https://github.com/jazz-ttv/Bannerlord-Twitch">GitHub</Hyperlink>
                     </TextBlock>
                     <Frame HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
