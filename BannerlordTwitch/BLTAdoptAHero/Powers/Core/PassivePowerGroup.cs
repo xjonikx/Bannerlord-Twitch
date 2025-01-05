@@ -91,7 +91,7 @@ namespace BLTAdoptAHero.Powers
         #endregion
 
         #region ILoaded
-        public void OnLoaded(Settings settings)
+        public void OnLoaded(BannerlordTwitch.Settings settings)
         {
             PowerConfig = GlobalHeroPowerConfig.Get(settings);   
         }

@@ -49,9 +49,10 @@ namespace BLTAdoptAHero
                 onFailure(AdoptAHero.NoHeroMessage);
                 return;
             }
-            
 
-            if (adoptedHero.Gold < settings.Price)
+
+            int availableGold = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero);
+            if (availableGold < settings.Price)
             {
                 onFailure("{=Z4vYZzSq}Not enough gold !".Translate());
                 return;
@@ -69,8 +70,6 @@ namespace BLTAdoptAHero
                     onFailure("{=KuvT6DAO}Cannot rebel while not under the player kingdom".Translate());
                     return;
                 }
-                
-                
                 if ( Clan.PlayerClan.Kingdom.RulingClan != Clan.PlayerClan)
                 {
                     onFailure ("{=dG1tCXE4}Can't declare war the player is not the ruler of his kingdom or is not in a kingdom".Translate());

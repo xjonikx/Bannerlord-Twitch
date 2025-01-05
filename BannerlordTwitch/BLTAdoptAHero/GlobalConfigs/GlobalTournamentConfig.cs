@@ -34,7 +34,7 @@ namespace BLTAdoptAHero
         private const string ID = "Adopt A Hero - Tournament Config";
         internal static void Register() => ActionManager.RegisterGlobalConfigType(ID, typeof(GlobalTournamentConfig));
         internal static GlobalTournamentConfig Get() => ActionManager.GetGlobalConfig<GlobalTournamentConfig>(ID);
-        internal static GlobalTournamentConfig Get(Settings fromSettings) => fromSettings.GetGlobalConfig<GlobalTournamentConfig>(ID);
+        internal static GlobalTournamentConfig Get(BannerlordTwitch.Settings fromSettings) => fromSettings.GetGlobalConfig<GlobalTournamentConfig>(ID);
         #endregion
 
         #region User Editable

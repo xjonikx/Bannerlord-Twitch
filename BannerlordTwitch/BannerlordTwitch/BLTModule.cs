@@ -29,7 +29,7 @@ namespace BannerlordTwitch
 		[DllImport("user32.dll")]
 		private static extern int SetWindowText(IntPtr hWnd, string text);
 
-		private const string ExpectedVersion = "v1.2.9";
+		private const string ExpectedVersion = "v1.2.12";
 
 		static BLTModule()
 		{
@@ -49,9 +49,9 @@ namespace BannerlordTwitch
 			MainThreadSync.InitMainThread();
 
             // AssemblyHelper.Redirect("Microsoft.Extensions.Logging.Abstractions", Version.Parse("3.1.5.0"), "adb9793829ddae60");
-            AssemblyHelper.Redirect("Microsoft.Owin", Version.Parse("4.2.0.0"), "31bf3856ad364e35");
-            AssemblyHelper.Redirect("Microsoft.Owin.FileSystems", Version.Parse("4.2.0.0"), "31bf3856ad364e35");
-            AssemblyHelper.Redirect("Microsoft.Owin.Security", Version.Parse("4.2.0.0"), "31bf3856ad364e35");
+            AssemblyHelper.Redirect("Microsoft.Owin", Version.Parse("4.2.2.0"), "31bf3856ad364e35");
+            AssemblyHelper.Redirect("Microsoft.Owin.FileSystems", Version.Parse("4.2.2.0"), "31bf3856ad364e35");
+            AssemblyHelper.Redirect("Microsoft.Owin.Security", Version.Parse("4.2.2.0"), "31bf3856ad364e35");
             AssemblyHelper.Redirect("Newtonsoft.Json", Version.Parse("13.0.0.0"), "30ad4fe6b2a6aeed");
 
             AppDomain.CurrentDomain.AssemblyResolve += (_, args) =>

@@ -60,7 +60,8 @@ namespace BLTAdoptAHero
                 return;
             }
 
-            if (adoptedHero.Gold < settings.Price)
+            int availableGold = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero);
+            if (availableGold < settings.Price)
             {
                 onFailure("{=Z4vYZzSq}Not enough gold !".Translate());
                 return;
