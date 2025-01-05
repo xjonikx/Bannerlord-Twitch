@@ -42,7 +42,7 @@ namespace BLTAdoptAHero.UI
         }
 
         private static readonly List<HeroState> heroState = new();
-        private static int maxHeight = 200;
+        private static int maxHeight = 600;
 
         public override Task OnConnected()
         {

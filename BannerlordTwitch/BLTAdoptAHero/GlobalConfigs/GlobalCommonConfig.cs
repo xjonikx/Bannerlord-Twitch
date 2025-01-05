@@ -59,6 +59,12 @@ namespace BLTAdoptAHero
          LocDescription("{=}Maximum custom inventory items allowed. This only applies when smithing, other rewards will always be added to inventory (but they will contribute to the limit). If you set this high then inventory management and console spam may become a problem."),
          PropertyOrder(3), UsedImplicitly]
         public int CustomItemLimit { get; set; } = 8;
+
+        [LocDisplayName("{=}Custom Companion Limit"),
+         LocCategory("General", "{=C5T6nnix}General"),
+         LocDescription("{=}Flat number increase to companion limit"),
+         PropertyOrder(4), UsedImplicitly]
+        public int CustomCompanionLimit { get; set; } = 7;
         #endregion
 
         #region Battle

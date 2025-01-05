@@ -135,7 +135,7 @@
                             Heroes list max height :
                         </TextBlock>
                         <TextBox Width="50" PreviewTextInput="IsTextAllowed" Margin="0 0" VerticalAlignment="Center" >
-                            200
+                            600
                         </TextBox>
                         <TextBlock VerticalAlignment="Center" Margin="2 0">
                             px

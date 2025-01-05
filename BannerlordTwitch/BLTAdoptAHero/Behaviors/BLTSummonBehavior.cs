@@ -208,8 +208,9 @@ namespace BLTAdoptAHero
 
                 existingHero.Party.MemberRoster.AddToCounts(retinueTroop, 1);
 
+                bool DeploymentFlag = Mission.Current.Mode is MissionMode.Deployment;
                 var retinueAgent = SpawnAgent(onPlayerSide, retinueTroop, existingHero.Party, 
-                    retinueTroop.IsMounted && retinueMounted);
+                    retinueTroop.IsMounted && retinueMounted,false,!DeploymentFlag);
 
                 existingHero.Retinue.Add(new()
                 {
@@ -246,7 +247,7 @@ namespace BLTAdoptAHero
             }
         }
 
-        public static Agent SpawnAgent(bool onPlayerSide, CharacterObject troop, PartyBase party, bool spawnWithHorse, bool isReinforcement = false)
+        public static Agent SpawnAgent(bool onPlayerSide, CharacterObject troop, PartyBase party, bool spawnWithHorse, bool isReinforcement = false, bool isAlarmed = true)
         {
             var agent = Mission.Current.SpawnTroop(
                 new PartyAgentOrigin(party, troop)
@@ -256,7 +257,7 @@ namespace BLTAdoptAHero
                 , isReinforcement: isReinforcement
                 , formationTroopCount: 1
                 , formationTroopIndex: 0
-                , isAlarmed: true
+                , isAlarmed: isAlarmed
                 , wieldInitialWeapons: true
                 , forceDismounted: false
                 , initialPosition: null

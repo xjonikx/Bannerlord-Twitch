@@ -1,7 +1,7 @@
-﻿namespace BLTAdoptAHero
+﻿//TODO: Re-implement under ClanManagement Action
+
+namespace BLTAdoptAHero
 {
-    // WIP
-    // public class Marry : ActionHandlerBase
     // {
     //     private struct Settings
     //     {

@@ -176,24 +176,24 @@ Commands:
   Enabled: true
   Handler: AdoptAHero
   HandlerConfig:
-    AllowMinorFactionHero: true
-    AllowNoble: true
-    AllowPartyLeader: true
-    AllowPlayerCompanion: true
-    AllowWanderer: true
-    CreateClan: true
+    AllowMinorFactionHero: false
+    AllowNoble: false
+    AllowPartyLeader: false
+    AllowPlayerCompanion: false
+    AllowWanderer: false
+    CreateClan: false
     CreateNew: true
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
     OnlySameFaction: false
-    OverrideAge: false
+    OverrideAge: true
     StartingAgeRange:
       Max: 35
       Min: 18
     StartingClass: 00000000-0000-0000-0000-000000000000
     StartingEquipmentTier: 1
-    StartingGold: 0
+    StartingGold: 50000
     StartingSkills:
     - MaxLevel: 125
       MinLevel: 50
@@ -208,7 +208,7 @@ Commands:
       MinLevel: 25
       Skill: Athletics
     SubscriberOnly: false
-    ViewerSelects: Clan
+    ViewerSelects: Nothing
   Help: ''
   HideHelp: false
   ID: e317c63a-5a1f-455c-b953-6dcb92dc9424
@@ -377,6 +377,27 @@ Commands:
   Name: buymount
   RespondInOverlay: true
   RespondInTwitch: true
+- Documentation: 'Use to manage clan actions <br> Usage is <code>!clan (join/create/lead/rename/stats) name </code> <br> Example: !clan join Banu Tammar or !clan stats'
+  Enabled: true
+  Handler: ClanManagement
+  HandlerConfig:
+    CreateEnabled: true
+    CreatePrice: 2500000
+    JoinAllowPlayer: false
+    JoinEnabled: true
+    JoinMaxHeroes: 50
+    JoinPrice: 150000
+    LeadEnabled: true
+    LeadPrice: 1000000
+    RenameEnabled: true
+    RenamePrice: 1000000
+    StatsEnabled: true
+  Help: ''
+  HideHelp: false
+  ID: 203d9d85-4004-40d3-9f6b-19ffa1ba41b2
+  Name: clan
+  RespondInOverlay: true
+  RespondInTwitch: false
 - Documentation: Shows the viewers custom item list, which is required so they know what item index to use in the custom item related commands.
   Enabled: true
   Handler: HeroInfoCommand
@@ -423,7 +444,7 @@ Commands:
   RespondInOverlay: false
   RespondInTwitch: false
 - Documentation: ''
-  Enabled: true
+  Enabled: false
   Handler: RetireMyHero
   HandlerConfig: 
   Help: ''
@@ -432,26 +453,6 @@ Commands:
   Name: retire
   RespondInOverlay: false
   RespondInTwitch: false
-- Documentation: ''
-  Enabled: true
-  Handler: RetireMyHero
-  HandlerConfig: 
-  Help: ''
-  HideHelp: false
-  ID: 4ea01824-bfdd-4b38-a9d1-608b5296e022
-  Name: retire
-  RespondInOverlay: false
-  RespondInTwitch: true
-- Documentation: ''
-  Enabled: true
-  Handler: RetireMyHero
-  HandlerConfig: 
-  Help: ''
-  HideHelp: false
-  ID: 83270b28-0424-4cdb-ba4e-3f965797f0fb
-  Name: retire
-  RespondInOverlay: false
-  RespondInTwitch: true
 DisableAutomaticFulfillment: false
 GlobalConfigs:
 - Config:
@@ -640,6 +641,7 @@ GlobalConfigs:
       XPGain: 0
     AllowDeath: true
     ApplyDeathChanceToAllHeroes: true
+    CustomCompanionLimit: 7
     CustomItemLimit: 8
     CustomRewardModifiers:
       AmmoDamage:

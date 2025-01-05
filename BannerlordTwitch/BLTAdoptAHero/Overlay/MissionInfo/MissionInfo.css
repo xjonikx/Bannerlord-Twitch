@@ -5,7 +5,7 @@
 
 #mission-heroes {
     display: flex;
-    max-height: 200px;
+    max-height: 600px;
     overflow: hidden;
 }
 
