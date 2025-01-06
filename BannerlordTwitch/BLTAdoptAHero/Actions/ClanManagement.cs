@@ -154,7 +154,7 @@ namespace BLTAdoptAHero.Actions
             var command = splitArgs[0];
             var desiredName = string.Join(" ", splitArgs.Skip(1)).Trim();
 
-            switch (command)
+            switch (command.ToLower())
             {
                 case "join":
                     HandleJoinCommand(settings, adoptedHero, desiredName, onSuccess, onFailure);

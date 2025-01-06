@@ -573,6 +573,9 @@ namespace BLTAdoptAHero
             int inheritedGold = BLTAdoptAHeroCampaignBehavior.Current.InheritGold(newHero, settings.Inheritance);
             int newGold = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(newHero);
 
+            if(settings.CreateNew)
+                BLTAdoptAHeroCampaignBehavior.Current.SetIsCreatedHero(newHero,true);
+
             var inherited = inheritedItems.Select(i => i.GetModifiedItemName().ToString()).ToList();
             if (inheritedGold != 0)
             {

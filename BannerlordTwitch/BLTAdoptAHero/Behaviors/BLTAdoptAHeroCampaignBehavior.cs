@@ -43,6 +43,10 @@ namespace BLTAdoptAHero
             public string Owner { get; set; }
             public int Iteration { get; set; }
             public bool IsRetiredOrDead { get; set; }
+            public bool IsCreatedHero { get; set; } = false;
+            public bool MesssageFlag { get; set; } = false;
+            public string MessageContent { get; set; } = null;
+
             [UsedImplicitly]
             public AchievementStatsData AchievementStats { get; set; } = new();
             
@@ -1152,10 +1156,20 @@ namespace BLTAdoptAHero
 
         public static string GetFullName(string name) => $"{name} {BLTAdoptAHeroModule.Tag}";
 
-        public static void SetHeroAdoptedName(Hero hero, string userName)
-        {
+        public static void SetHeroAdoptedName(Hero hero, string userName) =>
             CampaignHelpers.SetHeroName(hero, new (GetFullName(userName)), new (userName));
-        }
+        public bool GetIsCreatedHero(Hero hero) => 
+            GetHeroData(hero).IsCreatedHero;
+        public bool GetMessageFlag(Hero hero) => 
+            GetHeroData(hero).MesssageFlag;
+        public void SetIsCreatedHero(Hero hero, bool value) => 
+            GetHeroData(hero).IsCreatedHero = value;
+        public void SetMessageFlag(Hero hero, bool value) => 
+            GetHeroData(hero).MesssageFlag = value;
+        public string GetMessageContent(Hero hero) => 
+            GetHeroData(hero).MessageContent;
+        public string ClearMessageContent(Hero hero) => 
+            GetHeroData(hero).MessageContent = null;
 
         private HeroData GetHeroData(Hero hero, bool suppressAutoRetire = false)
         {

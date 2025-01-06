@@ -42,7 +42,6 @@ namespace BLTAdoptAHero.UI
         }
 
         private static readonly List<HeroState> heroState = new();
-        private static int maxHeight = 600;
 
         public override Task OnConnected()
         {
@@ -64,11 +63,6 @@ namespace BLTAdoptAHero.UI
                 GlobalHost.ConnectionManager.GetHubContext<MissionInfoHub>()
                     .Clients.All.update(heroState);
             }
-            
-            GlobalHost.ConnectionManager.GetHubContext<MissionInfoHub>().Clients.All.setValues(new
-            {
-                height = maxHeight
-            });
         }
         
         public static void Remove(string name)
@@ -78,12 +72,6 @@ namespace BLTAdoptAHero.UI
                 heroState.RemoveAll(h 
                     => string.Equals(h.Name, name, StringComparison.CurrentCultureIgnoreCase));
             }
-        }
-
-        public static void SetMaxHeight(int height)
-        {
-            maxHeight = height;
-            Update();
         }
                 
         public static void Clear()

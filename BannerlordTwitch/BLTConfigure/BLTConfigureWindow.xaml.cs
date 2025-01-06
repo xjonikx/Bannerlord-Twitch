@@ -70,21 +70,6 @@ namespace BLTConfigure
 
         public ObservableCollection<LogMessage> LogEntries { get; } = new();
         
-        private void IsTextAllowed(object sender, TextCompositionEventArgs textCompositionEventArgs)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            if (!regex.IsMatch(textCompositionEventArgs.Text))
-            {
-                
-                MissionInfoHub.SetMaxHeight(Convert.ToInt32(((TextBox)sender).Text + textCompositionEventArgs.Text));
-                textCompositionEventArgs.Handled = false;
-            }
-            else
-            {
-                textCompositionEventArgs.Handled = true;
-            }
-        }
-        
         public BLTConfigureWindow()
         {
             Log.OnLog += (level, msg) =>

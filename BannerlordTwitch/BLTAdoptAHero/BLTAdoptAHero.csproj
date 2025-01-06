@@ -316,6 +316,7 @@
     <Compile Include="Actions\GiveItem.cs" />
     <Compile Include="Actions\HeroActionHandlerBase.cs" />
     <Compile Include="Actions\HeroCommandHandlerBase.cs" />
+    <Compile Include="Actions\HeroFeatures.cs" />
     <Compile Include="Actions\HeroInfoCommand.cs" />
     <Compile Include="Actions\ImproveAdoptedHero.cs" />
     <Compile Include="Actions\JoinKingdom.cs" />
