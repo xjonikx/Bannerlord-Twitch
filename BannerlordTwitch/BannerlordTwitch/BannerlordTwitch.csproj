@@ -26,6 +26,9 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <NoWarn />
+  </PropertyGroup>
   <Import Project="$(SolutionDir)BLTProperties.targets" />
   <PropertyGroup>
     <StartAction>Program</StartAction>

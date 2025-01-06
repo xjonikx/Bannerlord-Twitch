@@ -13,6 +13,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
+using TaleWorlds.Library;
 
 namespace BLTAdoptAHero.Actions
 {
@@ -73,8 +74,14 @@ namespace BLTAdoptAHero.Actions
             [LocDisplayName("{=TLrDxhlh}Gold Cost"),
              LocCategory("Lead", "{=C5T5nnix}Lead"),
              LocDescription("{=F1KDzuZZ}Cost of leading a clan"),
-             PropertyOrder(1), UsedImplicitly]
+             PropertyOrder(2), UsedImplicitly]
             public int LeadPrice { get; set; } = 1000000;
+
+            [LocDisplayName("{=TLrDxhlh}Challenge Heroes"),
+             LocCategory("Lead", "{=C5T5nnix}Lead"),
+             LocDescription("{=F1KDzuZZ}Toggle whether or not trying to lead a clan already led by a BLT hero is possible - random chance they win based on skill difference"),
+             PropertyOrder(3), UsedImplicitly]
+            public bool LeadChallengeHeroes { get; set; } = true;
 
             [LocDisplayName("{=TLrDxhlh}Enabled"),
              LocCategory("Rename", "{=C5T5nnix}Rename"),
@@ -104,6 +111,7 @@ namespace BLTAdoptAHero.Actions
                 generator.PropertyValuePair("Create Price".Translate(), $"{CreatePrice}");
                 generator.PropertyValuePair("Lead Enabled".Translate(), $"{LeadEnabled}");
                 generator.PropertyValuePair("Lead Price".Translate(), $"{LeadPrice}");
+                generator.PropertyValuePair("Lead Challenge Heroes?".Translate(), $"{LeadChallengeHeroes}");
                 generator.PropertyValuePair("Rename Enabled".Translate(), $"{RenameEnabled}");
                 generator.PropertyValuePair("Rename Price".Translate(), $"{RenamePrice}");
                 generator.PropertyValuePair("Stats Enabled".Translate(), $"{StatsEnabled}");
@@ -285,7 +293,29 @@ namespace BLTAdoptAHero.Actions
                 onFailure("{=CVcUtTWc}You do not have enough gold ({price}) to lead a clan".Translate(("price", settings.LeadPrice.ToString())));
                 return;
             }
-
+            if (adoptedHero.Clan.Leader.Name.Contains(BLTAdoptAHeroModule.Tag))
+            {
+                if (!settings.LeadEnabled)
+                {
+                    onFailure("{=wkhZ6q7d}Leading clans led by other BLT Heroes is disabled".Translate());
+                    return;
+                }
+                Hero oldLeader = adoptedHero.Clan.Leader;
+                if (MBRandom.RandomInt(0, 10) < MBMath.ClampInt(oldLeader.Level - adoptedHero.Level, 0, 10))
+                {
+                    BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.LeadPrice, true);
+                    onFailure("{=wkhZ6q7d}You have been bested in battle by {oldLeader} and failed to lead your clan.".Translate(("oldLeader", oldLeader.Name.ToString())));
+                    return;
+                }
+                else
+                {
+                    BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.LeadPrice, true);
+                    adoptedHero.Clan.SetLeader(adoptedHero);
+                    Log.ShowInformation("{=K7nuJVCN}{heroName} has usurped {oldLeader} and is now leading clan {clanName}!".Translate(("heroName", adoptedHero.Name.ToString()), ("oldLeader", oldLeader.Name.ToString()), ("clanName", adoptedHero.Clan.Name.ToString())), adoptedHero.CharacterObject, Log.Sound.Horns2);
+                    onSuccess("{=wkhZ6q7d}You have successfully taken over the leadership of your clan".Translate());
+                    return;
+                }
+            }
             BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.LeadPrice, true);
             adoptedHero.Clan.SetLeader(adoptedHero);
             onSuccess("{=wkhZ6q7d}You are now the leader of your clan".Translate());
