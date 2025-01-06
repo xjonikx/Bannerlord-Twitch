@@ -599,7 +599,7 @@ namespace BLTAdoptAHero
 
             bool DeploymentFlag = Mission.Current.Mode is MissionMode.Deployment;
             BLTSummonBehavior.SpawnAgent(settings.OnPlayerSide, adoptedHero.CharacterObject, heroSummonState.Party, 
-                adoptedHero.CharacterObject.IsMounted && BLTSummonBehavior.ShouldBeMounted(formationClass),false,DeploymentFlag);
+                adoptedHero.CharacterObject.IsMounted && BLTSummonBehavior.ShouldBeMounted(formationClass),false,!DeploymentFlag);
 
             // Some random stuff that is required to ensure caches are updated
             foreach (var t in Mission.Current.Teams)
