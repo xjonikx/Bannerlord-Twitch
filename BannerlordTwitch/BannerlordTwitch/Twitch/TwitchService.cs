@@ -162,7 +162,7 @@ namespace BannerlordTwitch
 
                     if (string.IsNullOrEmpty(user.BroadcasterType))
                     {
-                        Log.Error($"You must be a Twitch Partner or Affiliate to use the channel points system. You can still use the chat commands (you may need to add some in the configure window to get full functionality).");
+                        Log.ShowInformation($"You must be a Twitch Partner or Affiliate to use the channel points system. You can still use the chat commands (you may need to add some in the configure window to get full functionality).");
                         return;
                     }
                     
