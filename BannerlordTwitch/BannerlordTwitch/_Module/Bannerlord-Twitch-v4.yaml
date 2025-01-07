@@ -23,7 +23,7 @@ Commands:
   Name: '{=woTpsqyV}ach'
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: '{=MpvqvKef}Get a hero in game. Almost all other actions require an adopted hero.'
+- Documentation: Adopt a newly created Hero. Almost all other actions require an adopted hero.
   Enabled: true
   Handler: AdoptAHero
   HandlerConfig:
@@ -66,7 +66,28 @@ Commands:
   Name: '{=0grO6hB5}adopt'
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: Start an auction on a custom item you own, with a specified reserve price. Other viewers are able to bid upon your item, and the highest bidder will receive it at the end of the auction.<br>Usage is <code>!auction (custom item index) (reserve price)</code>, e.g. <code>!auction 3 50000</code> would start a new auction for your custom item with the index of 3 (as shown by the 'customs' command or equivalent), with a reserve price of 50000.
+- Documentation: Use this when the streamer enters a battle, to spawn your adopted hero on the enemy side (along with your retinue).
+  Enabled: true
+  Handler: SummonHero
+  HandlerConfig:
+    AlertSound: None
+    AllowFieldBattle: true
+    AllowFriendlyMission: false
+    AllowHideOut: false
+    AllowSiegeBattle: true
+    AllowVillageBattle: true
+    AllowWhenDepleted: false
+    GoldCost: 0
+    HealPerSecond: 0
+    OnPlayerSide: false
+    PreferredFormation: Infantry
+  Help: ''
+  HideHelp: false
+  ID: 9082614c-46a3-47f9-b198-e56babde5745
+  Name: attack
+  RespondInOverlay: true
+  RespondInTwitch: false
+- Documentation: Start an auction on a custom item you own, with a specified reserve price. Other viewers are able to bid upon your item, and the highest bidder will receive it at the end of the auction.<br>Usage is <code>!auction (custom item index) (reserve price)</code>, e.g. <code>!auction 3 50000</code> would start a new auction for your custom item with the index of 3 (as shown by the 'customitems' command), with a reserve price of 50000.
   Enabled: true
   Handler: AuctionItem
   HandlerConfig:
@@ -122,6 +143,7 @@ Commands:
     JoinEnabled: true
     JoinMaxHeroes: 50
     JoinPrice: 150000
+    LeadChallengeHeroes: true
     LeadEnabled: true
     LeadPrice: 1000000
     RenameEnabled: true
@@ -170,22 +192,22 @@ Commands:
     ShowTopSkills: false
     ShowTrackedStats: false
   Help: ''
-  HideHelp: true
+  HideHelp: false
   ID: a0b89b07-f834-43e2-92df-51e975c2c829
-  Name: customs
+  Name: customitems
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: Throw away one of your custom items.<br>Usage is <code>!discarditem (custom item index)</code>, e.g. <code>!discarditem 3</code> would discard your custom item with the index 3. The custom item index is shown in the 'customs' command (or equivalent).
+- Documentation: Throw away one of your custom items.<br>Usage is <code>!discarditem (custom item index)</code>, e.g. <code>!discarditem 3</code> would discard your custom item with the index 3. The custom item index is shown in the 'customs' command.
   Enabled: true
   Handler: DiscardItem
   HandlerConfig: 
   Help: ''
   HideHelp: true
   ID: 752eb016-7df1-465c-83c7-80cc88f8c02d
-  Name: '{=Pla3OVS4}discarditem'
+  Name: discarditem
   RespondInOverlay: true
   RespondInTwitch: true
-- Documentation: '{=EZGcIEgQ}Upgrades your heroes equipment tier, replacing any existing equipment of lower tier, except for custom items. The cost depends on the tier you are trying to upgrade to.'
+- Documentation: 'Upgrades your heroes equipment tier, replacing any existing equipment of lower tier, except for custom items. The cost depends on the tier you are trying to upgrade to. <br> Usage is <code>!equip (blank for auto upgrade/tier number) </code> <br> Example: !equip 1 or !equip'
   Enabled: true
   Handler: EquipHero
   HandlerConfig:
@@ -203,7 +225,7 @@ Commands:
   Name: '{=wHqxd4kb}equip'
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: Give one of your custom items to another viewer.<br>Usage is <code>!giveitem (custom item index) (viewer)</code>, e.g. <code>!giveitem 3 C4alad0g</code> would give your custom item with the index 3 to the viewer called C4lad0g. The custom item index is shown in the 'customs' command (or equivalent).
+- Documentation: Give one of your custom items to another viewer.<br>Usage is <code>!giveitem (custom item index) (viewer)</code>, e.g. <code>!giveitem 3 C4alad0g</code> would give your custom item with the index 3 to the viewer called C4lad0g. The custom item index is shown in the 'customitems' command.
   Enabled: true
   Handler: GiveItem
   HandlerConfig: 
@@ -237,7 +259,44 @@ Commands:
   Name: '{=W5uX9HCJ}gold'
   RespondInOverlay: true
   RespondInTwitch: true
-- Documentation: '{=JneYk4pF}Shows your heroes inventory, including equipment tier, full battle and civilian equipment lists, and all custom items in storage.'
+- Documentation: Heals your hero over time. Only works in battle, when your hero is summoned.
+  Enabled: true
+  Handler: CharacterEffect
+  HandlerConfig:
+    ActivateParticleEffect: psys_game_stone_water_coll
+    ActivateSound: 
+    DamageMultiplier: 
+    DamagePerSecond: 0
+    DeactivateParticleEffect: 
+    DeactivateSound: 
+    Duration: 10
+    ForceDropWeapons: false
+    HealPerSecond: 6
+    Name: 
+    ParticleEffects: []
+    Properties: []
+    RemoveArmor: false
+    Target: AdoptedHero
+    TargetOnFootOnly: false
+  Help: ''
+  HideHelp: false
+  ID: 895736e0-4584-4f61-b97f-fc062264d151
+  Name: heal
+  RespondInOverlay: true
+  RespondInTwitch: false
+- Documentation: 'Use to adjust hero physical features <br> Usage is <code>!hero (gender) (male/female) </code> <br> Example: !hero gender male'
+  Enabled: true
+  Handler: HeroFeatures
+  HandlerConfig:
+    GenderDisabledonNative: true
+    GenderEnabled: true
+  Help: ''
+  HideHelp: true
+  ID: 8443567a-70cb-4073-bb00-b00cc150ab81
+  Name: hero
+  RespondInOverlay: false
+  RespondInTwitch: true
+- Documentation: Shows your heroes equipped loadout and inventory, excluding custom items (do !customItems instead)
   Enabled: true
   Handler: HeroInfoCommand
   HandlerConfig:
@@ -261,14 +320,14 @@ Commands:
   Name: '{=UbklIEGh}inv'
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: You can use this to name your custom items.<br>Usage is <code>!nameitem (custom item index) (name)</code>, for example <code>!nameitem 3 Foehammer</code>. The custom item index is shown in the 'customs' command (or equivalent).
+- Documentation: You can use this to name your custom items.<br>Usage is <code>!nameitem (custom item index) (name)</code>, for example <code>!nameitem 3 Foehammer</code>. The custom item index is shown in the 'customitems' command.
   Enabled: true
   Handler: NameItem
   HandlerConfig: 
-  Help: '{=tNVmXpoc}name a reward item'
-  HideHelp: false
+  Help: name a custom item
+  HideHelp: true
   ID: aef1ded6-f8dd-4b9a-9d70-96e96d17cb12
-  Name: '{=IFDecKha}nameitem'
+  Name: nameitem
   RespondInOverlay: true
   RespondInTwitch: true
 - Documentation: ''
@@ -318,7 +377,7 @@ Commands:
     CostTier6: 400000
     ReequipInsteadOfUpgrade: true
   Help: '{=3KYGJ0Mu}reroll equipment'
-  HideHelp: false
+  HideHelp: true
   ID: d4fb255c-4bb3-454e-9e26-39b4d7a321f0
   Name: '{=fGfTaAoD}reequip'
   RespondInOverlay: true
@@ -340,7 +399,7 @@ Commands:
       UseBasicTroops: true
       UseEliteTroops: true
       UseHeroesCultureUnits: true
-  Help: '{=I7sm1ct6}upgrade retinue'
+  Help: 'upgrade retinue <br> Usage is <code>!retinue (blank or all for auto upgrade/upgrade amount) </code> <br> Example: !retinue 1 or !retinue all'
   HideHelp: false
   ID: 38eed507-87b9-47f4-b235-af921cef00c4
   Name: '{=mge9rH9J}retinue'
@@ -373,7 +432,8 @@ Commands:
 - Documentation: ''
   Enabled: false
   Handler: RetireMyHero
-  HandlerConfig: 
+  HandlerConfig:
+    RetireCreatedOnly: true
   Help: ''
   HideHelp: false
   ID: dd5268c5-3732-4c27-b990-6e364e66cc84
@@ -451,52 +511,6 @@ Commands:
   HideHelp: false
   ID: 01a497f3-d529-4780-80dd-41343b3e05ad
   Name: summon
-  RespondInOverlay: true
-  RespondInTwitch: false
-- Documentation: Heals your hero over time. Only works in battle, when your hero is summoned.
-  Enabled: true
-  Handler: CharacterEffect
-  HandlerConfig:
-    ActivateParticleEffect: psys_game_stone_water_coll
-    ActivateSound: 
-    DamageMultiplier: 
-    DamagePerSecond: 0
-    DeactivateParticleEffect: 
-    DeactivateSound: 
-    Duration: 10
-    ForceDropWeapons: false
-    HealPerSecond: 6
-    Name: 
-    ParticleEffects: []
-    Properties: []
-    RemoveArmor: false
-    Target: AdoptedHero
-    TargetOnFootOnly: false
-  Help: ''
-  HideHelp: false
-  ID: 895736e0-4584-4f61-b97f-fc062264d151
-  Name: heal
-  RespondInOverlay: true
-  RespondInTwitch: false
-- Documentation: Use this when the streamer enters a battle, to spawn your adopted hero on the enemy side (along with your retinue).
-  Enabled: true
-  Handler: SummonHero
-  HandlerConfig:
-    AlertSound: None
-    AllowFieldBattle: true
-    AllowFriendlyMission: false
-    AllowHideOut: false
-    AllowSiegeBattle: true
-    AllowVillageBattle: true
-    AllowWhenDepleted: false
-    GoldCost: 0
-    HealPerSecond: 0
-    OnPlayerSide: false
-    PreferredFormation: Infantry
-  Help: ''
-  HideHelp: false
-  ID: 9082614c-46a3-47f9-b198-e56babde5745
-  Name: attack
   RespondInOverlay: true
   RespondInTwitch: false
 DisableAutomaticFulfillment: false
@@ -1639,6 +1653,9 @@ GlobalConfigs:
 - Config:
     DisableEffectsInTournaments: true
   Id: Buffet - Effects Config
+- Config:
+    HeroesListMaxHeight: 5
+  Id: BLT Configure - Overlay Config
 - Config:
     DisablePowersInTournaments: true
     PowerDefs:
@@ -3443,7 +3460,7 @@ GlobalConfigs:
     WinXP: 50000
   Id: Adopt A Hero - Tournament Config
 Rewards:
-- Documentation: '{=QvsPkvip}Get a hero in game with a specific culture. Almost all other actions require an adopted hero.'
+- Documentation: Adopt a randomly selected Hero, filtered by Culture. Almost all other actions require an adopted hero.
   Enabled: true
   Handler: AdoptAHero
   HandlerConfig:
@@ -3494,7 +3511,7 @@ Rewards:
     MaxPerUserPerStream: 
     Prompt: '{=6amYI1lf}Get a hero in game with a specific culture. Almost all other actions require an adopted hero. Enter part of the culture name:'
     Title: Adopt a Hero by Culture
-- Documentation: '{=sfRvB3aN}Get a hero in game with a specific faction. Almost all other actions require an adopted hero.'
+- Documentation: Adopt a randomly selected Hero, filtered by Faction. Almost all other actions require an adopted hero.
   Enabled: true
   Handler: AdoptAHero
   HandlerConfig:
@@ -3545,7 +3562,7 @@ Rewards:
     MaxPerUserPerStream: 
     Prompt: '{=1ODCoogZ}Get a hero in game with a specific faction. Almost all other actions require an adopted hero. Enter part of the faction name:'
     Title: Adopt a Hero by Faction
-- Documentation: '{=dirEUQc7}Get a hero in game. Almost all other actions require an adopted hero.'
+- Documentation: Adopt a randomly selected Hero. Almost all other actions require an adopted hero.
   Enabled: true
   Handler: AdoptAHero
   HandlerConfig:
@@ -3800,7 +3817,8 @@ Rewards:
 - Documentation: '{=SXzjFdG1}Use this if you no longer wish to play with your current hero. They will be marked as (retired), and you will then be able to adopt a new one. Inheritence rules apply the same to retirement as they do to death. You MUST enter yes at the prompt (exactly as written, in lower case) for the retirement to complete.'
   Enabled: false
   Handler: RetireMyHero
-  HandlerConfig: 
+  HandlerConfig:
+    RetireCreatedOnly: true
   ID: 60d43b2b-d1cb-4411-a126-d5089c264aca
   RespondInOverlay: true
   RespondInTwitch: true
