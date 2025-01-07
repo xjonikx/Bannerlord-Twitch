@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using BannerlordTwitch;
 using BannerlordTwitch.Localization;
 using BannerlordTwitch.Util;
 using BLTAdoptAHero.Annotations;
@@ -16,20 +15,20 @@ namespace BLTAdoptAHero.Achievements
     {
         #region User Editable
         [LocDisplayName("{=WwKyvotH}Current Class"),
-         LocDescription("{=S9kGgf0r}Requirement uses current class, useful for class power unlocks so you don't have to specify the class explicitly"), 
+         LocDescription("{=S9kGgf0r}Requirement uses current class, useful for class power unlocks so you don't have to specify the class explicitly"),
          PropertyOrder(5), UsedImplicitly]
         public bool CurrentClass { get; set; }
-        
+
         [LocDisplayName("{=5QwSEOc3}Required Class"),
-         LocDescription("{=G34P8lCu}Class required to get this achievement. If (none) is specified then the achievement will apply ONLY when the hero doesn't have a class set."), 
+         LocDescription("{=G34P8lCu}Class required to get this achievement. If (none) is specified then the achievement will apply ONLY when the hero doesn't have a class set."),
          PropertyOrder(6), ItemsSource(typeof(HeroClassDef.ItemSource)), UsedImplicitly]
         public Guid RequiredClass { get; set; }
         #endregion
-        
+
         #region Public Interface
         public override bool IsMet(Hero hero)
         {
-            int stat = BLTAdoptAHeroCampaignBehavior.Current.GetAchievementClassStat(hero, 
+            int stat = BLTAdoptAHeroCampaignBehavior.Current.GetAchievementClassStat(hero,
                 CurrentClass ? (hero.GetClass()?.ID ?? Guid.Empty) : RequiredClass, Statistic
                 );
             int val = OtherStatistic == AchievementStatsData.Statistic.None
@@ -37,28 +36,28 @@ namespace BLTAdoptAHero.Achievements
                 : BLTAdoptAHeroCampaignBehavior.Current.GetAchievementClassStat(hero, RequiredClass, OtherStatistic);
             return IsMet(stat, Comparison, val);
         }
-        
+
         public StatisticClassSpecificRequirement()
         {
             // For when these are created via the configure tool
-            ClassConfig = ConfigureContext.CurrentlyEditedSettings == null 
+            ClassConfig = ConfigureContext.CurrentlyEditedSettings == null
                 ? null : GlobalHeroClassConfig.Get(ConfigureContext.CurrentlyEditedSettings);
         }
 
         [YamlIgnore, Browsable(false)]
-        public override string Description 
+        public override string Description
             => base.Description + " [" + "{=j3YG9dCh}class".Translate() + ": " +
                ("Class",
                    CurrentClass
-                    ? "{=RXXuHIdN}(current)".Translate() 
+                    ? "{=RXXuHIdN}(current)".Translate()
                     : ClassConfig.GetClass(RequiredClass)?.Name ?? "{=dPEnuHsk}(none)".Translate());
         #endregion
-        
+
         #region Implementation Details
         [YamlIgnore, Browsable(false)]
         private GlobalHeroClassConfig ClassConfig { get; set; }
         #endregion
-        
+
         #region ILoaded
         public void OnLoaded(BannerlordTwitch.Settings settings)
         {

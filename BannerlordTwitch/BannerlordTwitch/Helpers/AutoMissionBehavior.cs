@@ -11,7 +11,7 @@ namespace BannerlordTwitch.Helpers
 
         public static T Current => MissionState.Current?.CurrentMission?.GetMissionBehavior<T>();
 
-        protected void SafeCall(Action a, [CallerMemberName]string fnName = "")
+        protected void SafeCall(Action a, [CallerMemberName] string fnName = "")
         {
 #if !DEBUG
             try
@@ -26,14 +26,14 @@ namespace BannerlordTwitch.Helpers
             }
 #endif
         }
-        
-        protected static void SafeCallStatic(Action a, [CallerMemberName]string fnName = "")
+
+        protected static void SafeCallStatic(Action a, [CallerMemberName] string fnName = "")
         {
 #if !DEBUG
             try
             {
 #endif
-            a();
+                a();
 #if !DEBUG
             }
             catch (Exception e)
@@ -42,14 +42,14 @@ namespace BannerlordTwitch.Helpers
             }
 #endif
         }
-        
-        protected static U SafeCallStatic<U>(Func<U> a, U def, [CallerMemberName]string fnName = "")
+
+        protected static U SafeCallStatic<U>(Func<U> a, U def, [CallerMemberName] string fnName = "")
         {
 #if !DEBUG
             try
             {
 #endif
-            return a();
+                return a();
 #if !DEBUG
             }
             catch (Exception e)

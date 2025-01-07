@@ -11,7 +11,7 @@ namespace BLTConfigure
 {
     public static class TwitchAuthHelper
     {
-        private const string HttpRedirect = 
+        private const string HttpRedirect =
             @"
             <!DOCTYPE html>
             <html lang=""en"">
@@ -39,9 +39,9 @@ namespace BLTConfigure
 
         private const int Port = 18211;
         public const string ClientID = "spo54cze6gxb3zs5qrq4njistimg87";
-        
+
         private static readonly HttpClient client = new HttpClient();
-        
+
         public static async Task<string> Authorize(params string[] scopes)
         {
             // Make sure we close before we try again
@@ -69,7 +69,7 @@ namespace BLTConfigure
                         text = await reader.ReadToEndAsync();
                     }
                     listener.Close();
-                    
+
                     var keyValuePairs = HttpUtility.UrlDecode(text)
                         .Split('&')
                         .Select(kv => kv.Split('='))

@@ -11,21 +11,21 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 namespace BLTAdoptAHero
 {
     [LocDisplayName("{=TmUJ8VU7}Add Attribute Points"),
-     LocDescription("{=YrYFBWaw}Improve adopted heroes attribute points"), 
+     LocDescription("{=YrYFBWaw}Improve adopted heroes attribute points"),
      UsedImplicitly]
     internal class AttributePoints : ImproveAdoptedHero
     {
         protected class AttributePointsSettings : SettingsBase, IDocumentable
         {
             [LocDisplayName("{=ibuIZ39r}Random"),
-             LocDescription("{=2F4MZn5h}If set a random attribute is improved, otherwise the viewer should provide part of the name of the attribute to improve (this works best as a chat command)"), 
+             LocDescription("{=2F4MZn5h}If set a random attribute is improved, otherwise the viewer should provide part of the name of the attribute to improve (this works best as a chat command)"),
              PropertyOrder(1), UsedImplicitly]
             public bool Random { get; set; } = true;
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.P(Random ? 
-                    "{=JQdCfO2H}Random attribute".Translate() 
+                generator.P(Random ?
+                    "{=JQdCfO2H}Random attribute".Translate()
                     : "{=hSPAbHWb}Provide the attribute name (or part of it) when calling this".Translate());
                 generator.PropertyValuePair("{=DKfKt4qP}Amount".Translate(),
                     AmountLow == AmountHigh
@@ -38,13 +38,13 @@ namespace BLTAdoptAHero
                 }
             }
         }
-        
+
         protected override Type ConfigType => typeof(AttributePointsSettings);
-        
+
         protected override (bool success, string description) Improve(string userName,
             Hero adoptedHero, int amount, SettingsBase baseSettings, string args)
         {
-            var settings = (AttributePointsSettings) baseSettings;
+            var settings = (AttributePointsSettings)baseSettings;
 
             return IncreaseAttribute(adoptedHero, amount, settings.Random, args);
         }
@@ -80,7 +80,7 @@ namespace BLTAdoptAHero
                     .Any(a => CampaignHelpers.GetAttributeName(a).ToLower().Contains(args.ToLower())))
                 {
                     return (false, "{=LE3POzUs}Couldn't find attribute matching '{Args}'!".Translate(("Args", args)));
-                } 
+                }
                 attribute = CampaignHelpers.AllAttributes
                     .First(a => CampaignHelpers.GetAttributeName(a).ToLower().Contains(args.ToLower()));
                 if (!improvableAttributes.Contains(attribute))
@@ -89,10 +89,10 @@ namespace BLTAdoptAHero
                         .Translate(("Attribute", attribute)));
                 }
             }
-            
+
             amount = Math.Min(amount, 10 - adoptedHero.GetAttributeValue(attribute));
             adoptedHero.HeroDeveloper.AddAttribute(attribute, amount, checkUnspentPoints: false);
-            return (true, 
+            return (true,
                     (amount > 1
                         ? "{=Sl1bdnfy}You have gained {Amount} points in {Attribute}, you now have {NewAmount}!"
                         : "{=2vli3BCR}You have gained a point in {Attribute}, you now have {NewAmount}!")

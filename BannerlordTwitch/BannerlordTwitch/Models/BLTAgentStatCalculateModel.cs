@@ -11,7 +11,7 @@ namespace BannerlordTwitch.Models
     public class BLTAgentStatCalculateModel : SandboxAgentStatCalculateModel
     {
         private readonly AgentStatCalculateModel previousModel;
-        
+
         public static BLTAgentStatCalculateModel Current { get; private set; }
 
         public BLTAgentStatCalculateModel(AgentStatCalculateModel previousModel)
@@ -26,7 +26,7 @@ namespace BannerlordTwitch.Models
             Current = this;
         }
 
-        public override void InitializeAgentStats(Agent agent, Equipment spawnEquipment, 
+        public override void InitializeAgentStats(Agent agent, Equipment spawnEquipment,
             AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData)
         {
             previousModel.InitializeAgentStats(agent, spawnEquipment, agentDrivenProperties, agentBuildData);
@@ -47,7 +47,7 @@ namespace BannerlordTwitch.Models
 
         public void AddModifier(Hero hero, SkillModifierDef modifier)
         {
-            if(!activeModifiers.TryGetValue(hero, out var modifiers))
+            if (!activeModifiers.TryGetValue(hero, out var modifiers))
             {
                 modifiers = new();
                 activeModifiers.Add(hero, modifiers);
@@ -55,7 +55,7 @@ namespace BannerlordTwitch.Models
 
             modifiers.Add(modifier);
         }
-        
+
         public void RemoveModifiers(Hero hero, IEnumerable<SkillModifierDef> modifiers)
         {
             foreach (var m in modifiers)
@@ -63,22 +63,22 @@ namespace BannerlordTwitch.Models
                 RemoveModifier(hero, m);
             }
         }
-        
+
         public void RemoveModifier(Hero hero, SkillModifierDef modifier)
         {
-            if(activeModifiers.TryGetValue(hero, out var modifiers))
+            if (activeModifiers.TryGetValue(hero, out var modifiers))
             {
                 modifiers.Remove(modifier);
             }
         }
-        
-        private readonly Dictionary<Hero, List<SkillModifierDef>> activeModifiers = new(); 
+
+        private readonly Dictionary<Hero, List<SkillModifierDef>> activeModifiers = new();
 
         public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
         {
             // Our EffectiveSkill override is called from UpdateAgentStats
             var hero = (agent.Character as CharacterObject)?.HeroObject;
-            if(hero != null && activeModifiers.ContainsKey(hero))
+            if (hero != null && activeModifiers.ContainsKey(hero))
                 base.UpdateAgentStats(agent, agentDrivenProperties);
             else
                 previousModel.UpdateAgentStats(agent, agentDrivenProperties);
@@ -120,7 +120,7 @@ namespace BannerlordTwitch.Models
                     .Aggregate(baseModifiedSkill, (current, m) => m.Apply(current));
             }
 
-            return (int) baseModifiedSkill;
+            return (int)baseModifiedSkill;
         }
 
         // public override int GetEffectiveSkill(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BannerlordTwitch.Annotations;
-using Microsoft.AspNet.SignalR;
 using BannerlordTwitch.Util;
+using Microsoft.AspNet.SignalR;
 
 namespace BLTOverlay
 {
@@ -38,9 +38,9 @@ namespace BLTOverlay
 
         public static void AddUser(string displayName, string colorHex)
         {
-            lock(users)
+            lock (users)
             {
-                var userData = new User { color = colorHex, displayName = displayName};
+                var userData = new User { color = colorHex, displayName = displayName };
                 users[displayName.ToLower()] = userData;
                 GlobalHost.ConnectionManager.GetHubContext<TwitchHub>()
                     .Clients.All.addUser(displayName, userData);

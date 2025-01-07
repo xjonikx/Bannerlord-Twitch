@@ -29,7 +29,7 @@ namespace BannerlordTwitch.Util
                 emitter.Emit(new Scalar((value as LocString)?.Value ?? string.Empty));
             }
         }
-        
+
         private class SortedTypeInspector : TypeInspectorSkeleton
         {
             private readonly ITypeInspector innerTypeInspector;
@@ -44,14 +44,14 @@ namespace BannerlordTwitch.Util
                 return innerTypeInspector.GetProperties(type, container).OrderBy(x => x.Name);
             }
         }
-        
+
         public static string Serialize(object obj) => CreateDefaultSerializer().Serialize(obj);
         public static object Deserialize(string str, Type type) => CreateDefaultDeserializer().Deserialize(str, type);
         public static string SerializeUntagged(object obj) => CreateUntaggedSerializer().Serialize(obj);
         public static object DeserializeUntagged(string str, Type type) => CreateUntaggedDeserializer().Deserialize(str, type);
 
         public static T Deserialize<T>(string str) => (T)Deserialize(str, typeof(T));
-        
+
         public static ISerializer CreateDefaultSerializer()
         {
             var builder = new SerializerBuilder();
@@ -71,7 +71,7 @@ namespace BannerlordTwitch.Util
             .WithTypeConverter(new LocStringStringConverter())
             .IgnoreUnmatchedProperties()
             .Build();
-        
+
         public static ISerializer CreateUntaggedSerializer()
         {
             var builder = new SerializerBuilder();
@@ -86,14 +86,14 @@ namespace BannerlordTwitch.Util
             .WithTypeConverter(new LocStringStringConverter())
             .IgnoreUnmatchedProperties()
             .Build();
-        
+
         public static object ConvertObject(object obj, Type type) => Deserialize(Serialize(obj), type);
-        public static object ConvertObjectUntagged(object obj, Type type) 
+        public static object ConvertObjectUntagged(object obj, Type type)
             => DeserializeUntagged(SerializeUntagged(obj), type);
         public static T ConvertObject<T>(object obj) => (T)ConvertObject(obj, typeof(T));
 
         private static readonly Lazy<TaggedNodeTypeResolver> nodeTypeResolver = new(() => new());
-        
+
         // From https://github.com/aaubry/YamlDotNet/issues/343#issuecomment-424882014
         private sealed class TaggedNodeTypeResolver : INodeTypeResolver
         {
@@ -106,7 +106,7 @@ namespace BannerlordTwitch.Util
                 var taggedTypes = AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(s => s.GetTypes())
                     .Where(p => p.GetCustomAttribute<YamlTagged>() != null);
-                
+
                 tagMappings = taggedTypes.ToDictionary(t => "!" + t.Name, t => t);
             }
 
@@ -122,7 +122,7 @@ namespace BannerlordTwitch.Util
                 if (typeName.EndsWith("[]")) // this handles tags for array types like "!TargetingData[]"
                 {
                     arrayType = true;
-                    typeName = typeName.Substring(0, typeName.Length-2);
+                    typeName = typeName.Substring(0, typeName.Length - 2);
                 }
 
                 if (tagMappings.TryGetValue(typeName, out var predefinedType))

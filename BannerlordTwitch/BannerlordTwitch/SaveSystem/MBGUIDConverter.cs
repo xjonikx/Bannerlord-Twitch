@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-
-using System;
-
+﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.ObjectSystem;
 
 namespace BannerlordTwitch.SaveSystem

@@ -6,34 +6,33 @@ using BannerlordTwitch.Localization;
 using BannerlordTwitch.Util;
 using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.Core;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=mpdzqyCK}Skill XP"), 
-     LocDescription("{=Bc2HIByX}Improve adopted heroes skills"), 
+    [LocDisplayName("{=mpdzqyCK}Skill XP"),
+     LocDescription("{=Bc2HIByX}Improve adopted heroes skills"),
      UsedImplicitly]
     internal class SkillXP : ImproveAdoptedHero
     {
         protected class SkillXPSettings : SettingsBase, IDocumentable
         {
-            [LocDisplayName("{=rAGAEUIH}Skills"), 
-             LocDescription("{=wo5VSDaj}What to improve"), 
+            [LocDisplayName("{=rAGAEUIH}Skills"),
+             LocDescription("{=wo5VSDaj}What to improve"),
              PropertyOrder(1), UsedImplicitly]
             public SkillsEnum Skills { get; set; }
 
-            [LocDisplayName("{=LVp7Llay}Auto"), 
+            [LocDisplayName("{=LVp7Llay}Auto"),
              LocDescription("{=CTCcqB3Y}Chooses a random skill to add XP to, prefering class skills, then skills for current equipment, then other skills. Skills setting is ignored when auto is used."),
              PropertyOrder(2), UsedImplicitly]
             public bool Auto { get; set; } = true;
-            
+
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.PropertyValuePair(Naming.Skills, 
-                    Auto 
-                        ? "{=QJ9Cssr7}Automatic, based on class, equipment, and existing skills".Translate() 
+                generator.PropertyValuePair(Naming.Skills,
+                    Auto
+                        ? "{=QJ9Cssr7}Automatic, based on class, equipment, and existing skills".Translate()
                         : Skills.GetDisplayName());
                 generator.PropertyValuePair(Naming.XP,
                     AmountLow == AmountHigh
@@ -51,13 +50,13 @@ namespace BLTAdoptAHero
         protected override (bool success, string description) Improve(string userName,
             Hero adoptedHero, int amount, SettingsBase baseSettings, string args)
         {
-            var settings = (SkillXPSettings) baseSettings;
+            var settings = (SkillXPSettings)baseSettings;
             return ImproveSkill(adoptedHero, amount, settings.Skills, settings.Auto);
         }
 
         public static (bool success, string description) ImproveSkill(Hero hero, int amount, SkillsEnum skills, bool auto)
         {
-            var skill = GetSkill(hero, skills, auto, so 
+            var skill = GetSkill(hero, skills, auto, so
                 => BLTAdoptAHeroModule.CommonConfig.UseRawXP && hero.GetSkillValue(so) < BLTAdoptAHeroModule.CommonConfig.RawXPSkillCap
                    || hero.HeroDeveloper.GetFocusFactor(so) > 0);
             if (skill == null)

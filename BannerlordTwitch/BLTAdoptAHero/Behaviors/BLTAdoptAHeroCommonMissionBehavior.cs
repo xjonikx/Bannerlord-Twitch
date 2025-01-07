@@ -49,7 +49,7 @@ namespace BLTAdoptAHero
                 if (BLTAdoptAHeroModule.CommonConfig.DifficultyScalingOnPlayersSide)
                 {
                     return MathF.Clamp(MathF.Pow(EnemyPowerRatio, BLTAdoptAHeroModule.CommonConfig.DifficultyScalingClamped),
-                        BLTAdoptAHeroModule.CommonConfig.DifficultyScalingMinClamped, 
+                        BLTAdoptAHeroModule.CommonConfig.DifficultyScalingMinClamped,
                         BLTAdoptAHeroModule.CommonConfig.DifficultyScalingMaxClamped);
                 }
                 else
@@ -58,7 +58,7 @@ namespace BLTAdoptAHero
                 }
             }
         }
-        
+
         public float EnemySideRewardMultiplier
         {
             get
@@ -66,7 +66,7 @@ namespace BLTAdoptAHero
                 if (BLTAdoptAHeroModule.CommonConfig.DifficultyScalingOnEnemySide)
                 {
                     return MathF.Clamp(MathF.Pow(PlayerPowerRatio, BLTAdoptAHeroModule.CommonConfig.DifficultyScalingClamped),
-                        BLTAdoptAHeroModule.CommonConfig.DifficultyScalingMinClamped, 
+                        BLTAdoptAHeroModule.CommonConfig.DifficultyScalingMinClamped,
                         BLTAdoptAHeroModule.CommonConfig.DifficultyScalingMaxClamped);
                 }
                 else
@@ -157,9 +157,9 @@ namespace BLTAdoptAHero
         public static void OnAgentRemovedPrefix(Mission __instance, Agent affectedAgent, Agent affectorAgent,
             ref AgentState agentState, KillingBlow killingBlow)
         {
-            #if !DEBUG
+#if !DEBUG
             try
-            #endif
+#endif
             {
                 if (affectedAgent.State == AgentState.Killed)
                 {
@@ -192,12 +192,12 @@ namespace BLTAdoptAHero
                 // Remove agent from mount tracking (if its not a mount or isn't tracked then this line doesn't do anything)
                 Current?.adoptedHeroMounts.Remove(affectedAgent);
             }
-            #if !DEBUG
+#if !DEBUG
             catch (Exception ex)
             {
                 Log.Exception($"{nameof(BLTAdoptAHeroCommonMissionBehavior)}.{nameof(OnAgentRemovedPrefix)}", ex);
             }
-            #endif
+#endif
         }
 
         public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
@@ -244,17 +244,17 @@ namespace BLTAdoptAHero
                         float horseFactor = affectedAgent?.IsHuman == false ? 0.25f : 1;
                         ApplyKillEffects(
                             affectorHero, affectorAgent, affectedAgent, agentState,
-                            (int) (BLTAdoptAHeroModule.CommonConfig.GoldPerKill * horseFactor),
-                            (int) (BLTAdoptAHeroModule.CommonConfig.HealPerKill * horseFactor),
-                            (int) (BLTAdoptAHeroModule.CommonConfig.XPPerKill * horseFactor),
+                            (int)(BLTAdoptAHeroModule.CommonConfig.GoldPerKill * horseFactor),
+                            (int)(BLTAdoptAHeroModule.CommonConfig.HealPerKill * horseFactor),
+                            (int)(BLTAdoptAHeroModule.CommonConfig.XPPerKill * horseFactor),
                             Math.Max(BLTAdoptAHeroModule.CommonConfig.SubBoost, 1),
                             BLTAdoptAHeroModule.CommonConfig.RelativeLevelScaling,
                             BLTAdoptAHeroModule.CommonConfig.LevelScalingCap
                         );
                     }
 
-                    if (affectedAgent?.IsHuman == true && agentState is AgentState.Unconscious or AgentState.Killed 
-                        && (!BLTAdoptAHeroModule.TournamentConfig.DisableTrackingKillsTournament 
+                    if (affectedAgent?.IsHuman == true && agentState is AgentState.Unconscious or AgentState.Killed
+                        && (!BLTAdoptAHeroModule.TournamentConfig.DisableTrackingKillsTournament
                             || !MissionHelpers.InTournament()))
                     {
                         GetHeroMissionState(affectorHero).Kills++;
@@ -280,7 +280,7 @@ namespace BLTAdoptAHero
         // {
         //     
         // }
-        
+
         private void AddKillStreak(Hero hero)
         {
             // declare variable right where it's passed
@@ -290,8 +290,8 @@ namespace BLTAdoptAHero
             var currKillStreak = BLTAdoptAHeroModule.CommonConfig.KillStreaks?.FirstOrDefault(k => k.Enabled && heroState.KillStreak == k.KillsRequired);
             if (currKillStreak != null)
             {
-                if (BLTAdoptAHeroModule.CommonConfig.ShowKillStreakPopup 
-                    && currKillStreak.ShowNotification 
+                if (BLTAdoptAHeroModule.CommonConfig.ShowKillStreakPopup
+                    && currKillStreak.ShowNotification
                     && !LocString.IsNullOrEmpty(currKillStreak.NotificationText))
                 {
                     string message = currKillStreak.NotificationText.ToString()
@@ -323,8 +323,8 @@ namespace BLTAdoptAHero
 
             return state;
         }
-        
-        private static bool IsHeroOnPlayerSide(Hero hero) 
+
+        private static bool IsHeroOnPlayerSide(Hero hero)
             => hero.PartyBelongedTo?.MapEventSide?.MissionSide == PlayerEncounter.Current?.PlayerSide;
 
         private void UpdateHeroVM(Hero hero)
@@ -337,11 +337,11 @@ namespace BLTAdoptAHero
             }
 
             var summonState = BLTSummonBehavior.Current?.GetHeroSummonState(hero);
-            
+
             var agent = summonState?.CurrentAgent ?? hero.GetAgent();
 
             var state = summonState?.State ?? agent?.State ?? heroState.LastAgentState;
-            
+
             // So that heroes are cleaned up at the end of rounds in tournament 
             bool shouldRemove = agent?.State is not AgentState.Active && MissionHelpers.InTournament();
 
@@ -394,15 +394,15 @@ namespace BLTAdoptAHero
         //         AgentState.Deleted => "deleted",
         //         _ => "fondled"
         //     };
-        
+
         // public const int MaxLevel = 62;
         public const int MaxLevelInPractice = 32;
-        
+
         // https://www.desmos.com/calculator/frzo6bkrwv
         // value returned is 0 < v < 1 if levelB < levelA, v = 1 if they are equal, and 1 < v < max if levelB > levelA
-        public static float RelativeLevelScaling(int levelA, int levelB, float n, float max = float.MaxValue) 
+        public static float RelativeLevelScaling(int levelA, int levelB, float n, float max = float.MaxValue)
             => Math.Min(MathF.Pow(1f - Math.Min(MaxLevelInPractice - 1, levelB - levelA) / (float)MaxLevelInPractice, -10f * MathF.Clamp(n, 0, 1)), max);
-        
+
         public void ApplyStreakEffects(Hero hero, int goldStreak, int xpStreak, float subBoost, float? relativeLevelScaling, float? levelScalingCap)
         {
             goldStreak = (int)(goldStreak * subBoost);
@@ -435,18 +435,18 @@ namespace BLTAdoptAHero
 
         public void ApplyKillEffects(Hero hero, Agent killer, Agent killed, AgentState state, int goldPerKill, int healPerKill, int xpPerKill, float subBoost, float? relativeLevelScaling, float? levelScalingCap)
         {
-            goldPerKill = (int) (goldPerKill * subBoost);
-            healPerKill = (int) (healPerKill * subBoost);
-            xpPerKill = (int) (xpPerKill * subBoost);
+            goldPerKill = (int)(goldPerKill * subBoost);
+            healPerKill = (int)(healPerKill * subBoost);
+            xpPerKill = (int)(xpPerKill * subBoost);
 
             if (relativeLevelScaling.HasValue && killed?.Character != null)
             {
                 // More reward for killing higher level characters
                 float levelBoost = RelativeLevelScaling(hero.Level, killed.Character.Level, relativeLevelScaling.Value, levelScalingCap ?? 5);
 
-                goldPerKill = (int) (goldPerKill * levelBoost);
-                healPerKill = (int) (healPerKill * levelBoost);
-                xpPerKill = (int) (xpPerKill * levelBoost);
+                goldPerKill = (int)(goldPerKill * levelBoost);
+                healPerKill = (int)(healPerKill * levelBoost);
+                xpPerKill = (int)(xpPerKill * levelBoost);
             }
 
             if (goldPerKill != 0)
@@ -454,7 +454,7 @@ namespace BLTAdoptAHero
                 BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(hero, goldPerKill);
                 GetHeroMissionState(hero).WonGold += goldPerKill;
             }
-            
+
             if (healPerKill != 0)
             {
                 killer.Health = Math.Min(killer.HealthLimit, killer.Health + healPerKill);
@@ -469,14 +469,14 @@ namespace BLTAdoptAHero
 
         private void ApplyKilledEffects(Hero hero, Agent killer, AgentState state, int xpPerKilled, float subBoost, float? relativeLevelScaling, float? levelScalingCap)
         {
-            xpPerKilled = (int) (xpPerKilled * subBoost);
+            xpPerKilled = (int)(xpPerKilled * subBoost);
 
             if (relativeLevelScaling.HasValue && killer?.Character != null)
             {
                 // More reward for being killed by higher level characters
                 float levelBoost = RelativeLevelScaling(hero.Level, killer.Character.Level, relativeLevelScaling.Value, levelScalingCap ?? 5);
 
-                xpPerKilled = (int) (xpPerKilled * levelBoost);
+                xpPerKilled = (int)(xpPerKilled * levelBoost);
             }
 
             if (xpPerKilled != 0)
@@ -490,7 +490,7 @@ namespace BLTAdoptAHero
         {
             GetHeroMissionState(hero).WonGold += gold;
         }
-        
+
         public void RecordXPGain(Hero hero, int xp)
         {
             GetHeroMissionState(hero).WonXP += xp;

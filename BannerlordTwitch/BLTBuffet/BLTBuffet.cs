@@ -21,7 +21,7 @@ namespace BLTBuffet
             ActionManager.RegisterAll(typeof(BLTBuffetModule).Assembly);
             GlobalEffectsConfig.Register();
         }
-        
+
         private static Harmony harmony;
 
         protected override void OnSubModuleLoad()
@@ -40,26 +40,26 @@ namespace BLTBuffet
                 }
             }
         }
-        
+
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
         {
-            if(game.GameType is Campaign) 
+            if (game.GameType is Campaign)
             {
                 // Reload settings here so they are fresh
                 EffectsConfig = GlobalEffectsConfig.Get();
             }
         }
-        
+
         [LocDisplayName("{=cBeIA9V1}Effects Config")]
         internal class GlobalEffectsConfig
         {
             private const string ID = "Buffet - Effects Config";
             internal static void Register() => ActionManager.RegisterGlobalConfigType(ID, typeof(GlobalEffectsConfig));
             internal static GlobalEffectsConfig Get() => ActionManager.GetGlobalConfig<GlobalEffectsConfig>(ID);
-        
+
             [LocDisplayName("{=cUN7xx0t}Disable Effects In Tournaments"),
              LocDescription("{=X0AtIvbh}Whether effects are disabled in a tournament"),
-             UsedImplicitly] 
+             UsedImplicitly]
             public bool DisableEffectsInTournaments { get; set; } = true;
         }
     }

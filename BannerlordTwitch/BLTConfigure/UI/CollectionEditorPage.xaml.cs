@@ -23,12 +23,12 @@ namespace BLTConfigure.UI
             ItemsSource = itemsSource;
             ItemsSourceType = itemsSourceType;
             NewItemTypes = newItemTypes;
-            
+
             DataContext = this;
             InitializeComponent();
         }
 
-        private void BackButton_Click( object sender, RoutedEventArgs e )
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             CollectionControl.PersistChanges();
             this.NavigationService?.GoBack();
@@ -36,7 +36,7 @@ namespace BLTConfigure.UI
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void CollectionPropertyEditor_OpenCollectionEditor(object sender, 
+        private void CollectionPropertyEditor_OpenCollectionEditor(object sender,
             CollectionPropertyEditor.OpenCollectionEditorEventArgs e)
         {
             this.NavigationService?.Navigate(new CollectionEditorPage(

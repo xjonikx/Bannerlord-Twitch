@@ -28,7 +28,7 @@ namespace BLTConfigure
                 return DefaultVisibility;
             var converter = TypeDescriptor.GetConverter(value.GetType());
             object defaultTyped = converter.ConvertFrom(Default);
-            return value.Equals(defaultTyped) ? DefaultVisibility : NonDefaultVisibility;    
+            return value.Equals(defaultTyped) ? DefaultVisibility : NonDefaultVisibility;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

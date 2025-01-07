@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using TwitchLib.Api.Core.Enums;
 using TwitchLib.Api.Core.Exceptions;
 using TwitchLib.Api.Core.Interfaces;
@@ -30,7 +27,7 @@ namespace BannerlordTwitch
         /// <returns>Task for the request</returns>
         public async Task PutBytesAsync(string url, byte[] payload)
         {
-            HttpResponseMessage errorResp = await this._http.PutAsync(new Uri(url), (HttpContent) new ByteArrayContent(payload)).ConfigureAwait(false);
+            HttpResponseMessage errorResp = await this._http.PutAsync(new Uri(url), (HttpContent)new ByteArrayContent(payload)).ConfigureAwait(false);
             if (errorResp.IsSuccessStatusCode)
                 return;
             this.HandleWebException(errorResp);
@@ -75,12 +72,12 @@ namespace BannerlordTwitch
             if (!string.IsNullOrWhiteSpace(accessToken))
                 request.Headers.Add(HttpRequestHeader.Authorization.ToString(), str + " " + TwitchLib.Api.Core.Common.Helpers.FormatOAuth(accessToken));
             if (payload != null)
-                request.Content = (HttpContent) new StringContent(payload, Encoding.UTF8, "application/json");
+                request.Content = (HttpContent)new StringContent(payload, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await this._http.SendAsync(request).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
-                return new KeyValuePair<int, string>((int) response.StatusCode, await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+                return new KeyValuePair<int, string>((int)response.StatusCode, await response.Content.ReadAsStringAsync().ConfigureAwait(false));
             this.HandleWebException(response);
-            return new KeyValuePair<int, string>(0, (string) null);
+            return new KeyValuePair<int, string>(0, (string)null);
         }
 
         public async Task<int> RequestReturnResponseCodeAsync(
@@ -98,7 +95,7 @@ namespace BannerlordTwitch
                         url = url + "&" + getParams[index].Key + "=" + Uri.EscapeDataString(getParams[index].Value);
                 }
             }
-            return (int) (await this._http.SendAsync(new HttpRequestMessage()
+            return (int)(await this._http.SendAsync(new HttpRequestMessage()
             {
                 RequestUri = new Uri(url),
                 Method = new HttpMethod(method)
@@ -112,7 +109,7 @@ namespace BannerlordTwitch
             {
                 error = errorResp.Content?.ReadAsStringAsync().Result ?? "(no details given))";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 error = $"(error while attempting to read error response: {ex.Message})";
             }

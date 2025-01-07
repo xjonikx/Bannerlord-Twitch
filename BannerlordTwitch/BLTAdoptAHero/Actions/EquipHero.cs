@@ -17,47 +17,47 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 namespace BLTAdoptAHero
 {
     [LocDisplayName("{=3zBXys4m}Equip Hero"),
-     LocDescription("{=3QfHyF8g}Improve adopted heroes equipment"), 
+     LocDescription("{=3QfHyF8g}Improve adopted heroes equipment"),
      UsedImplicitly]
     internal class EquipHero : ActionHandlerBase
     {
         private class Settings : IDocumentable
         {
             [LocDisplayName("{=TGs8URfN}Allow Companion Upgrade"),
-             LocDescription("{=6zMgeovT}Allow improvement of adopted heroes who are also companions of the player."), 
+             LocDescription("{=6zMgeovT}Allow improvement of adopted heroes who are also companions of the player."),
              PropertyOrder(0), UsedImplicitly]
             public bool AllowCompanionUpgrade { get; set; } = true;
 
             [LocDisplayName("{=8qUzSxsQ}Cost Tier 1"),
-             LocDescription("{=4ipwvHaR}Gold cost for Tier 1 equipment"), 
+             LocDescription("{=4ipwvHaR}Gold cost for Tier 1 equipment"),
              PropertyOrder(1), UsedImplicitly]
             public int CostTier1 { get; set; } = 25000;
 
             [LocDisplayName("{=bjAzHOqD}Cost Tier 2"),
-             LocDescription("{=3uRKzeJv}Gold cost for Tier 2 equipment"), 
+             LocDescription("{=3uRKzeJv}Gold cost for Tier 2 equipment"),
              PropertyOrder(2), UsedImplicitly]
             public int CostTier2 { get; set; } = 50000;
 
             [LocDisplayName("{=EUw3jfcC}Cost Tier 3"),
-             LocDescription("{=vRTR2AVO}Gold cost for Tier 3 equipment"), 
+             LocDescription("{=vRTR2AVO}Gold cost for Tier 3 equipment"),
              PropertyOrder(3), UsedImplicitly]
             public int CostTier3 { get; set; } = 100000;
 
             [LocDisplayName("{=cvWxBhFl}Cost Tier 4"),
-             LocDescription("{=LeCyJf6T}Gold cost for Tier 4 equipment"), 
+             LocDescription("{=LeCyJf6T}Gold cost for Tier 4 equipment"),
              PropertyOrder(4), UsedImplicitly]
             public int CostTier4 { get; set; } = 175000;
 
             [LocDisplayName("{=Im4cXqCx}Cost Tier 5"),
-             LocDescription("{=4a0P89lE}Gold cost for Tier 5 equipment"), 
+             LocDescription("{=4a0P89lE}Gold cost for Tier 5 equipment"),
              PropertyOrder(5), UsedImplicitly]
             public int CostTier5 { get; set; } = 275000;
 
             [LocDisplayName("{=c1CI4H3y}Cost Tier 6"),
-             LocDescription("{=JkrTWsSf}Gold cost for Tier 6 equipment"), 
+             LocDescription("{=JkrTWsSf}Gold cost for Tier 6 equipment"),
              PropertyOrder(6), UsedImplicitly]
             public int CostTier6 { get; set; } = 400000;
-            
+
             public int GetTierCost(int tier)
             {
                 return tier switch
@@ -71,7 +71,7 @@ namespace BLTAdoptAHero
                     _ => CostTier6
                 };
             }
-            
+
             [LocDisplayName("{=GaTe1vEL}Reequip Instead Of Upgrade"),
              LocDescription("{=zTiLpc9G}Whether to re-equip the equipment INSTEAD of upgrading it (you should make TWO commands, one to upgrade and one to reequip)"),
              PropertyOrder(11), UsedImplicitly]
@@ -84,9 +84,9 @@ namespace BLTAdoptAHero
                     generator.P("{=IJtXQh2D}Re-rolls your equipment at your current tier".Translate());
                 }
 
-                generator.PropertyValuePair("{=wORNXOT5}Tier costs".Translate(), 
+                generator.PropertyValuePair("{=wORNXOT5}Tier costs".Translate(),
                     $"1={CostTier1}{Naming.Gold}, 2={CostTier2}{Naming.Gold}, 3={CostTier3}{Naming.Gold}, 4={CostTier4}{Naming.Gold}, 5={CostTier5}{Naming.Gold}, 5={CostTier5}{Naming.Gold}, 6={CostTier6}{Naming.Gold}");
-                
+
                 if (!AllowCompanionUpgrade)
                 {
                     generator.P("{=02iAT4Y8}Disallowed for player companions".Translate());
@@ -120,13 +120,13 @@ namespace BLTAdoptAHero
 
             int targetTier = Math.Max(0, BLTAdoptAHeroCampaignBehavior.Current.GetEquipmentTier(adoptedHero) +
                              (settings.ReequipInsteadOfUpgrade ? 0 : 1));
-            
+
             if (targetTier > 5)
             {
                 onFailure("{=FZh7ZtGp}You cannot upgrade any further!".Translate());
                 return;
             }
-            
+
             int cost = settings.GetTierCost(targetTier);
 
             int availableGold = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero);
@@ -210,8 +210,8 @@ namespace BLTAdoptAHero
                 var oldEquipment = availableItems.FirstOrDefault(i => filter?.Invoke(i.Item) != false);
                 if (!oldEquipment.IsEmpty)
                     return oldEquipment;
-                var foundItem = FindRandomTieredEquipment(targetTier, adoptedHero, 
-                    classDef?.Mounted == true, flags, o => filter?.Invoke(o) != false); 
+                var foundItem = FindRandomTieredEquipment(targetTier, adoptedHero,
+                    classDef?.Mounted == true, flags, o => filter?.Invoke(o) != false);
                 if (foundItem == null)
                     return default;
                 return new(foundItem);
@@ -234,9 +234,9 @@ namespace BLTAdoptAHero
                 foreach (var (equipmentType, slot) in classDef.SlotItems
                             .Zip(adoptedHero.BattleEquipment.YieldWeaponSlots(), (equipmentType, slot) => (equipmentType, slot)))
                 {
-                    var weapon = FindNewEquipment(e => e.IsEquipmentType(equipmentType), 
+                    var weapon = FindNewEquipment(e => e.IsEquipmentType(equipmentType),
                         equipmentType == EquipmentType.Stone ? FindFlags.AllowNonMerchandise : FindFlags.None);
-                    if(!weapon.IsEmpty)
+                    if (!weapon.IsEmpty)
                     {
                         adoptedHero.BattleEquipment[slot.index] = weapon;
                     }
@@ -246,16 +246,16 @@ namespace BLTAdoptAHero
             {
                 // Without class specified, we instead use some heuristics based on the heroes top weapon skills
                 static bool IsPrimaryWeaponItemType(ItemObject o) =>
-                    o.Type is ItemObject.ItemTypeEnum.OneHandedWeapon 
-                        or ItemObject.ItemTypeEnum.TwoHandedWeapon 
-                        or ItemObject.ItemTypeEnum.Polearm 
+                    o.Type is ItemObject.ItemTypeEnum.OneHandedWeapon
+                        or ItemObject.ItemTypeEnum.TwoHandedWeapon
+                        or ItemObject.ItemTypeEnum.Polearm
                         or ItemObject.ItemTypeEnum.Bow
-                        or ItemObject.ItemTypeEnum.Crossbow 
+                        or ItemObject.ItemTypeEnum.Crossbow
                         or ItemObject.ItemTypeEnum.Thrown;
-                
+
                 var addedWeapons = new List<EquipmentElement>();
                 var currSlot = EquipmentIndex.WeaponItemBeginSlot;
-                
+
                 var weaponSkillAndType = SkillGroup.SkillItemPairs
                     .OrderByDescending(s => adoptedHero.GetSkillValue(s.skill))
                     .First();
@@ -292,10 +292,10 @@ namespace BLTAdoptAHero
                     var weapon = SkillGroup.MeleeSkillItemPairs
                         .OrderByDescending(s => adoptedHero.GetSkillValue(s.skill))
                         .Select(s => FindNewEquipmentBySkill(
-                            s.skill, 
+                            s.skill,
                             o => IsPrimaryWeaponItemType(o) && WeaponIsSwingable(o)))
                         .FirstOrDefault(w => !w.IsEmpty);
-                    
+
                     if (!weapon.IsEmpty)
                     {
                         adoptedHero.BattleEquipment[currSlot++] = weapon;
@@ -305,7 +305,7 @@ namespace BLTAdoptAHero
 
                 // If we have space left then add a shield if we have a 1H weapon that allows shield
                 if (currSlot <= EquipmentIndex.Weapon3
-                    && addedWeapons.Any(w 
+                    && addedWeapons.Any(w
                         => !WeaponRequires(w.Item, ItemObject.ItemUsageSetFlags.RequiresNoShield)))
                 {
                     var shield = FindNewEquipmentByType(ItemObject.ItemTypeEnum.Shield);
@@ -321,7 +321,7 @@ namespace BLTAdoptAHero
             {
                 adoptedHero.BattleEquipment[index] = FindNewEquipmentByType(itemType);
             }
-            
+
             // We should assign a horse if using a class definition that specifies riding, OR 
             // if not using class definition and the riding skill is better than athletics, or polearm
             // is the top combat skill
@@ -329,11 +329,11 @@ namespace BLTAdoptAHero
             {
                 var horse = FindNewEquipmentByType(
                     ItemObject.ItemTypeEnum.Horse,
-                    h => 
+                    h =>
                         h.HorseComponent?.IsMount == true
                         && (classDef == null
-                            || classDef.UseHorse && h.HorseComponent.Monster.FamilyType == (int) MountFamilyType.horse
-                            || classDef.UseCamel && h.HorseComponent.Monster.FamilyType == (int) MountFamilyType.camel
+                            || classDef.UseHorse && h.HorseComponent.Monster.FamilyType == (int)MountFamilyType.horse
+                            || classDef.UseCamel && h.HorseComponent.Monster.FamilyType == (int)MountFamilyType.camel
                         ),
                     // allow non-merchandise mounts, to include the tournament prize ones, and ignore ability to allow camel riders to ride something
                     FindFlags.IgnoreAbility | FindFlags.AllowNonMerchandise
@@ -355,7 +355,7 @@ namespace BLTAdoptAHero
         public static bool HeroShouldUseHorse(Hero adoptedHero, HeroClassDef classDef)
         {
             var heroWeapons = adoptedHero.BattleEquipment.YieldFilledWeaponSlots().Select(e => e.element.Item).ToList();
-            return classDef is {Mounted: true} 
+            return classDef is { Mounted: true }
                    || classDef == null
                    && (
                        // One of our weapons requires a mount (not sure this is actually a thing)
@@ -369,22 +369,22 @@ namespace BLTAdoptAHero
                    );
         }
 
-        public static bool WeaponIsSwingable(ItemObject w) 
+        public static bool WeaponIsSwingable(ItemObject w)
             => w.PrimaryWeapon?.IsMeleeWeapon == true && w.PrimaryWeapon?.SwingDamageType != DamageTypes.Invalid;
 
-        public static bool WeaponRequires(ItemObject w, ItemObject.ItemUsageSetFlags flag) 
+        public static bool WeaponRequires(ItemObject w, ItemObject.ItemUsageSetFlags flag)
             => w.PrimaryWeapon?.ItemUsage != null && MBItem.GetItemUsageSetFlags(w.PrimaryWeapon.ItemUsage).HasFlag(flag);
 
         private static void UpgradeCivilian(Hero adoptedHero, int targetTier, bool replaceSameTier)
         {
-            void UpgradeItemInSlot(EquipmentIndex equipmentIndex, ItemObject.ItemTypeEnum itemType, 
+            void UpgradeItemInSlot(EquipmentIndex equipmentIndex, ItemObject.ItemTypeEnum itemType,
                 Equipment equipment, Hero hero, Func<ItemObject, bool> filter = null)
             {
                 var slot = equipment[equipmentIndex];
                 if (// Never replace custom items
-                    !BLTCustomItemsCampaignBehavior.Current.IsRegistered(slot.ItemModifier) 
+                    !BLTCustomItemsCampaignBehavior.Current.IsRegistered(slot.ItemModifier)
                     && (// Always fill empty slots
-                        slot.Item == null 
+                        slot.Item == null
                         // Always replace lower tier items
                         || (int)slot.Item.Tier < targetTier
                         // Only replace equal tier items if explicitly specified
@@ -394,20 +394,20 @@ namespace BLTAdoptAHero
                         // NOTE: We never replace higher tier items, unless they fail a non-tier related check
                         ))
                 {
-                    var item = FindRandomTieredEquipment(targetTier, hero, 
+                    var item = FindRandomTieredEquipment(targetTier, hero,
                         false, // never mounted in civilian clothes
-                        FindFlags.None, o 
+                        FindFlags.None, o
                         => o.ItemType == itemType && filter?.Invoke(o) != false);
                     if (item != null)
                     {
-                        equipment[equipmentIndex] = new (item);
+                        equipment[equipmentIndex] = new(item);
                     }
                 }
             }
-            
+
             foreach (var (index, itemType) in SkillGroup.ArmorIndexType)
             {
-                UpgradeItemInSlot(index, itemType, 
+                UpgradeItemInSlot(index, itemType,
                     adoptedHero.CivilianEquipment, adoptedHero, o => o.IsCivilian);
             }
 
@@ -416,8 +416,8 @@ namespace BLTAdoptAHero
             {
                 adoptedHero.CivilianEquipment[x.index] = EquipmentElement.Invalid;
             }
-            
-            UpgradeItemInSlot(EquipmentIndex.Weapon0, ItemObject.ItemTypeEnum.OneHandedWeapon, 
+
+            UpgradeItemInSlot(EquipmentIndex.Weapon0, ItemObject.ItemTypeEnum.OneHandedWeapon,
                 adoptedHero.CivilianEquipment, adoptedHero);
         }
 
@@ -460,7 +460,7 @@ namespace BLTAdoptAHero
             if (flags.HasFlag(FindFlags.RequireExactTier))
             {
                 return items
-                    .Where(item => (int) item.Tier == tier)
+                    .Where(item => (int)item.Tier == tier)
                     .SelectRandom();
             }
             else
@@ -473,7 +473,7 @@ namespace BLTAdoptAHero
         {
             // This should order the tier groups to be
             // (closest tier below the desired one), (closest tier above the desired one), etc...
-            var tieredItems = items.GroupBy(item => (int) item.Tier)
+            var tieredItems = items.GroupBy(item => (int)item.Tier)
                 .OrderBy(t => 100 * Math.Abs(tier - t.Key) + t.Key)
                 .ToList();
 
@@ -485,9 +485,9 @@ namespace BLTAdoptAHero
         public static bool CanUseItem(Hero hero, ItemObject item, bool overrideAbility, bool mustBeUsableMounted)
         {
             var relevantSkill = item.RelevantSkill;
-            return (overrideAbility || relevantSkill == null || hero.GetSkillValue(relevantSkill) >= item.Difficulty) 
+            return (overrideAbility || relevantSkill == null || hero.GetSkillValue(relevantSkill) >= item.Difficulty)
                    && (!mustBeUsableMounted || IsItemUsableMounted(hero, item))
-                   && (!hero.CharacterObject.IsFemale || !item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByFemale)) 
+                   && (!hero.CharacterObject.IsFemale || !item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByFemale))
                    && (hero.CharacterObject.IsFemale || !item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByMale));
         }
     }

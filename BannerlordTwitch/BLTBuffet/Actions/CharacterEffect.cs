@@ -16,7 +16,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace BLTBuffet
 {
-    [LocDescription("{=aGfP5X2q}Applies effects to a character / the player"), 
+    [LocDescription("{=aGfP5X2q}Applies effects to a character / the player"),
      UsedImplicitly]
     public partial class CharacterEffect : ActionHandlerBase
     {
@@ -37,26 +37,26 @@ namespace BLTBuffet
                 onFailure("{=aK6wEWqw}Not allowed during tournament!".Translate());
                 return;
             }
-            
-            if (!Mission.Current.IsLoadingFinished 
+
+            if (!Mission.Current.IsLoadingFinished
                 || Mission.Current.CurrentState != Mission.State.Continuing
                 || Mission.Current?.GetMissionBehavior<TournamentFightMissionController>() != null && Mission.Current.Mode != MissionMode.Battle)
             {
                 onFailure("{=0H0dMWam}The mission has not started yet!".Translate());
                 return;
             }
-            
+
             if (Mission.Current.IsMissionEnding || Mission.Current.MissionResult?.BattleResolved == true)
             {
                 onFailure("{=f3Cwg2lw}The mission is ending!".Translate());
                 return;
             }
-            
+
             var effectsBehaviour = BLTEffectsBehaviour.Get();
 
-            var config = (Config) baseConfig;
+            var config = (Config)baseConfig;
 
-            bool GeneralAgentFilter(Agent agent) 
+            bool GeneralAgentFilter(Agent agent)
                 => agent.IsHuman && (!config.TargetOnFootOnly || agent.HasMount == false) && !effectsBehaviour.Contains(agent, config);
 
             var target = config.Target switch
@@ -65,8 +65,8 @@ namespace BLTBuffet
                 Target.AdoptedHero => Mission.Current.Agents.FirstOrDefault(a => a.IsAdoptedBy(context.UserName)),
                 Target.Any => Mission.Current.Agents.Where(GeneralAgentFilter).Where(a => !a.IsAdopted()).SelectRandom(),
                 Target.EnemyTeam => Mission.Current.Agents.Where(GeneralAgentFilter)
-                    .Where(a => a.Team?.IsValid == true 
-                                && Mission.Current.PlayerTeam?.IsValid == true 
+                    .Where(a => a.Team?.IsValid == true
+                                && Mission.Current.PlayerTeam?.IsValid == true
                                 && !a.Team.IsFriendOf(Mission.Current.PlayerTeam)
                                 && !a.IsAdopted())
                     .SelectRandom(),
@@ -99,14 +99,14 @@ namespace BLTBuffet
                     .Translate(("Target", target.Name), ("Config", config.Name)));
                 return;
             }
-            
+
             if (config.TargetOnFootOnly && target.HasMount)
             {
                 onFailure("{=gZtqmx0D}{Target} is mounted so cannot be affected by {Config}!"
                     .Translate(("Target", target.Name), ("Config", config.Name)));
                 return;
             }
-            
+
             var effectState = effectsBehaviour.Add(target, config);
 
             foreach (var pfx in config.ParticleEffects ?? Enumerable.Empty<ParticleEffectDef>())
@@ -158,7 +158,7 @@ namespace BLTBuffet
                 }
                 target.UpdateSpawnEquipmentAndRefreshVisuals(target.SpawnEquipment);
             }
-            
+
             if (!string.IsNullOrEmpty(config.ActivateParticleEffect))
             {
                 Mission.Current.Scene.CreateBurstParticle(ParticleSystemManager.GetRuntimeIdByName(config.ActivateParticleEffect), target.AgentVisuals.GetGlobalFrame());
@@ -245,7 +245,7 @@ namespace BLTBuffet
             //var dropLock = true;
             agent.DropItem(index);
             var spawnedItemEntity = wieldedWeaponEntity.GetFirstScriptOfType<SpawnedItemEntity>();
-            if(spawnedItemEntity != null)
+            if (spawnedItemEntity != null)
                 agent.OnItemPickup(spawnedItemEntity, EquipmentIndex.None, out bool _);
             //dropLock = false;
 
@@ -259,7 +259,7 @@ namespace BLTBuffet
                 effect.GetEntity().Skeleton.RemoveComponent(effect);
             }
         }
-        
+
         public static Light CreateLight(Agent agent, float lightRadius, float lightIntensity, Vec3 lightColor)
         {
             var agentVisuals = agent.AgentVisuals;
@@ -277,7 +277,7 @@ namespace BLTBuffet
         public static void RemoveLight(Agent agent, Light light)
         {
             var agentVisuals = agent.AgentVisuals;
-            if(agentVisuals != null)
+            if (agentVisuals != null)
             {
                 var skeleton = agentVisuals.GetSkeleton();
                 if (light != null && skeleton != null)
@@ -291,11 +291,11 @@ namespace BLTBuffet
             if (agentVisuals == null)
             {
                 return null;
-            }   
+            }
             var skeleton = agentVisuals.GetSkeleton();
             //var localFrame = MatrixFrame.Identity;
             //var localFrame = MatrixFrame.Identity;//new MatrixFrame(Mat3.Identity, new Vec3(0f, 0f, 0f, -1f)).Elevate(0.5f);
-            
+
             //var prevents = new List<GameEntity>();
             //agentVisuals.GetEntity().Scene.GetEntities(ref prevents);
 
@@ -307,7 +307,7 @@ namespace BLTBuffet
             //     allEnts.Add(e);
             //     e.GetChildrenRecursive(ref allEnts);
             // }
-            
+
             // var prevPfx = allEnts
             //     .SelectMany(e =>
             //     {

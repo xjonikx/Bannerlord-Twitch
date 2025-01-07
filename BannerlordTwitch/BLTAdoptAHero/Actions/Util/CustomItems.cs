@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Util;
-using BLTAdoptAHero.Annotations;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 
@@ -165,7 +163,7 @@ namespace BLTAdoptAHero.Actions.Util
                 }
                 // SetItemName(generatedItem, new ($"{crafting.CurrentCraftingTemplate.TemplateName} (Tournament Prize of {hero.FirstName})"));
             } while (++itr < 500);
-            
+
             if (!itemsOfCorrectType.Any() && itr >= 500)
             {
                 Log.Error($"Failed to create crafted {weaponType} for {hero.Name} in {itr} iterations");
@@ -173,9 +171,9 @@ namespace BLTAdoptAHero.Actions.Util
             }
 
             var bestItem = itemsOfCorrectType.OrderByDescending(item => item.Tier).First();
-            
+
             Log.Info($"Created {bestItem.Tier} ({bestItem.Tierf:0.00}) {bestItem.WeaponComponent?.PrimaryWeapon.WeaponClass} {bestItem.Name} for {hero.Name} in {itr} iterations");
-            
+
             bestItem.StringId = Guid.NewGuid().ToString();
             CompleteCraftedItem(bestItem);
 
@@ -190,9 +188,9 @@ namespace BLTAdoptAHero.Actions.Util
             MBObjectManager.Instance.RegisterObject(item);
             CampaignEventDispatcher.Instance.OnNewItemCrafted(item, null, false);
         }
-        
+
         // The vanilla tier calculation for weapons:
-        
+
         // private static float CalculateTierMeleeWeapon(WeaponComponent weaponComponent)
         // {
         //     float highestComponentValue = float.MinValue;

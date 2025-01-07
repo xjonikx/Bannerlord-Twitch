@@ -11,7 +11,7 @@ namespace BannerlordTwitch.Util
                 items.Add(action);
             return items;
         }
-        
+
         private static string[] sfx = {
             "{=a8ibMIfH}(none)".Translate(),
             "event:/alerts/nods/attack",

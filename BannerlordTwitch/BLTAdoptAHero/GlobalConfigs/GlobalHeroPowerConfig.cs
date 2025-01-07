@@ -26,16 +26,16 @@ namespace BLTAdoptAHero
         #region User Editable
         [LocDisplayName("{=9vUtdRu2}Power Definitions"),
          LocDescription("{=ymGZUjoU}Defined powers"),
-         Editor(typeof(DerivedClassCollectionEditor<HeroPowerDefBase>), 
-             typeof(DerivedClassCollectionEditor<HeroPowerDefBase>)),  
-         UsedImplicitly] 
+         Editor(typeof(DerivedClassCollectionEditor<HeroPowerDefBase>),
+             typeof(DerivedClassCollectionEditor<HeroPowerDefBase>)),
+         UsedImplicitly]
         public ObservableCollection<HeroPowerDefBase> PowerDefs { get; set; } = new();
-        
+
         [LocDisplayName("{=5CD7bmuC}Disable Powers In Tournaments"),
          LocDescription("{=K7uKtO90}Whether powers are disabled in a tournament"),
-         UsedImplicitly] 
+         UsedImplicitly]
         public bool DisablePowersInTournaments { get; set; } = true;
-        
+
         #region Deprecated
         [Browsable(false), UsedImplicitly]
         public List<Dictionary<object, object>> SavedPowerDefs { get; set; }
@@ -46,18 +46,18 @@ namespace BLTAdoptAHero
         public HeroPowerDefBase GetPower(Guid id)
             => PowerDefs?.FirstOrDefault(c => c.ID == id);
         #endregion
-        
+
         #region IUpdateFromDefault
         public void OnUpdateFromDefault(Settings defaultSettings)
         {
             SettingsHelpers.MergeCollections(
-                PowerDefs, 
+                PowerDefs,
                 Get(defaultSettings).PowerDefs,
                 (a, b) => a.ID == b.ID
             );
         }
         #endregion
-        
+
         #region ILoaded
         public void OnLoaded(Settings settings)
         {
@@ -79,7 +79,7 @@ namespace BLTAdoptAHero
                                 "366C25BD-5B20-4EB1-98F5-04B5FDDD6285" => typeof(TakeDamagePower),
                                 _ => throw new Exception($"Power type id {id} not found")
                             };
-                            
+
                             return (HeroPowerDefBase)YamlHelpers.ConvertObjectUntagged(d, t);
                         }
 

@@ -17,9 +17,9 @@ namespace BannerlordTwitch
          LocDescription("{=b8OBGhIk}The title of the reward"),
          PropertyOrder(1), UsedImplicitly]
         public LocString Title { get; set; } = "{=6ORulLUR}Reward Title Here";
-        
-        [LocDisplayName("{=Obz1yM6k}Disable Automatic Fulfillment"), 
-         LocDescription("{=Kunfq4KA}Whether the reward will automatically be set to fulfilled once completed in game. If you set this to true then the redemptions that successfully complete in game will stay in your redemption queue. This is useful if you are worried about people losing points if the game crashes, or you reload an older save."), 
+
+        [LocDisplayName("{=Obz1yM6k}Disable Automatic Fulfillment"),
+         LocDescription("{=Kunfq4KA}Whether the reward will automatically be set to fulfilled once completed in game. If you set this to true then the redemptions that successfully complete in game will stay in your redemption queue. This is useful if you are worried about people losing points if the game crashes, or you reload an older save."),
          PropertyOrder(1), UsedImplicitly]
         public bool DisableAutomaticFulfillment { get; set; }
 
@@ -27,51 +27,51 @@ namespace BannerlordTwitch
          LocDescription("{=yXhrzrGA}Description / prompt"),
          PropertyOrder(2), UsedImplicitly]
         public LocString Prompt { get; set; } = string.Empty;
-        
-        [LocDisplayName("{=LnQoMDLT}Cost"), 
+
+        [LocDisplayName("{=LnQoMDLT}Cost"),
          LocDescription("{=dvYTG9UH}The cost of the reward"),
          Range(1, int.MaxValue),
          PropertyOrder(3), UsedImplicitly]
         public int Cost { get; set; } = 100;
 
-        [LocDisplayName("{=oi2yz7aS}Is Enabled"), 
-         LocDescription("{=iCzROk3u}Is the reward currently enabled, if false the reward won’t show up to viewers."), 
+        [LocDisplayName("{=oi2yz7aS}Is Enabled"),
+         LocDescription("{=iCzROk3u}Is the reward currently enabled, if false the reward won’t show up to viewers."),
          PropertyOrder(4), UsedImplicitly]
         public bool IsEnabled { get; set; } = true;
 
         [Browsable(false)]
         public string BackgroundColorText { get; set; }
-        
-        [LocDisplayName("{=YzP57nUK}Background Color"), 
+
+        [LocDisplayName("{=YzP57nUK}Background Color"),
          LocDescription("{=Bg62Iggr}Custom background color for the reward"),
          PropertyOrder(5), UsedImplicitly]
         [YamlIgnore]
         public Color BackgroundColor
         {
-            get => (Color) (ColorConverter.ConvertFromString(BackgroundColorText ?? $"#FF000000") ?? Colors.Black);
+            get => (Color)(ColorConverter.ConvertFromString(BackgroundColorText ?? $"#FF000000") ?? Colors.Black);
             set => BackgroundColorText = $"#{value.A:X2}{value.R:X2}{value.G:X2}{value.B:X2}";
         }
 
-        [LocDisplayName("{=9aESWqlM}Is User Input Required"), 
-         LocDescription("{=XqPRNwVc}Does the user need to enter information when redeeming the reward. If this is true the Prompt will be shown."), 
+        [LocDisplayName("{=9aESWqlM}Is User Input Required"),
+         LocDescription("{=XqPRNwVc}Does the user need to enter information when redeeming the reward. If this is true the Prompt will be shown."),
          PropertyOrder(6), UsedImplicitly]
         public bool IsUserInputRequired { get; set; }
 
         [LocDisplayName("{=qAxLr567}Max Per Stream"),
-         LocCategory("Limits", "{=1lHWj3nT}Limits"), 
-         LocDescription("{=Ho1k72DC}The maximum number per stream, defaults to unlimited"), 
+         LocCategory("Limits", "{=1lHWj3nT}Limits"),
+         LocDescription("{=Ho1k72DC}The maximum number per stream, defaults to unlimited"),
          DefaultValue(null), PropertyOrder(7), UsedImplicitly]
         public int? MaxPerStream { get; set; }
 
         [LocDisplayName("{=V5NnvzZH}Max Per User Per Stream"),
-         LocCategory("Limits", "{=1lHWj3nT}Limits"), 
-         LocDescription("{=cdWQe1En}The maximum number per user per stream, defaults to unlimited"), 
+         LocCategory("Limits", "{=1lHWj3nT}Limits"),
+         LocDescription("{=cdWQe1En}The maximum number per user per stream, defaults to unlimited"),
          DefaultValue(null), PropertyOrder(8), UsedImplicitly]
         public int? MaxPerUserPerStream { get; set; }
 
         [LocDisplayName("{=Rulwnhfz}Global Cooldown Seconds"),
-         LocCategory("Limits", "{=1lHWj3nT}Limits"), 
-         LocDescription("{=yJRKVszb}The cooldown in seconds, defaults to unlimited"), 
+         LocCategory("Limits", "{=1lHWj3nT}Limits"),
+         LocDescription("{=yJRKVszb}The cooldown in seconds, defaults to unlimited"),
          DefaultValue(null), PropertyOrder(9), UsedImplicitly]
         public int? GlobalCooldownSeconds { get; set; }
 

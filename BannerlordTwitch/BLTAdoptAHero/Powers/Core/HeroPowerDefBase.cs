@@ -28,15 +28,15 @@ namespace BLTAdoptAHero.Powers
 
         [LocDisplayName("{=uUzmy7Lh}Name"),
          LocCategory("General", "{=C5T5nnix}General"),
-         LocDescription("{=lzvJC8bf}Name of the power that will be shown in game"), 
+         LocDescription("{=lzvJC8bf}Name of the power that will be shown in game"),
          InstanceName, PropertyOrder(1), UsedImplicitly]
         public LocString Name { get; set; } = "{=aQgYs3mI}Enter Name Here";
         #endregion
-        
+
         #region Implementation Details
         public override string ToString() => $"{Name}: {Description}";
         [YamlIgnore, Browsable(false)]
-        public abstract LocString Description { get; }  
+        public abstract LocString Description { get; }
         #endregion
 
         #region ICloneable
@@ -47,13 +47,13 @@ namespace BLTAdoptAHero.Powers
             return newObj;
         }
         #endregion
-        
+
         #region Item Source
         public class ItemSourcePassive : IItemsSource
         {
             public ItemCollection GetValues()
             {
-                var col = new ItemCollection {{Guid.Empty, "{=dPEnuHsk}(none)".Translate()}};
+                var col = new ItemCollection { { Guid.Empty, "{=dPEnuHsk}(none)".Translate() } };
 
                 var source = GlobalHeroPowerConfig.Get(ConfigureContext.CurrentlyEditedSettings);
                 if (source != null)
@@ -71,7 +71,7 @@ namespace BLTAdoptAHero.Powers
         {
             public ItemCollection GetValues()
             {
-                var col = new ItemCollection {{Guid.Empty, "{=dPEnuHsk}(none)".Translate()}};
+                var col = new ItemCollection { { Guid.Empty, "{=dPEnuHsk}(none)".Translate() } };
 
                 var source = GlobalHeroPowerConfig.Get(ConfigureContext.CurrentlyEditedSettings);
                 if (source != null)

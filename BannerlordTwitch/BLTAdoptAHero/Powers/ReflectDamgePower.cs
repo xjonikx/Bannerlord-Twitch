@@ -21,18 +21,18 @@ namespace BLTAdoptAHero.Powers
     {
         #region User Editable
         [LocDisplayName("{=buBZhrP0}Reflect Percent"),
-         LocCategory("Power Config", "{=75UOuDM}Power Config"), 
+         LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=ibxqpdtD}What percent of damage to reflect back to attacker"),
          Range(0, 200), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(1), UsedImplicitly]
         public float ReflectPercent { get; set; }
-        
+
         [LocDisplayName("{=IxiHjT1Z}Reflected Damage Is Subtracted"),
-         LocCategory("Power Config", "{=75UOuDM}Power Config"), 
-         LocDescription("{=Pdg6mCPA}Whether the damage that is reflected is also subtracted from the damage the hero takes (this is 'classic' damage reflection)"), 
+         LocCategory("Power Config", "{=75UOuDM}Power Config"),
+         LocDescription("{=Pdg6mCPA}Whether the damage that is reflected is also subtracted from the damage the hero takes (this is 'classic' damage reflection)"),
          PropertyOrder(2), UsedImplicitly]
         public bool ReflectedDamageIsSubtracted { get; set; } = true;
-        
+
         [LocDisplayName("{=WDRb4mQ3}Hit Behavior"),
          LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=SHlCPdpp}Hit behavior for the reflected damage"),
@@ -44,10 +44,10 @@ namespace BLTAdoptAHero.Powers
         protected override void OnActivation(Hero hero, PowerHandler.Handlers handlers,
             Agent agent = null, DeactivationHandler deactivationHandler = null)
             => handlers.OnTakeDamage += OnTakeDamage;
-        
-        private void OnTakeDamage(Agent agent, Agent attackerAgent, BLTHeroPowersMissionBehavior.RegisterBlowParams blowParams) 
+
+        private void OnTakeDamage(Agent agent, Agent attackerAgent, BLTHeroPowersMissionBehavior.RegisterBlowParams blowParams)
         {
-            int damage = (int) (blowParams.blow.InflictedDamage * ReflectPercent / 100f);
+            int damage = (int)(blowParams.blow.InflictedDamage * ReflectPercent / 100f);
             if (damage > 0 && attackerAgent != null && attackerAgent != agent)
             {
                 var blow = new Blow(attackerAgent.Index)
@@ -62,7 +62,7 @@ namespace BLTAdoptAHero.Powers
                     SwingDirection = agent.LookDirection.NormalizedCopy(),
                     Direction = agent.LookDirection,
                     DamageCalculated = true,
-                    WeaponRecord = new () { AffectorWeaponSlotOrMissileIndex = -1 },
+                    WeaponRecord = new() { AffectorWeaponSlotOrMissileIndex = -1 },
                 };
                 // blow.WeaponRecord.FillAsMeleeBlow(null, null, -1, -1);
                 attackerAgent.RegisterBlow(blow, blowParams.collisionData);
@@ -75,12 +75,12 @@ namespace BLTAdoptAHero.Powers
         #endregion
 
         #region Public Interface
-        [YamlIgnore, Browsable(false)] 
+        [YamlIgnore, Browsable(false)]
         public bool IsEnabled => ReflectPercent != 0;
         [YamlIgnore, Browsable(false)]
-        public override LocString Description => !IsEnabled 
-            ? "{=41sZdkDw}(disabled)" 
-            : HitBehavior.IsEnabled 
+        public override LocString Description => !IsEnabled
+            ? "{=41sZdkDw}(disabled)"
+            : HitBehavior.IsEnabled
                 ? "{=vLGJf7ow}Reflect {ReflectPercent}% damage with {HitBehavior}"
                     .Translate(("ReflectPercent", ReflectPercent.ToString("0")), ("HitBehavior", HitBehavior))
                 : "{=12tMrCY7}Reflect {ReflectPercent}% damage"

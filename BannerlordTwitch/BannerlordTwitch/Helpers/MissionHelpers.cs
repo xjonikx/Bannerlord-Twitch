@@ -13,45 +13,45 @@ namespace BannerlordTwitch.Helpers
 {
     public static class MissionHelpers
     {
-        public static bool HeroIsSpawned(Hero hero) 
+        public static bool HeroIsSpawned(Hero hero)
             => //CampaignMission.Current.Location?.ContainsCharacter(hero) == true || 
                 Mission.Current?.Agents.Any(a => a.Character == hero.CharacterObject) == true;
 
-        public static bool InHideOutMission() 
+        public static bool InHideOutMission()
             => Mission.Current?.GetMissionBehavior<HideoutMissionController>() != null;
 
-        public static bool InFieldBattleMission() 
+        public static bool InFieldBattleMission()
             => Mission.Current?.IsFieldBattle == true;
-        
-        public static bool InLordsHallBattleMission() 
-        #if e159 || e1510 || e160
-            => false;
-        #else
-            => Mission.Current?.GetMissionBehavior<LordsHallFightMissionController>() != null;
-        #endif
 
-        public static bool InSiegeMission() 
-            => Mission.Current?.IsFieldBattle != true 
+        public static bool InLordsHallBattleMission()
+#if e159 || e1510 || e160
+            => false;
+#else
+            => Mission.Current?.GetMissionBehavior<LordsHallFightMissionController>() != null;
+#endif
+
+        public static bool InSiegeMission()
+            => Mission.Current?.IsFieldBattle != true
                && Mission.Current?.GetMissionBehavior<CampaignSiegeStateHandler>() != null
                && !InLordsHallBattleMission();
 
-        public static bool InArenaPracticeMission() 
+        public static bool InArenaPracticeMission()
             => CampaignMission.Current?.Location?.StringId == "arena"
                && Mission.Current?.Mode == MissionMode.Battle;
 
-        public static bool InArenaPracticeVisitingArea() 
+        public static bool InArenaPracticeVisitingArea()
             => CampaignMission.Current?.Location?.StringId == "arena"
                && Mission.Current?.Mode != MissionMode.Battle;
 
         public static bool InTournament()
-            => Mission.Current?.GetMissionBehavior<TournamentFightMissionController>() != null 
+            => Mission.Current?.GetMissionBehavior<TournamentFightMissionController>() != null
                && Mission.Current?.Mode == MissionMode.Battle;
 
-        public static bool InFriendlyMission() 
+        public static bool InFriendlyMission()
             => Mission.Current?.IsFriendlyMission == true && !InArenaPracticeMission();
 
         public static bool InConversation() => Mission.Current?.Mode == MissionMode.Conversation;
-        
+
         public static bool InConversationMission() => Mission.Current?.GetMissionBehavior<ConversationMissionLogic>() != null;
 
         public static bool InTrainingFieldMission()

@@ -13,7 +13,7 @@ namespace BLTAdoptAHero
     public class BLTCustomItemsCampaignBehavior : CampaignBehaviorBase
     {
         public static BLTCustomItemsCampaignBehavior Current => Campaign.Current?.GetCampaignBehavior<BLTCustomItemsCampaignBehavior>();
-        
+
         private class ItemModifierData
         {
             [UsedImplicitly]
@@ -42,10 +42,10 @@ namespace BLTAdoptAHero
             public float MountHitPoints { get; set; }
             [UsedImplicitly]
             public string CustomName { get; set; }
-            
+
             public void Apply(ItemModifier toModifier)
             {
-                toModifier.SetName(new (CustomName ?? Name));
+                toModifier.SetName(new(CustomName ?? Name));
                 toModifier.StringId = StringId;
                 toModifier.SetDamageModifier(Damage);
                 toModifier.SetSpeedModifier(Speed);
@@ -61,8 +61,8 @@ namespace BLTAdoptAHero
         }
 
         private Dictionary<ItemModifier, ItemModifierData> customItemModifiers = new();
-        
-        public override void RegisterEvents() {}
+
+        public override void RegisterEvents() { }
 
         public override void SyncData(IDataStore dataStore)
         {
@@ -101,7 +101,7 @@ namespace BLTAdoptAHero
                 Name = modifiedName,
                 Armor = armorModifier,
             });
-        
+
         public ItemModifier CreateWeaponModifier(string modifiedName, int damageModifier, int speedModifier, int missileSpeedModifier, short stackSizeModifier) =>
             RegisterModifier(new()
             {
@@ -111,7 +111,7 @@ namespace BLTAdoptAHero
                 Speed = speedModifier,
                 StackCount = stackSizeModifier,
             });
-        
+
         public ItemModifier CreateAmmoModifier(string modifiedName, int damageModifier, short stackModifier) =>
             RegisterModifier(new()
             {
@@ -119,7 +119,7 @@ namespace BLTAdoptAHero
                 Damage = damageModifier,
                 StackCount = stackModifier,
             });
-        
+
         public ItemModifier CreateMountModifier(string modifiedName, float maneuverModifier, float mountSpeedModifier, float chargeDamageModifier, float mountHitPointsModifier) =>
             RegisterModifier(new()
             {
@@ -131,14 +131,14 @@ namespace BLTAdoptAHero
             });
 
         public bool IsRegistered(ItemModifier modifier) => modifier != null && customItemModifiers.ContainsKey(modifier);
-        
+
         public bool ItemCanBeNamed(ItemModifier itemModifier) => itemModifier != null && customItemModifiers.ContainsKey(itemModifier);
 
         public void NameItem(ItemModifier itemModifier, string name)
         {
             if (customItemModifiers.TryGetValue(itemModifier, out var modifierData))
             {
-                itemModifier.SetName(new (name));
+                itemModifier.SetName(new(name));
                 modifierData.CustomName = name;
             }
         }
@@ -152,7 +152,7 @@ namespace BLTAdoptAHero
             customItemModifiers.Add(registeredModifier, modifierData);
             return registeredModifier;
         }
-        
+
         // public void InitializeCraftingElements()
         // {
         //     List<ItemObject> list = new List<ItemObject>();

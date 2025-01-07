@@ -26,21 +26,21 @@ namespace BLTAdoptAHero.Powers
     {
         #region User Editable
         [LocDisplayName("{=F03TlOOV}Power Duration Seconds"),
-         LocCategory("Power Config", "{=75UOuDM}Power Config"), 
-         LocDescription("{=km0QRxRs}Duration the power will last for (when used as an active power), in seconds"), 
+         LocCategory("Power Config", "{=75UOuDM}Power Config"),
+         LocDescription("{=km0QRxRs}Duration the power will last for (when used as an active power), in seconds"),
          UIRangeAttribute(0, 300, 5),
          Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(0), UsedImplicitly]
         public float PowerDurationSeconds { get; set; } = 30f;
 
         [LocDisplayName("{=VS9ITIST}Pfx"),
-         LocCategory("Power Config", "{=75UOuDM}Power Config"), 
-         LocDescription("{=xmz0TzN7}Effects to apply to the agent while the power is active"), 
+         LocCategory("Power Config", "{=75UOuDM}Power Config"),
+         LocDescription("{=xmz0TzN7}Effects to apply to the agent while the power is active"),
          Editor(typeof(DefaultCollectionEditor), typeof(DefaultCollectionEditor)),
          PropertyOrder(1), UsedImplicitly]
         public ObservableCollection<ParticleEffectDef> Pfx { get; set; } = new();
         #endregion
-        
+
         #region IHeroPowerActive
         (bool canActivate, string failReason) IHeroPowerActive.CanActivate(Hero hero)
         {
@@ -61,21 +61,21 @@ namespace BLTAdoptAHero.Powers
             {
                 return (false, "{=SdQsQRB6}Your hero is not alive!".Translate());
             }
-            return ((IHeroPowerActive) this).IsActive(hero) 
-                ? (false, "{=C3Ag25zz}Already active!".Translate()) 
+            return ((IHeroPowerActive)this).IsActive(hero)
+                ? (false, "{=C3Ag25zz}Already active!".Translate())
                 : (true, null);
         }
 
-        bool IHeroPowerActive.IsActive(Hero hero) 
+        bool IHeroPowerActive.IsActive(Hero hero)
             => BLTHeroPowersMissionBehavior.PowerHandler?.HasHandlers(hero, this) == true;
 
         void IHeroPowerActive.Activate(Hero hero, Action expiryCallback)
         {
             expiry[hero] = CampaignHelpers.GetTotalMissionTime() + PowerDurationSeconds;
-            
+
             var agent = hero.GetAgent();
             var pfx = agent == null ? null : new AgentPfx(agent, Pfx);
-            
+
             pfx?.Start();
             BLTHeroPowersMissionBehavior.PowerHandler.ConfigureHandlers(hero, this, handlers =>
             {
@@ -115,7 +115,7 @@ namespace BLTAdoptAHero.Powers
                 return (0, 0);
             }
 
-            return (PowerDurationSeconds, 
+            return (PowerDurationSeconds,
                 Math.Max(0, Math.Min(PowerDurationSeconds, expiryVal - CampaignHelpers.GetTotalMissionTime())));
         }
 
@@ -135,7 +135,7 @@ namespace BLTAdoptAHero.Powers
 
         [YamlIgnore, Browsable(false)]
         protected virtual bool RequiresHeroAgent => false;
-      
+
         protected abstract void OnActivation(Hero hero, PowerHandler.Handlers handlers,
             Agent agent = null, DeactivationHandler deactivationHandler = null);
         #endregion

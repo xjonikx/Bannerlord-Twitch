@@ -2,20 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.Actions;
-using TaleWorlds.ObjectSystem;
 using BannerlordTwitch;
 using BannerlordTwitch.Annotations;
-using BannerlordTwitch.SaveSystem;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Localization;
+using BannerlordTwitch.SaveSystem;
 using BannerlordTwitch.Util;
 using BLTAdoptAHero.Achievements;
 using Newtonsoft.Json;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ObjectSystem;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero
@@ -49,30 +49,30 @@ namespace BLTAdoptAHero
 
             [UsedImplicitly]
             public AchievementStatsData AchievementStats { get; set; } = new();
-            
+
             public class SavedEquipment
             {
                 public ItemObject Item { get; set; }
                 [UsedImplicitly]
                 public string ItemModifierId { get; set; }
                 public int ItemSaveIndex { get; set; }
-                
+
                 [UsedImplicitly]
-                public SavedEquipment() {}
-            
+                public SavedEquipment() { }
+
                 public SavedEquipment(EquipmentElement element)
                 {
                     Item = element.Item;
                     ItemModifierId = element.ItemModifier.StringId;
                 }
-            
-                public static explicit operator EquipmentElement(SavedEquipment m) 
+
+                public static explicit operator EquipmentElement(SavedEquipment m)
                     => new(m.Item, MBObjectManager.Instance.GetObject<ItemModifier>(m.ItemModifierId));
             }
 
             [UsedImplicitly]
             public List<SavedEquipment> SavedCustomItems { get; set; } = new();
-            
+
             [JsonIgnore]
             public List<EquipmentElement> CustomItems { get; set; } = new();
 
@@ -80,7 +80,7 @@ namespace BLTAdoptAHero
             {
                 SavedCustomItems = CustomItems.Select(c => new SavedEquipment(c)).ToList();
             }
-            
+
             public void PostLoad()
             {
                 CustomItems = SavedCustomItems.Select(c => (EquipmentElement)c).ToList();
@@ -101,7 +101,7 @@ namespace BLTAdoptAHero
                 {
                     GetHeroData(hero);
                 }
-                
+
                 // Clean up hero data
                 foreach (var (hero, data) in heroData)
                 {
@@ -115,7 +115,7 @@ namespace BLTAdoptAHero
                     {
                         // Compensate with gold for each one lost
                         data.Gold += removedCustomItems * 50000;
-                        
+
                         Log.LogFeedSystem(
                             "{=hoRPbRrb}Compensated @{HeroName} with {GoldAmount}{GoldSymbol} for {CustomItemsCount} invalid custom items"
                                 .Translate(
@@ -140,7 +140,7 @@ namespace BLTAdoptAHero
                     RetireHero(hero);
                 }
             });
-            
+
             CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, (victim, killer, detail, _) =>
             {
                 if (victim?.IsAdopted() == true || killer?.IsAdopted() == true)
@@ -163,19 +163,19 @@ namespace BLTAdoptAHero
                     }
                 }
             });
-            
+
             CampaignEvents.HeroLevelledUp.AddNonSerializedListener(this, (hero, _) =>
             {
                 if (hero.IsAdopted())
                     Log.LogFeedEvent("{=8aTmTvl8}@{HeroName} is now level {Level}!"
                         .Translate(("HeroName", hero.Name), ("Level", hero.Level)));
             });
-            
+
             CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, (party, hero) =>
             {
                 if (hero.IsAdopted())
                 {
-                    if(party != null)
+                    if (party != null)
                         Log.LogFeedEvent("{=4PqVnFWY}@{HeroName} was taken prisoner by {PartyName}!"
                             .Translate(("HeroName", hero.Name), ("PartyName", party.Name)));
                     else
@@ -183,12 +183,12 @@ namespace BLTAdoptAHero
                             .Translate(("HeroName", hero.Name)));
                 }
             });
-            
+
             CampaignEvents.HeroPrisonerReleased.AddNonSerializedListener(this, (hero, party, _, _) =>
             {
                 if (hero.IsAdopted())
                 {
-                    if(party != null)
+                    if (party != null)
                         Log.LogFeedEvent("{=tQANBoTK}@{HeroName} is no longer a prisoner of {PartyName}!"
                             .Translate(("HeroName", hero.Name), ("PartyName", party.Name)));
                     else
@@ -196,26 +196,26 @@ namespace BLTAdoptAHero
                             .Translate(("HeroName", hero.Name)));
                 }
             });
-            
+
             CampaignEvents.OnHeroChangedClanEvent.AddNonSerializedListener(this, (hero, clan) =>
             {
-                if(hero.IsAdopted())
+                if (hero.IsAdopted())
                     Log.LogFeedEvent("{=SUdnIyfw}@{HeroName} moved from {FromClanName} to {ToClanName}!"
                         .Translate(
                             ("HeroName", hero.Name),
                             ("FromClanName", clan?.Name.ToString() ?? "no clan"),
                             ("ToClanName", hero.Clan?.Name.ToString() ?? "no clan")));
             });
-            
+
             CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, JoinTournament.SetupGameMenus);
         }
 
         public override void SyncData(IDataStore dataStore)
         {
             using var scopedJsonSync = new ScopedJsonSync(dataStore, nameof(BLTAdoptAHeroCampaignBehavior));
-            
+
             scopedJsonSync.SyncDataAsJson("HeroData", ref heroData);
-            
+
             if (dataStore.IsLoading)
             {
                 Dictionary<Hero, HeroData> oldHeroData = null;
@@ -242,7 +242,7 @@ namespace BLTAdoptAHero
                         r.TroopType = usedCharList[r.SavedTroopIndex];
                     }
                 }
-                
+
                 List<ItemObject> saveItemList = null;
                 dataStore.SyncData("SavedItems", ref saveItemList);
                 foreach (var h in heroData.Values)
@@ -256,7 +256,7 @@ namespace BLTAdoptAHero
                     }
                     h.PostLoad();
                 }
-                
+
                 foreach (var (hero, data) in heroData)
                 {
                     // Try and find an appropriate character to replace the missing retinue with
@@ -284,7 +284,7 @@ namespace BLTAdoptAHero
 
                     data.IsRetiredOrDead = !hero.IsAdopted();
                 }
-                
+
                 // // Move heroes already marked as dead or retired (no BLT tag) into the dead/retired list
                 // foreach (var (hero, data) in heroData.Where(h => !h.Key.IsAdopted()).ToList())
                 // {
@@ -301,7 +301,7 @@ namespace BLTAdoptAHero
 
                 var usedHeroList = heroData.Keys.ToList();
                 dataStore.SyncData("UsedHeroObjectList", ref usedHeroList);
-                
+
                 // var heroImtes = heroData.Values.SelectMany(h => h.)
 
                 foreach (var r in heroData.Values.SelectMany(h => h.Retinue))
@@ -323,13 +323,13 @@ namespace BLTAdoptAHero
 
                 dataStore.SyncData("SavedItems", ref saveItemList);
 
-                var heroDataSavable = heroData.ToDictionary(kv 
+                var heroDataSavable = heroData.ToDictionary(kv
                     => usedHeroList.IndexOf(kv.Key), kv => kv.Value);
                 scopedJsonSync.SyncDataAsJson("HeroData2", ref heroDataSavable);
             }
         }
         #endregion
-        
+
         #region Adoption
         public void InitAdoptedHero(Hero newHero, string userName)
         {
@@ -342,9 +342,9 @@ namespace BLTAdoptAHero
 
         public Hero GetAdoptedHero(string name)
         {
-            var foundHero = heroData.FirstOrDefault(h 
+            var foundHero = heroData.FirstOrDefault(h
                     => !h.Value.IsRetiredOrDead
-                       && (string.Equals(h.Key.FirstName?.Raw(), name, StringComparison.CurrentCultureIgnoreCase) 
+                       && (string.Equals(h.Key.FirstName?.Raw(), name, StringComparison.CurrentCultureIgnoreCase)
                            || string.Equals(h.Value.Owner, name, StringComparison.CurrentCultureIgnoreCase)))
                 .Key;
 
@@ -353,7 +353,7 @@ namespace BLTAdoptAHero
             {
                 SetHeroAdoptedName(foundHero, name);
             }
-            
+
             if (foundHero?.IsDead == true)
             {
                 RetireHero(foundHero);
@@ -362,20 +362,20 @@ namespace BLTAdoptAHero
 
             return foundHero;
         }
-        
+
         public void RetireHero(Hero hero)
         {
             var data = GetHeroData(hero, suppressAutoRetire: true);
             if (data.IsRetiredOrDead) return;
-            
+
             string desc = hero.IsDead ? "{=ZtZL0lbX}deceased".Translate() : "{=ISrFBorj}retired".Translate();
             var oldName = hero.Name;
-            CampaignHelpers.SetHeroName(hero, new (hero.FirstName + $" {ToRoman(data.Iteration + 1)} ({desc})"),new TaleWorlds.Localization.TextObject(""));
+            CampaignHelpers.SetHeroName(hero, new(hero.FirstName + $" {ToRoman(data.Iteration + 1)} ({desc})"), new TaleWorlds.Localization.TextObject(""));
             CampaignHelpers.RemoveEncyclopediaBookmarkFromItem(hero);
-            
+
             // Don't leave retired heroes in the tournament queue 
             BLTTournamentQueueBehavior.Current.RemoveFromQueue(hero);
-            
+
             Log.LogFeedEvent("{=2PHPNmuv}{OldName} is {RetireType}!"
                 .Translate(("OldName", oldName), ("RetireType", desc)));
             Log.Info("{=wzpkEmTL}Dead or retired hero {OldName} renamed to {HeroName}"
@@ -384,18 +384,18 @@ namespace BLTAdoptAHero
             data.IsRetiredOrDead = true;
         }
         #endregion
-        
+
         #region Gold
         public int GetHeroGold(Hero hero) =>
             // #if DEBUG
             // 1000000000
             // #else
             GetHeroData(hero).Gold
-            // #endif
+        // #endif
         ;
 
         public void SetHeroGold(Hero hero, int gold) => GetHeroData(hero).Gold = gold;
-        
+
         public int ChangeHeroGold(Hero hero, int change, bool isSpending = false)
         {
             var hd = GetHeroData(hero);
@@ -410,7 +410,7 @@ namespace BLTAdoptAHero
         public int InheritGold(Hero inheritor, float amount)
         {
             var ancestors = GetAncestors(inheritor.FirstName.ToString());
-            int inheritance = (int) (ancestors.Sum(a => a.SpentGold + a.Gold) * amount);
+            int inheritance = (int)(ancestors.Sum(a => a.SpentGold + a.Gold) * amount);
             ChangeHeroGold(inheritor, inheritance);
             foreach (var data in ancestors)
             {
@@ -422,7 +422,7 @@ namespace BLTAdoptAHero
 
         private List<HeroData> GetAncestors(string name) =>
             heroData
-                .Where(h 
+                .Where(h
                     => h.Value.IsRetiredOrDead
                        && string.Equals(h.Value.Owner, name, StringComparison.CurrentCultureIgnoreCase))
                 .Select(kv => kv.Value)
@@ -438,7 +438,7 @@ namespace BLTAdoptAHero
             {
                 IncreaseStatistic(hero, AchievementStatsData.Statistic.TotalViewerKills, 1);
             }
-            else if(killed?.GetHero() == Hero.MainHero)
+            else if (killed?.GetHero() == Hero.MainHero)
             {
                 IncreaseStatistic(hero, AchievementStatsData.Statistic.TotalStreamerKills, 1);
             }
@@ -466,7 +466,7 @@ namespace BLTAdoptAHero
             {
                 IncreaseStatistic(hero, AchievementStatsData.Statistic.TotalViewerDeaths, 1);
             }
-            else if(killer?.GetHero() == Hero.MainHero)
+            else if (killer?.GetHero() == Hero.MainHero)
             {
                 IncreaseStatistic(hero, AchievementStatsData.Statistic.TotalStreamerDeaths, 1);
             }
@@ -482,28 +482,28 @@ namespace BLTAdoptAHero
             IncreaseStatistic(hero, AchievementStatsData.Statistic.TotalDeaths, 1);
         }
 
-        public void IncreaseTournamentRoundLosses(Hero hero) 
+        public void IncreaseTournamentRoundLosses(Hero hero)
             => IncreaseStatistic(hero, AchievementStatsData.Statistic.TotalTournamentRoundLosses, 1);
 
-        public void IncreaseTournamentRoundWins(Hero hero) 
+        public void IncreaseTournamentRoundWins(Hero hero)
             => IncreaseStatistic(hero, AchievementStatsData.Statistic.TotalTournamentRoundWins, 1);
 
-        public void IncreaseTournamentChampionships(Hero hero) 
+        public void IncreaseTournamentChampionships(Hero hero)
             => IncreaseStatistic(hero, AchievementStatsData.Statistic.TotalTournamentFinalWins, 1);
 
         private void IncreaseStatistic(Hero hero, AchievementStatsData.Statistic statistic, int amount, bool forced = false)
         {
             var achievementStatsData = GetHeroData(hero).AchievementStats;
-            
+
             achievementStatsData.UpdateValue(statistic, hero.GetClass()?.ID ?? default, amount, forced);
-           
+
             CheckForAchievements(hero);
         }
 
         private void CheckForAchievements(Hero hero)
         {
             var achievementData = GetHeroData(hero).AchievementStats;
-            
+
             var newAchievements = BLTAdoptAHeroModule.CommonConfig.ValidAchievements?
                 .Where(a => a.IsAchieved(hero))
                 .Where(a
@@ -527,19 +527,19 @@ namespace BLTAdoptAHero
             }
         }
 
-        public int GetAchievementTotalStat(Hero hero, AchievementStatsData.Statistic type) 
+        public int GetAchievementTotalStat(Hero hero, AchievementStatsData.Statistic type)
             => GetHeroData(hero)?.AchievementStats?.GetTotalValue(type) ?? 0;
 
-        public int GetAchievementClassStat(Hero hero, AchievementStatsData.Statistic type) 
+        public int GetAchievementClassStat(Hero hero, AchievementStatsData.Statistic type)
             => GetHeroData(hero)?.AchievementStats?.GetClassValue(type, hero.GetClass()?.ID ?? Guid.Empty) ?? 0;
 
-        public int GetAchievementClassStat(Hero hero, Guid classGuid, AchievementStatsData.Statistic type) 
+        public int GetAchievementClassStat(Hero hero, Guid classGuid, AchievementStatsData.Statistic type)
             => GetHeroData(hero)?.AchievementStats?.GetClassValue(type, classGuid) ?? 0;
 
         public IEnumerable<AchievementDef> GetAchievements(Hero hero) =>
             GetHeroData(hero)?.AchievementStats?.Achievements?
                 .Select(a => BLTAdoptAHeroModule.CommonConfig.GetAchievement(a))
-                .Where(a => a != null) 
+                .Where(a => a != null)
             ?? Enumerable.Empty<AchievementDef>();
 
         #endregion
@@ -547,15 +547,15 @@ namespace BLTAdoptAHero
         #region Equipment
         public int GetEquipmentTier(Hero hero) => GetHeroData(hero).EquipmentTier;
         public void SetEquipmentTier(Hero hero, int tier) => GetHeroData(hero).EquipmentTier = tier;
-        public HeroClassDef GetEquipmentClass(Hero hero) 
+        public HeroClassDef GetEquipmentClass(Hero hero)
             => BLTAdoptAHeroModule.HeroClassConfig.GetClass(GetHeroData(hero).EquipmentClassID);
-        public void SetEquipmentClass(Hero hero, HeroClassDef classDef) 
+        public void SetEquipmentClass(Hero hero, HeroClassDef classDef)
             => GetHeroData(hero).EquipmentClassID = classDef?.ID ?? Guid.Empty;
         #endregion
 
         #region Custom Items
 
-        public (EquipmentElement element, string error) FindCustomItemByIndex(Hero hero, string itemIndexStr) 
+        public (EquipmentElement element, string error) FindCustomItemByIndex(Hero hero, string itemIndexStr)
             => FindCustomItem(hero, itemIndexStr.StartsWith("#") ? itemIndexStr : "#" + itemIndexStr);
 
         public (EquipmentElement element, string error) FindCustomItem(Hero hero, string itemName)
@@ -589,12 +589,12 @@ namespace BLTAdoptAHero
                 return (EquipmentElement.Invalid, "{=Pzo2UJrl}{Count} custom items found matching '{Args}', be more specific"
                         .Translate(("Count", matchingItems.Count), ("Args", itemName)));
             }
-            
+
             return (matchingItems.First(), default);
         }
 
         public List<EquipmentElement> GetCustomItems(Hero hero) => GetHeroData(hero).CustomItems;
-        
+
         public void AddCustomItem(Hero hero, EquipmentElement element)
         {
             if (!BLTCustomItemsCampaignBehavior.Current.IsRegistered(element.ItemModifier))
@@ -613,16 +613,16 @@ namespace BLTAdoptAHero
         public void RemoveCustomItem(Hero hero, EquipmentElement element)
         {
             var data = GetHeroData(hero);
-            
+
             data.CustomItems.RemoveAll(i => i.IsEqualTo(element));
-            
+
             foreach (var slot in hero.BattleEquipment
                 .YieldEquipmentSlots()
                 .Where(i => i.element.IsEqualTo(element)))
             {
                 hero.BattleEquipment[slot.index] = EquipmentElement.Invalid;
             }
-            
+
             foreach (var slot in hero.CivilianEquipment
                 .YieldEquipmentSlots()
                 .Where(i => i.element.IsEqualTo(element)))
@@ -667,10 +667,10 @@ namespace BLTAdoptAHero
                 {
                     return (false, "{=2cbVbW91}You can't bid on your own item".Translate());
                 }
-                
+
                 if (bid < reservePrice)
                 {
-                    return (false, "{=rbhzuJLm}Bid of {Bid}{GoldIcon} does not meet reserve price of {ReservePrice}{GoldIcon}" 
+                    return (false, "{=rbhzuJLm}Bid of {Bid}{GoldIcon} does not meet reserve price of {ReservePrice}{GoldIcon}"
                         .Translate(
                             ("Bid", bid),
                             ("GoldIcon", Naming.Gold),
@@ -680,16 +680,16 @@ namespace BLTAdoptAHero
 
                 if (bids.Values.Any(v => v == bid))
                 {
-                    return (false, "{=83uZcndH}Another bid at {Bid}{GoldIcon} already exists" 
+                    return (false, "{=83uZcndH}Another bid at {Bid}{GoldIcon} already exists"
                         .Translate(
                             ("Bid", bid),
                             ("GoldIcon", Naming.Gold)
                             ));
                 }
-                
+
                 if (bids.TryGetValue(bidder, out int currBid) && currBid >= bid)
                 {
-                    return (false, "{=qeLF80xw}You already bid more ({Bid}{GoldIcon}), you can only raise your bid" 
+                    return (false, "{=qeLF80xw}You already bid more ({Bid}{GoldIcon}), you can only raise your bid"
                         .Translate(
                             ("Bid", bid),
                             ("GoldIcon", Naming.Gold)
@@ -699,7 +699,7 @@ namespace BLTAdoptAHero
                 int bidderGold = Current.GetHeroGold(bidder);
                 if (bidderGold < bid)
                 {
-                    return (false, "{=Cqi0iYNR}You cannot cover a bid of {Bid}{GoldIcon}, you only have {BidderGold}{GoldIcon}" 
+                    return (false, "{=Cqi0iYNR}You cannot cover a bid of {Bid}{GoldIcon}, you only have {BidderGold}{GoldIcon}"
                         .Translate(
                             ("Bid", bid),
                             ("GoldIcon", Naming.Gold),
@@ -709,7 +709,7 @@ namespace BLTAdoptAHero
 
                 bids[bidder] = bid;
 
-                return (true, "{=M2B9yQ4w}Bid of {Bid}{GoldIcon} placed!" 
+                return (true, "{=M2B9yQ4w}Bid of {Bid}{GoldIcon} placed!"
                     .Translate(
                         ("Bid", bid),
                         ("GoldIcon", Naming.Gold)
@@ -726,14 +726,14 @@ namespace BLTAdoptAHero
         private Auction currentAuction;
 
         public bool AuctionInProgress => currentAuction != null;
-        
-        public async void StartItemAuction(EquipmentElement item, Hero itemOwner, 
+
+        public async void StartItemAuction(EquipmentElement item, Hero itemOwner,
             int reservePrice, int durationInSeconds, int reminderInterval, Action<string> output)
         {
             if (AuctionInProgress)
                 return;
 
-            currentAuction = new (item, itemOwner, reservePrice);
+            currentAuction = new(item, itemOwner, reservePrice);
 
             // Count down in chunks with reminder of the auction status
             while (durationInSeconds > reminderInterval)
@@ -763,7 +763,7 @@ namespace BLTAdoptAHero
                     }
                 });
             }
-            
+
             await Task.Delay(TimeSpan.FromSeconds(durationInSeconds));
 
             MainThreadSync.Run(() =>
@@ -807,7 +807,7 @@ namespace BLTAdoptAHero
                             ("HighestBid", highestBid.bid),
                             ("GoldIcon", Naming.Gold)));
 
-                    TransferCustomItem(currentAuction.itemOwner, highestBid.hero, 
+                    TransferCustomItem(currentAuction.itemOwner, highestBid.hero,
                         currentAuction.item, highestBid.bid);
                 }
                 finally
@@ -833,7 +833,7 @@ namespace BLTAdoptAHero
             EquipHero.UpgradeEquipment(oldOwner, GetEquipmentTier(oldOwner), oldOwner.GetClass(), replaceSameTier: false);
             EquipHero.UpgradeEquipment(newOwner, GetEquipmentTier(newOwner), newOwner.GetClass(), replaceSameTier: false);
         }
-        
+
         public void DiscardCustomItem(Hero owner, EquipmentElement item)
         {
             RemoveCustomItem(owner, item);
@@ -844,22 +844,22 @@ namespace BLTAdoptAHero
 
         public (bool success, string description) AuctionBid(Hero bidder, int bid)
         {
-            return currentAuction?.Bid(bidder, bid) 
+            return currentAuction?.Bid(bidder, bid)
                    ?? (false, "{=Cy38Ckpk}No auction in progress".Translate());
         }
-        
+
         #endregion
 
         #region Class
-        public HeroClassDef GetClass(Hero hero) 
+        public HeroClassDef GetClass(Hero hero)
             => BLTAdoptAHeroModule.HeroClassConfig.GetClass(GetHeroData(hero).ClassID);
 
-        public void SetClass(Hero hero, HeroClassDef classDef) 
+        public void SetClass(Hero hero, HeroClassDef classDef)
             => GetHeroData(hero).ClassID = classDef?.ID ?? Guid.Empty;
         #endregion
 
         #region Retinue
-        public IEnumerable<CharacterObject> GetRetinue(Hero hero) 
+        public IEnumerable<CharacterObject> GetRetinue(Hero hero)
             => GetHeroData(hero).Retinue.Select(r => r.TroopType);
 
         [CategoryOrder("Limits", 1),
@@ -868,44 +868,44 @@ namespace BLTAdoptAHero
         public class RetinueSettings : IDocumentable
         {
             [LocDisplayName("{=wAGE7h6U}Max Retinue Size"),
-             LocCategory("Limits", "{=1lHWj3nT}Limits"), 
-             LocDescription("{=EOGB8EWN}Maximum number of units in the retinue. Recommend less than 20, summons to NOT obey the games unit limits."), 
+             LocCategory("Limits", "{=1lHWj3nT}Limits"),
+             LocDescription("{=EOGB8EWN}Maximum number of units in the retinue. Recommend less than 20, summons to NOT obey the games unit limits."),
              PropertyOrder(1), UsedImplicitly]
             public int MaxRetinueSize { get; set; } = 5;
 
             [LocDisplayName("{=VvdtvdQJ}Cost Tier 1"),
-             LocCategory("Costs", "{=r7sc3Tvg}Costs"), 
-             LocDescription("{=9bvn5R5A}Gold cost for Tier 1 retinue"), 
+             LocCategory("Costs", "{=r7sc3Tvg}Costs"),
+             LocDescription("{=9bvn5R5A}Gold cost for Tier 1 retinue"),
              PropertyOrder(1), UsedImplicitly]
             public int CostTier1 { get; set; } = 25000;
 
             [LocDisplayName("{=engRDMZx}Cost Tier 2"),
-             LocCategory("Costs", "{=r7sc3Tvg}Costs"), 
-             LocDescription("{=pD2ZvRVH}Gold cost for Tier 2 retinue"), 
+             LocCategory("Costs", "{=r7sc3Tvg}Costs"),
+             LocDescription("{=pD2ZvRVH}Gold cost for Tier 2 retinue"),
              PropertyOrder(2), UsedImplicitly]
             public int CostTier2 { get; set; } = 50000;
 
             [LocDisplayName("{=3jxmITht}Cost Tier 3"),
-             LocCategory("Costs", "{=r7sc3Tvg}Costs"), 
-             LocDescription("{=dyB8loLF}Gold cost for Tier 3 retinue"), 
+             LocCategory("Costs", "{=r7sc3Tvg}Costs"),
+             LocDescription("{=dyB8loLF}Gold cost for Tier 3 retinue"),
              PropertyOrder(3), UsedImplicitly]
             public int CostTier3 { get; set; } = 100000;
 
             [LocDisplayName("{=dhwd4ccF}Cost Tier 4"),
-             LocCategory("Costs", "{=r7sc3Tvg}Costs"), 
-             LocDescription("{=aji2HxKa}Gold cost for Tier 4 retinue"), 
+             LocCategory("Costs", "{=r7sc3Tvg}Costs"),
+             LocDescription("{=aji2HxKa}Gold cost for Tier 4 retinue"),
              PropertyOrder(4), UsedImplicitly]
             public int CostTier4 { get; set; } = 175000;
 
             [LocDisplayName("{=zJkb4AIh}Cost Tier 5"),
-             LocCategory("Costs", "{=r7sc3Tvg}Costs"), 
-             LocDescription("{=fnEOFst7}Gold cost for Tier 5 retinue"), 
+             LocCategory("Costs", "{=r7sc3Tvg}Costs"),
+             LocDescription("{=fnEOFst7}Gold cost for Tier 5 retinue"),
              PropertyOrder(5), UsedImplicitly]
             public int CostTier5 { get; set; } = 275000;
 
             [LocDisplayName("{=1hh3cOJO}Cost Tier 6"),
-             LocCategory("Costs", "{=r7sc3Tvg}Costs"), 
-             LocDescription("{=PieENBSG}Gold cost for Tier 6 retinue"), 
+             LocCategory("Costs", "{=r7sc3Tvg}Costs"),
+             LocDescription("{=PieENBSG}Gold cost for Tier 6 retinue"),
              PropertyOrder(6), UsedImplicitly]
             public int CostTier6 { get; set; } = 400000;
 
@@ -925,26 +925,26 @@ namespace BLTAdoptAHero
             }
 
             [LocDisplayName("{=q1Rkm3Rq}Use Heroes Culture Units"),
-             LocCategory("Troop Types", "{=qYhM3gcn}Troop Types"), 
+             LocCategory("Troop Types", "{=qYhM3gcn}Troop Types"),
              LocDescription("{=9qAD6eZR}Whether to use the adopted hero's culture (if not enabled then a random one is used)"),
              PropertyOrder(1), UsedImplicitly]
             public bool UseHeroesCultureUnits { get; set; } = true;
 
             [LocDisplayName("{=dbU7WEKG}Include Bandit Units"),
-             LocCategory("Troop Types", "{=qYhM3gcn}Troop Types"), 
-             LocDescription("{=06KnYhyh}Whether to allow bandit units when UseHeroesCultureUnits is disabled"), 
+             LocCategory("Troop Types", "{=qYhM3gcn}Troop Types"),
+             LocDescription("{=06KnYhyh}Whether to allow bandit units when UseHeroesCultureUnits is disabled"),
              PropertyOrder(2), UsedImplicitly]
             public bool IncludeBanditUnits { get; set; }
 
             [LocDisplayName("{=E2RBmb1K}Use Basic Troops"),
-             LocCategory("Troop Types", "{=qYhM3gcn}Troop Types"), 
-             LocDescription("{=uPwaOKdT}Whether to allow basic troops"), 
+             LocCategory("Troop Types", "{=qYhM3gcn}Troop Types"),
+             LocDescription("{=uPwaOKdT}Whether to allow basic troops"),
              PropertyOrder(3), UsedImplicitly]
             public bool UseBasicTroops { get; set; } = true;
 
             [LocDisplayName("{=lnz7d1BI}Use Elite Troops"),
-             LocCategory("Troop Types", "{=qYhM3gcn}Troop Types"), 
-             LocDescription("{=EPr2clqT}Whether to allow elite troops"), 
+             LocCategory("Troop Types", "{=qYhM3gcn}Troop Types"),
+             LocDescription("{=EPr2clqT}Whether to allow elite troops"),
              PropertyOrder(4), UsedImplicitly]
             public bool UseEliteTroops { get; set; } = true;
 
@@ -953,10 +953,10 @@ namespace BLTAdoptAHero
                 generator.PropertyValuePair("{=UhUpH8C8}Max retinue".Translate(), $"{MaxRetinueSize}");
                 generator.PropertyValuePair("{=VBuncBq5}Tier costs".Translate(), $"1={CostTier1}{Naming.Gold}, 2={CostTier2}{Naming.Gold}, 3={CostTier3}{Naming.Gold}, 4={CostTier4}{Naming.Gold}, 5={CostTier5}{Naming.Gold}, 5={CostTier5}{Naming.Gold}, 6={CostTier6}{Naming.Gold}");
                 var allowed = new List<string>();
-                if(UseHeroesCultureUnits) allowed.Add("{=R7rU0TbD}Same culture only".Translate());
-                if(IncludeBanditUnits) allowed.Add("{=c2qOsXvs}Bandits".Translate());
-                if(UseBasicTroops) allowed.Add("{=RmTwEFzy}Basic troops".Translate());
-                if(UseEliteTroops) allowed.Add("{=3gumlthG}Elite troops".Translate());
+                if (UseHeroesCultureUnits) allowed.Add("{=R7rU0TbD}Same culture only".Translate());
+                if (IncludeBanditUnits) allowed.Add("{=c2qOsXvs}Bandits".Translate());
+                if (UseBasicTroops) allowed.Add("{=RmTwEFzy}Basic troops".Translate());
+                if (UseEliteTroops) allowed.Add("{=3gumlthG}Elite troops".Translate());
                 generator.PropertyValuePair("{=uL7MfYPc}Allowed".Translate(), string.Join(", ", allowed));
             }
         }
@@ -980,7 +980,7 @@ namespace BLTAdoptAHero
             {
                 return (false, "{=bBCyH0vV}No valid troop types could be found, please check out settings".Translate());
             }
-            
+
             var heroRetinue = GetHeroData(hero).Retinue;
 
             var retinueChanges = new Dictionary<HeroData.RetinueData, (CharacterObject oldTroopType, int totalSpent)>();
@@ -989,7 +989,7 @@ namespace BLTAdoptAHero
             int totalCost = 0;
 
             var results = new List<string>();
-            
+
             while (maxToUpgrade-- > 0)
             {
                 // first fill in any missing ones
@@ -1001,7 +1001,7 @@ namespace BLTAdoptAHero
                         // culture doesn't contain the requires units
                         .OrderBy(c => settings.UseHeroesCultureUnits && c.Culture != hero.Culture)
                         .FirstOrDefault();
-                    
+
                     int cost = settings.GetTierCost(0);
                     if (totalCost + cost > heroGold)
                     {
@@ -1067,12 +1067,12 @@ namespace BLTAdoptAHero
 
             var troopUpgradeSummary = new List<string>();
             foreach ((var oldTroopType, var newTroopType, int cost, int num) in retinueChanges
-                .GroupBy(r 
+                .GroupBy(r
                     => (r.Value.oldTroopType, newTroopType: r.Key.TroopType))
                 .Select(g => (
-                        g.Key.oldTroopType, 
-                        g.Key.newTroopType, 
-                        cost: g.Sum(f => f.Value.totalSpent), 
+                        g.Key.oldTroopType,
+                        g.Key.newTroopType,
+                        cost: g.Sum(f => f.Value.totalSpent),
                         num: g.Count()))
                 .OrderBy(g => g.oldTroopType == null)
                 .ThenBy(g => g.num)
@@ -1097,7 +1097,7 @@ namespace BLTAdoptAHero
             {
                 ChangeHeroGold(hero, -totalCost, isSpending: true);
             }
-            
+
             return (retinueChanges.Any(), Naming.JoinList(troopUpgradeSummary.Concat(results)));
         }
 
@@ -1131,7 +1131,7 @@ namespace BLTAdoptAHero
             float multiplier = inTournament
                 ? BLTAdoptAHeroModule.TournamentConfig.StartHealthMultiplier
                 : BLTAdoptAHeroModule.CommonConfig.StartHealthMultiplier;
-            
+
             agent.BaseHealthLimit *= Math.Max(1, multiplier);
             agent.HealthLimit *= Math.Max(1, multiplier);
             agent.Health *= Math.Max(1, multiplier);
@@ -1157,18 +1157,18 @@ namespace BLTAdoptAHero
         public static string GetFullName(string name) => $"{name} {BLTAdoptAHeroModule.Tag}";
 
         public static void SetHeroAdoptedName(Hero hero, string userName) =>
-            CampaignHelpers.SetHeroName(hero, new (GetFullName(userName)), new (userName));
-        public bool GetIsCreatedHero(Hero hero) => 
+            CampaignHelpers.SetHeroName(hero, new(GetFullName(userName)), new(userName));
+        public bool GetIsCreatedHero(Hero hero) =>
             GetHeroData(hero).IsCreatedHero;
-        public bool GetMessageFlag(Hero hero) => 
+        public bool GetMessageFlag(Hero hero) =>
             GetHeroData(hero).MesssageFlag;
-        public void SetIsCreatedHero(Hero hero, bool value) => 
+        public void SetIsCreatedHero(Hero hero, bool value) =>
             GetHeroData(hero).IsCreatedHero = value;
-        public void SetMessageFlag(Hero hero, bool value) => 
+        public void SetMessageFlag(Hero hero, bool value) =>
             GetHeroData(hero).MesssageFlag = value;
-        public string GetMessageContent(Hero hero) => 
+        public string GetMessageContent(Hero hero) =>
             GetHeroData(hero).MessageContent;
-        public string ClearMessageContent(Hero hero) => 
+        public string ClearMessageContent(Hero hero) =>
             GetHeroData(hero).MessageContent = null;
 
         private HeroData GetHeroData(Hero hero, bool suppressAutoRetire = false)
@@ -1253,7 +1253,7 @@ namespace BLTAdoptAHero
             {
                 return "Arguments: hero,stat,amount";
             }
-            
+
             var hero = Current.GetAdoptedHero(parts[0]);
             if (hero == null)
             {
@@ -1269,7 +1269,7 @@ namespace BLTAdoptAHero
             {
                 return $"Couldn't parse amount {parts[2]}";
             }
-            
+
             Current.GetHeroData(hero).AchievementStats.UpdateValue(stat, hero.GetClass()?.ID ?? Guid.Empty, amount);
 
             return $"Added {amount} to {stat} stat of {hero.Name}";

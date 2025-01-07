@@ -15,28 +15,28 @@ namespace BLTAdoptAHero.UI
         public class HeroState
         {
             public string Name;
-            
+
             [UsedImplicitly] public float HP;
-            
+
             [UsedImplicitly] public float CooldownFractionRemaining;
             [UsedImplicitly] public float CooldownSecondsRemaining;
-            
+
             [UsedImplicitly] public float ActivePowerFractionRemaining;
-            
+
             [UsedImplicitly] public bool IsPlayerSide;
-            
+
             [UsedImplicitly] public int TournamentTeam;
-            
+
             [UsedImplicitly] public string State;
-            
+
             [UsedImplicitly] public float MaxHP;
-            
+
             [UsedImplicitly] public int Kills;
-            
+
             [UsedImplicitly] public int Retinue;
             [UsedImplicitly] public int DeadRetinue;
             [UsedImplicitly] public int RetinueKills;
-            
+
             [UsedImplicitly] public int GoldEarned;
             [UsedImplicitly] public int XPEarned;
         }
@@ -64,16 +64,16 @@ namespace BLTAdoptAHero.UI
                     .Clients.All.update(heroState);
             }
         }
-        
+
         public static void Remove(string name)
         {
             lock (heroState)
             {
-                heroState.RemoveAll(h 
+                heroState.RemoveAll(h
                     => string.Equals(h.Name, name, StringComparison.CurrentCultureIgnoreCase));
             }
         }
-                
+
         public static void Clear()
         {
             lock (heroState)
@@ -84,27 +84,27 @@ namespace BLTAdoptAHero.UI
             // Update immediately as Clear probably means the mission is over
             Update();
         }
-            
+
         public static void UpdateHero(HeroState state)
         {
             lock (heroState)
             {
-                heroState.RemoveAll(h 
+                heroState.RemoveAll(h
                     => string.Equals(h.Name, state.Name, StringComparison.CurrentCultureIgnoreCase));
                 heroState.Add(state);
             }
         }
-        
+
         private static string GetContentPath(string fileName) => Path.Combine(
             Path.GetDirectoryName(typeof(MissionInfoHub).Assembly.Location) ?? ".",
             "Overlay", "MissionInfo", fileName);
         private static string GetContent(string fileName) => File.ReadAllText(GetContentPath(fileName));
-        
+
         public static void Register()
         {
-            BLTOverlay.BLTOverlay.Register("mission", 200, 
-                GetContent("MissionInfo.css"), 
-                GetContent("MissionInfo.html"), 
+            BLTOverlay.BLTOverlay.Register("mission", 200,
+                GetContent("MissionInfo.css"),
+                GetContent("MissionInfo.html"),
                 GetContent("MissionInfo.js"));
         }
     }

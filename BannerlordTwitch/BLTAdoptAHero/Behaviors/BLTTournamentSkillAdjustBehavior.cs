@@ -31,10 +31,10 @@ namespace BLTAdoptAHero
                     Direction = collisionData.WeaponBlowDir,
                     DamageCalculated = true,
                     VictimBodyPart = BoneBodyPartType.Chest,
-                    WeaponRecord = new () { AffectorWeaponSlotOrMissileIndex = -1 },
+                    WeaponRecord = new() { AffectorWeaponSlotOrMissileIndex = -1 },
                 };
 
-                blow.InflictedDamage = (int) blow.BaseMagnitude;
+                blow.InflictedDamage = (int)blow.BaseMagnitude;
 
                 victim.RegisterBlow(blow, collisionData);
             }
@@ -43,7 +43,7 @@ namespace BLTAdoptAHero
         public static int GetModifiedSkill(Hero hero, SkillObject skill, int baseModifiedSkill)
         {
             if (baseModifiedSkill == 0) return 0;
-            
+
             var debuff = BLTAdoptAHeroModule.TournamentConfig.PreviousWinnerDebuffs
                 .FirstOrDefault(d => SkillGroup.GetSkills(d.Skill).Contains(skill));
             if (debuff != null)
@@ -52,14 +52,14 @@ namespace BLTAdoptAHero
                     AchievementStatsData.Statistic.TotalTournamentFinalWins);
                 if (tournamentWins > 0)
                 {
-                    return (int) (baseModifiedSkill * debuff.SkillModifier(tournamentWins));
+                    return (int)(baseModifiedSkill * debuff.SkillModifier(tournamentWins));
                 }
             }
 
             return baseModifiedSkill;
         }
-        
-                
+
+
         [UsedImplicitly, HarmonyPostfix, HarmonyPatch(typeof(CharacterObject), nameof(CharacterObject.GetSimulationAttackPower))]
         public static void GetSimulationAttackPowerPostfix(ref float attackPoints, ref float defencePoints)
         {

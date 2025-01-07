@@ -40,7 +40,7 @@ namespace BannerlordTwitch
                 }
             });
         }
-        
+
         private static void AutoDocumentObject(IDocumentationGenerator generator, object obj)
         {
             var objType = obj.GetType();
@@ -55,7 +55,7 @@ namespace BannerlordTwitch
                 .Where(p => p.doc != null)
                 .GroupBy(p => p.p.GetCustomAttribute<CategoryAttribute>())
                 .OrderBy(g => categoryOrders.FirstOrDefault(c => c.Category == g.Key?.Category)?.Order ?? -int.MaxValue);
-            
+
             foreach (var c in properties)
             {
                 if (c.Key?.Category != null)
@@ -68,9 +68,9 @@ namespace BannerlordTwitch
                         p.p.GetCustomAttribute<PropertyOrderAttribute>()?.Order ?? -int.MaxValue);
                     foreach (var p in categoryItems)
                     {
-                        string name = p.p.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?.Translate() 
+                        string name = p.p.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?.Translate()
                                       ?? p.p.Name.SplitCamelCase();
-                        string desc = p.p.GetCustomAttribute<DescriptionAttribute>()?.Description?.Translate() 
+                        string desc = p.p.GetCustomAttribute<DescriptionAttribute>()?.Description?.Translate()
                                       ?? string.Empty;
                         object value = p.p.GetValue(obj);
 
@@ -87,14 +87,14 @@ namespace BannerlordTwitch
                 });
             }
         }
-        
-        public static IDocumentationGenerator PropertyValuePair(this IDocumentationGenerator generator, 
+
+        public static IDocumentationGenerator PropertyValuePair(this IDocumentationGenerator generator,
             string property, string value)
         {
             return generator.Div("value", () => generator.P($"<strong class=\"value\">{property}</strong>: {value}"));
         }
-        
-        public static IDocumentationGenerator PropertyValuePair(this IDocumentationGenerator generator, 
+
+        public static IDocumentationGenerator PropertyValuePair(this IDocumentationGenerator generator,
             string property, Action content)
         {
             return generator.Div("value", () =>
@@ -103,12 +103,12 @@ namespace BannerlordTwitch
                 content();
             });
         }
-        
+
         public static IDocumentationGenerator Value(this IDocumentationGenerator generator, string value)
         {
             return generator.P("value", value);
-        }        
-        
+        }
+
         public static IDocumentationGenerator Value(this IDocumentationGenerator generator, Action content)
         {
             return generator.Div("value", content);

@@ -39,7 +39,7 @@ namespace BLTAdoptAHero
             //     CustomItemPower = 1,
             // };
             [LocDisplayName("{=}Item Type"),
-             LocCategory("General", "{=C5T5nnix}General"), 
+             LocCategory("General", "{=C5T5nnix}General"),
              LocDescription("{=}Smithed item type"),
              PropertyOrder(1), UsedImplicitly]
             public RewardHelpers.RewardType Type { get; set; } = RewardHelpers.RewardType.Weapon;
@@ -53,33 +53,33 @@ namespace BLTAdoptAHero
             //  LocDescription("{=}Whether to allow smithed items to be generated if the hero already has one of the same type"), 
             //  PropertyOrder(1), Document, UsedImplicitly]
             // public bool AllowDuplicates { get; set; } = false;
-            
+
             [LocDisplayName("{=}Item Power"),
-             LocCategory("General", "{=C5T5nnix}General"), 
+             LocCategory("General", "{=C5T5nnix}General"),
              LocDescription("{=}Smithed item power multiplier, applies on top of the global multiplier"),
-             Range(0, 5), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)), 
+             Range(0, 5), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
              PropertyOrder(2), UsedImplicitly]
             public float ItemPower { get; set; } = 1f;
-            
+
             [LocDisplayName("{=}Item Name"),
-             LocCategory("General", "{=C5T5nnix}General"),  
+             LocCategory("General", "{=C5T5nnix}General"),
              LocDescription("{=vqNeCCNy}Name format for custom item, {ITEMNAME} is the placeholder for the base item name"),
              PropertyOrder(3), UsedImplicitly]
             public string ItemName { get; set; } = "{=}Smithed {ITEMNAME}";
-            
+
             [LocDisplayName("{=HOZnxjGb}Gold Cost"),
-             LocCategory("General", "{=C5T5nnix}General"), 
-             LocDescription("{=OQISx7Jz}Gold cost to summon"), 
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=OQISx7Jz}Gold cost to summon"),
              PropertyOrder(4), UsedImplicitly]
             public int GoldCost { get; set; }
         }
-        
+
         protected override Type ConfigType => typeof(Settings);
-        
+
         protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config, Action<string> onSuccess, Action<string> onFailure)
         {
             var settings = (Settings)config;
-            
+
             int availableGold = BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero);
             if (availableGold < settings.GoldCost)
             {
@@ -101,7 +101,7 @@ namespace BLTAdoptAHero
                 return;
             }
 
-            var (item, itemModifier, slot) = RewardHelpers.GenerateRewardType(settings.Type, 6, adoptedHero, 
+            var (item, itemModifier, slot) = RewardHelpers.GenerateRewardType(settings.Type, 6, adoptedHero,
                 BLTAdoptAHeroCampaignBehavior.Current.GetClass(adoptedHero),
                 true, BLTAdoptAHeroModule.CommonConfig.CustomRewardModifiers,
                 settings.ItemName, settings.ItemPower);
@@ -115,8 +115,8 @@ namespace BLTAdoptAHero
             {
                 onSuccess(RewardHelpers.AssignCustomReward(adoptedHero, item, itemModifier, slot));
                 int newGold = BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.GoldCost);
-                ActionManager.SendReply(context, $"{Naming.Dec}{settings.GoldCost}{Naming.Gold}{Naming.To}{newGold}{Naming.Gold}"); 
-                    //$"{Naming.Dec}{settings.GoldCost}{Naming.Gold}");
+                ActionManager.SendReply(context, $"{Naming.Dec}{settings.GoldCost}{Naming.Gold}{Naming.To}{newGold}{Naming.Gold}");
+                //$"{Naming.Dec}{settings.GoldCost}{Naming.Gold}");
             }
         }
     }

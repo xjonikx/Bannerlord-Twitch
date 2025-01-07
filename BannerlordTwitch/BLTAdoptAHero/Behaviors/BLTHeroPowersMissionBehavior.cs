@@ -15,9 +15,9 @@ namespace BLTAdoptAHero
     // then copied back once all the handlers are complete
     public class RefHandle<T>
     {
-        public RefHandle() {}
+        public RefHandle() { }
         public RefHandle(T data) { this.Data = data; }
-        
+
         public T Data;
     }
 
@@ -25,7 +25,7 @@ namespace BLTAdoptAHero
     public class BLTHeroPowersMissionBehavior : AutoMissionBehavior<BLTHeroPowersMissionBehavior>
     {
         #region Mission Event Handling
-        
+
         private readonly PowerHandler powerHandler = new();
         #endregion
 
@@ -49,7 +49,7 @@ namespace BLTAdoptAHero
             });
         }
 
-        public override void OnAgentBuild(Agent agent, Banner banner) 
+        public override void OnAgentBuild(Agent agent, Banner banner)
             => powerHandler.CallHandlersForAgent(agent, handlers => handlers.AgentBuild(agent));
 
         // public override void OnMissileHit(Agent attacker, Agent victim, bool isCanceled)
@@ -60,11 +60,11 @@ namespace BLTAdoptAHero
             bool attachedToShield,
             MatrixFrame attachLocalFrame, Mission.Missile missile)
             => powerHandler.CallHandlersForAgent(attackerAgent, handlers
-                => handlers.MissileCollisionReaction(collisionReaction, attackerAgent, attachedAgent, 
+                => handlers.MissileCollisionReaction(collisionReaction, attackerAgent, attachedAgent,
                     attachedBoneIndex, attachedToShield, attachLocalFrame, missile));
 
         protected override void OnAgentControllerChanged(Agent agent, Agent.ControllerType oldController)
-            => powerHandler.CallHandlersForAgent(agent, 
+            => powerHandler.CallHandlersForAgent(agent,
                 handlers => handlers.AgentControllerChanged(agent));
 
         public class DecideWeaponCollisionReactionParams
@@ -75,9 +75,9 @@ namespace BLTAdoptAHero
             public bool isShruggedOff;
             public MeleeCollisionReaction colReaction;
         }
-        
-        private void DecideWeaponCollisionReactionCallback(Blow registeredBlow, ref AttackCollisionData collisionData, 
-            Agent attackerAgent, Agent victimAgent, bool isFatalHit, bool isShruggedOff, 
+
+        private void DecideWeaponCollisionReactionCallback(Blow registeredBlow, ref AttackCollisionData collisionData,
+            Agent attackerAgent, Agent victimAgent, bool isFatalHit, bool isShruggedOff,
             ref MeleeCollisionReaction colReaction)
         {
             var param = new DecideWeaponCollisionReactionParams
@@ -89,13 +89,13 @@ namespace BLTAdoptAHero
                 colReaction = colReaction,
             };
 
-            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent, 
-                handlers => handlers.DecideWeaponCollisionReaction(attackerAgent, victimAgent, param))) 
+            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent,
+                handlers => handlers.DecideWeaponCollisionReaction(attackerAgent, victimAgent, param)))
                 return;
-            
+
             colReaction = param.colReaction;
         }
-        
+
         public class MeleeHitParams
         {
             public AttackCollisionData collisionData;
@@ -118,18 +118,18 @@ namespace BLTAdoptAHero
                 crushedThroughWithoutAgentCollision = crushedThroughWithoutAgentCollision,
             };
 
-            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent, 
+            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent,
                 handlers => handlers.DoMeleeHit(attackerAgent, victimAgent, param),
-                handlers => handlers.TakeMeleeHit(victimAgent, attackerAgent, param))) 
+                handlers => handlers.TakeMeleeHit(victimAgent, attackerAgent, param)))
                 return;
-            
+
             collisionData = param.collisionData;
             inOutMomentumRemaining = param.inOutMomentumRemaining;
             colReaction = param.colReaction;
             crushThroughState = param.crushThroughState;
             crushedThroughWithoutAgentCollision = param.crushedThroughWithoutAgentCollision;
         }
-        
+
         private void PostMeleeHitCallback(ref AttackCollisionData collisionData, Agent attackerAgent, Agent victimAgent,
             ref float inOutMomentumRemaining, ref MeleeCollisionReaction colReaction,
             ref CrushThroughState crushThroughState, ref bool crushedThroughWithoutAgentCollision)
@@ -143,11 +143,11 @@ namespace BLTAdoptAHero
                 crushedThroughWithoutAgentCollision = crushedThroughWithoutAgentCollision,
             };
 
-            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent, 
+            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent,
                 handlers => handlers.PostDoMeleeHit(attackerAgent, victimAgent, param),
-                handlers => handlers.PostTakeMeleeHit(victimAgent, attackerAgent, param))) 
+                handlers => handlers.PostTakeMeleeHit(victimAgent, attackerAgent, param)))
                 return;
-            
+
             collisionData = param.collisionData;
             inOutMomentumRemaining = param.inOutMomentumRemaining;
             colReaction = param.colReaction;
@@ -160,21 +160,21 @@ namespace BLTAdoptAHero
             public AttackCollisionData collisionData;
             public bool? overridePassThrough;
         }
-        
+
         private void MissileHitCallback(ref AttackCollisionData collisionData, Agent attackerAgent, Agent victimAgent)
         {
             var param = new MissileHitParams
             {
                 collisionData = collisionData,
             };
-            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent, 
+            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent,
                 handlers => handlers.DoMissileHit(attackerAgent, victimAgent, param),
-                handlers => handlers.TakeMissileHit(victimAgent, attackerAgent, param))) 
+                handlers => handlers.TakeMissileHit(victimAgent, attackerAgent, param)))
                 return;
-            
+
             collisionData = param.collisionData;
         }
-        
+
         // public override void OnAgentShootMissile(Agent shooterAgent, EquipmentIndex weaponIndex,
         // Vec3 position, Vec3 velocity, Mat3 orientation,
         //     bool hasRigidBody, int forcedMissileIndex)
@@ -209,8 +209,8 @@ namespace BLTAdoptAHero
             public MissionWeapon attackerWeapon;
             public CombatLogData combatLogData;
         }
-        
-        private void RegisterBlow(Agent attackerAgent, Agent victimAgent, ref Blow blow, 
+
+        private void RegisterBlow(Agent attackerAgent, Agent victimAgent, ref Blow blow,
             ref AttackCollisionData collisionData, ref MissionWeapon attackerWeapon, ref CombatLogData combatLogData)
         {
             var param = new RegisterBlowParams
@@ -223,9 +223,9 @@ namespace BLTAdoptAHero
                 combatLogData = combatLogData,
             };
 
-            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent, 
+            if (!powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent,
                 handlers => handlers.DoDamage(attackerAgent, victimAgent, param),
-                handlers => handlers.TakeDamage(victimAgent, attackerAgent, param))) 
+                handlers => handlers.TakeDamage(victimAgent, attackerAgent, param)))
                 return;
 
             blow = param.blow;
@@ -233,16 +233,16 @@ namespace BLTAdoptAHero
             attackerWeapon = param.attackerWeapon;
             combatLogData = param.combatLogData;
         }
-        
+
         private void AddMissileAux(Agent shooterAgent, ref WeaponData weaponData, WeaponStatsData[] weaponStatsData)
         {
             var wdRef = new RefHandle<WeaponData>(weaponData);
-            powerHandler.CallHandlersForAgent(shooterAgent, 
+            powerHandler.CallHandlersForAgent(shooterAgent,
                 handlers => handlers.AddMissile(shooterAgent, wdRef, weaponStatsData));
             weaponData = wdRef.Data;
         }
 
-        public override void OnAgentRemoved(Agent victimAgent, Agent attackerAgent, AgentState agentState, 
+        public override void OnAgentRemoved(Agent victimAgent, Agent attackerAgent, AgentState agentState,
             KillingBlow blow)
         {
             powerHandler.CallHandlersForAgentPair(attackerAgent, victimAgent,
@@ -257,7 +257,7 @@ namespace BLTAdoptAHero
 
         private const float SlowTickDuration = 2;
         private float slowTick;
-            
+
         public override void OnMissionTick(float dt)
         {
             slowTick += dt;
@@ -314,12 +314,12 @@ namespace BLTAdoptAHero
         // {
         //     Current?.ApplyHitDamage(attackerAgent, victimAgent, ref attackCollisionData);
         // }
-        
+
         [UsedImplicitly, HarmonyPrefix, HarmonyPatch(typeof(Mission), "RegisterBlow")]
         private static void RegisterBlowPrefix(Agent attacker, Agent victim, GameEntity realHitEntity, ref Blow b,
             ref AttackCollisionData collisionData, ref MissionWeapon attackerWeapon, ref CombatLogData combatLogData)
         {
-            Current?.RegisterBlow(attacker, victim, ref b, ref collisionData, 
+            Current?.RegisterBlow(attacker, victim, ref b, ref collisionData,
                 ref attackerWeapon, ref combatLogData);
         }
 
@@ -336,7 +336,7 @@ namespace BLTAdoptAHero
                 Current?.AddMissileAux(shooterAgent, ref weaponData, weaponStatsData);
             }
         }
-        
+
         [UsedImplicitly, HarmonyPrefix, HarmonyPatch(typeof(Mission), "HandleMissileCollisionReaction")]
         private static void HandleMissileCollisionReactionPrefix(Mission __instance, int missileIndex,
             Mission.MissileCollisionReaction collisionReaction, MatrixFrame attachLocalFrame, Agent attackerAgent,
@@ -348,13 +348,13 @@ namespace BLTAdoptAHero
             Current?.MissileCollision(collisionReaction, attackerAgent, attachedAgent, attachedBoneIndex,
                 attachedToShield, attachLocalFrame, _missiles[missileIndex]);
         }
-        
+
         [UsedImplicitly, HarmonyPostfix, HarmonyPatch(typeof(Mission), "DecideWeaponCollisionReaction")]
-        private static void DecideWeaponCollisionReactionPostfix(Blow registeredBlow, 
-            ref AttackCollisionData collisionData, Agent attacker, Agent defender, bool isFatalHit, bool isShruggedOff, 
+        private static void DecideWeaponCollisionReactionPostfix(Blow registeredBlow,
+            ref AttackCollisionData collisionData, Agent attacker, Agent defender, bool isFatalHit, bool isShruggedOff,
             ref MeleeCollisionReaction colReaction)
         {
-            Current?.DecideWeaponCollisionReactionCallback(registeredBlow, ref collisionData, attacker, 
+            Current?.DecideWeaponCollisionReactionCallback(registeredBlow, ref collisionData, attacker,
                 defender, isFatalHit, isShruggedOff, ref colReaction);
         }
 
@@ -379,7 +379,7 @@ namespace BLTAdoptAHero
                 ref crushedThroughWithoutAgentCollision
             );
         }
-        
+
         [UsedImplicitly, HarmonyPostfix, HarmonyPatch(typeof(Mission), "MeleeHitCallback")]
         private static void MeleeHitCallbackPostfix(ref AttackCollisionData collisionData, Agent attacker, Agent victim,
             //GameEntity realHitEntity, 

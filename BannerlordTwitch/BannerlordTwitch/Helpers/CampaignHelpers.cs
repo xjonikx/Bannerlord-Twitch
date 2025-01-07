@@ -65,34 +65,34 @@ namespace BannerlordTwitch.Helpers
         }
 
         public const CharacterAttribute DefaultAttribute = default;
-        
+
         public static IEnumerable<SkillObject> AllSkillObjects => Skills.All;
-        
+
         public static IEnumerable<Hero> DeadOrDisabledHeroes => Campaign.Current.DeadOrDisabledHeroes;
         public static void SetHeroName(Hero hero, TextObject name, TextObject firstName = null)
         {
             hero.SetName(name, firstName);
         }
-        
+
         public static IEnumerable<ItemObject> AllItems => Items.All;
 #endif
-        
-        public static float GetApplicationTime() => 
+
+        public static float GetApplicationTime() =>
 #if e159 || e1510 || e160 || e161 || e162
             MBCommon.GetTime(MBCommon.TimeType.Application)
 #else
             MBCommon.GetApplicationTime()
 #endif
         ;
-        
-        public static float GetTotalMissionTime() => 
+
+        public static float GetTotalMissionTime() =>
 #if e159 || e1510 || e160 || e161 || e162
             MBCommon.GetTime(MBCommon.TimeType.Mission)
 #else
             MBCommon.GetTotalMissionTime()
 #endif
         ;
-        
+
         public static Crafting NewCrafting(CraftingTemplate craftingTemplate, BasicCultureObject culture) =>
             new Crafting(craftingTemplate, culture, craftingTemplate.TemplateName)
         ;
@@ -101,20 +101,20 @@ namespace BannerlordTwitch.Helpers
         public static IEnumerable<Hero> AllHeroes => AliveHeroes.Concat(DeadOrDisabledHeroes).Distinct();
 
         public static IEnumerable<CultureObject> AllCultures => MBObjectManager.Instance.GetObjectTypeList<CultureObject>();
-        
+
         public static IEnumerable<CultureObject> MainCultures => AllCultures.Where(c => c.IsMainCulture);
 
         public static IEnumerable<IFaction> MainFactions => Campaign.Current.Kingdoms; //MBObjectManager.Instance.GetObjectTypeList<Kingdom>();
 
         public static IEnumerable<CharacterObject> GetWandererTemplates(CultureObject culture) =>
             culture.NotableAndWandererTemplates.Where(w => w.Occupation == Occupation.Wanderer);
-        
+
         public static IEnumerable<CharacterObject> AllWandererTemplates => MainCultures.SelectMany(GetWandererTemplates);
 
         public static void AddEncyclopediaBookmarkToItem<T>(T t)
         {
             if (Campaign.Current == null) return;
-            
+
 #if e170
             typeof(ViewDataTracker).GetMethod(nameof(ViewDataTracker.EncyclopediaAddBookmarkToItem)
 #else
@@ -123,7 +123,7 @@ namespace BannerlordTwitch.Helpers
                 , new[] { t.GetType() })?.Invoke(Campaign.Current.EncyclopediaManager.ViewDataTracker,
                 new object[] { t });
         }
-        
+
         public static void RemoveEncyclopediaBookmarkFromItem<T>(T t)
         {
             if (Campaign.Current == null) return;
@@ -135,11 +135,11 @@ namespace BannerlordTwitch.Helpers
                 , new[] { t.GetType() })?.Invoke(Campaign.Current.EncyclopediaManager.ViewDataTracker,
                 new object[] { t });
         }
-        
+
         public static bool IsEncyclopediaBookmarked<T>(T t)
         {
             if (Campaign.Current == null) return false;
-            object result = 
+            object result =
 #if e170
                 typeof(ViewDataTracker).GetMethod(nameof(ViewDataTracker.EncyclopediaIsBookmarked)
 #else

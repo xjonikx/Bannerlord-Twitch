@@ -10,7 +10,6 @@ using TwitchLib.Api.Core.HttpCallHandlers;
 using TwitchLib.Api.Core.Interfaces;
 using TwitchLib.Api.Helix.Models.ChannelPoints;
 using TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward;
-using TwitchLib.PubSub.Events;
 
 namespace BannerlordTwitch.Dummy
 {
@@ -56,17 +55,17 @@ namespace BannerlordTwitch.Dummy
                 Status = CustomRewardRedemptionStatus.UNFULFILLED;
                 RedeemedAt = DateTime.Now;
                 Reward = JsonConvert.DeserializeObject<TwitchLib.Api.Helix.Models.ChannelPoints.Reward>(
-                    JsonConvert.SerializeObject(new { id = rewardId, title = rewardTitle }) );
+                    JsonConvert.SerializeObject(new { id = rewardId, title = rewardTitle }));
             }
         }
-        
-        private readonly List<CustomReward> customRewards = new ();
-        private readonly List<Redemption> activeRedemptions = new ();
-        
+
+        private readonly List<CustomReward> customRewards = new();
+        private readonly List<Redemption> activeRedemptions = new();
+
         private readonly JsonSerializerSettings deserializerSettings = new() { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Ignore };
 
         public event EventHandler<TwitchLib.PubSub.Models.Responses.Messages.Redemption.Redemption> OnRewardRedeemed;
-        
+
         public AffiliateSpoofingHttpCallHandler(IHttpCallHandler http = null, ILogger<TwitchHttpClient> logger = null) : base(http, logger)
         {
             AddRedirect(ApiVersion.Helix, "/channel_points/custom_rewards", "POST", CreateCustomRewardsAsync);
@@ -103,22 +102,22 @@ namespace BannerlordTwitch.Dummy
                             user_input = args,
                             status = "UNFULFILLED",
                         })));
-                    //new OnChannelPointsRewardRedeemedArgs {
-                    // ChannelId = user + "channel",
-                    // Login = user,
-                    // DisplayName = user,
-                    // Message = args,
-                    // RewardId = Guid.Parse(reward.Id),
-                    // RewardTitle = reward.Title, 
-                    // Status = "UNFULFILLED",
-                    // RedemptionId = id,
-                    // });
+                //new OnChannelPointsRewardRedeemedArgs {
+                // ChannelId = user + "channel",
+                // Login = user,
+                // DisplayName = user,
+                // Message = args,
+                // RewardId = Guid.Parse(reward.Id),
+                // RewardTitle = reward.Title, 
+                // Status = "UNFULFILLED",
+                // RedemptionId = id,
+                // });
                 return true;
             }
 
             return false;
         }
-        
+
         private async Task<KeyValuePair<int, string>> GetUsersAsync(string payload, string clientid, string accesstoken, Func<Task<KeyValuePair<int, string>>> realcall, Dictionary<string, string[]> urlparams)
         {
             var results = await realcall();
@@ -140,7 +139,7 @@ namespace BannerlordTwitch.Dummy
                 200,
                 JsonConvert.SerializeObject(new
                 {
-                    data = new [] { newReward }
+                    data = new[] { newReward }
                 }, deserializerSettings)));
         }
 

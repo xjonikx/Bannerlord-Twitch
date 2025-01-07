@@ -9,11 +9,11 @@ using TaleWorlds.CampaignSystem;
 namespace BLTAdoptAHero
 {
     [LocDisplayName("{=Wpx7tHFL}Use Power"),
-     LocDescription("{=FJwn6kGW}Allows activation of the adopted heroes class active powers"), 
+     LocDescription("{=FJwn6kGW}Allows activation of the adopted heroes class active powers"),
      UsedImplicitly]
     public class UsePower : HeroActionHandlerBase
     {
-        protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config, 
+        protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config,
             Action<string> onSuccess, Action<string> onFailure)
         {
             var heroClass = adoptedHero.GetClass();
@@ -30,7 +30,7 @@ namespace BLTAdoptAHero
                     .Translate(("FailReason", failReason)));
                 return;
             }
-            
+
             if (heroClass.ActivePower.IsActive(adoptedHero))
             {
                 onFailure("{=o23xAj6M}Your powers are already active!".Translate());

@@ -4,7 +4,7 @@ using TaleWorlds.Library;
 
 namespace BannerlordTwitch.Util
 {
-    public static class GameVersion 
+    public static class GameVersion
     {
         public static string GameVersionString { get; private set; }
 

@@ -6,15 +6,15 @@ using JetBrains.Annotations;
 
 namespace BLTAdoptAHero
 {
-    [LocDisplayName("{=kn4uxAWs}Add Gold To Hero"), 
-     LocDescription("{=vkgPfcAu}Gives gold to the adopted hero"), 
+    [LocDisplayName("{=kn4uxAWs}Add Gold To Hero"),
+     LocDescription("{=vkgPfcAu}Gives gold to the adopted hero"),
      UsedImplicitly]
     internal class AddGoldToHero : IRewardHandler
     {
         private class Settings : IDocumentable
         {
-            [LocDisplayName("{=DKfKt4qP}Amount"), 
-             LocDescription("{=S2CeRdjR}How much gold to give the adopted hero"), 
+            [LocDisplayName("{=DKfKt4qP}Amount"),
+             LocDescription("{=S2CeRdjR}How much gold to give the adopted hero"),
              UsedImplicitly, Document]
             public int Amount { get; set; }
 
@@ -35,7 +35,7 @@ namespace BLTAdoptAHero
                 return;
             }
             int newGold = BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, settings.Amount);
-            
+
             ActionManager.NotifyComplete(context, $"{Naming.Inc}{settings.Amount}{Naming.Gold}{Naming.To}{newGold}{Naming.Gold}");
         }
 

@@ -22,7 +22,7 @@ namespace BannerlordTwitch.Testing
             "Abdisalam", "Samy", "Diesel", "Muhammed", "Yuanyu", "Aaron-James", "Uzayr", "Kurtis", "Eroni",
         };
         #endregion
-        
+
         private class User
         {
             public string name;
@@ -54,13 +54,13 @@ namespace BannerlordTwitch.Testing
                     {
                         string name = Names[userId % Names.Length];
                         if (rnd.NextDouble() < 0.5f) name = name.ToLower();
-                        
+
                         var newUser = new User
                         {
                             name = $"{name}{++userId}",
                             leaveTime = DateTime.Now +
-                                        TimeSpan.FromSeconds(rnd.Next((int) (simSettings.UserStayTime * 0.75f),
-                                            (int) (simSettings.UserStayTime * 1.25f)))
+                                        TimeSpan.FromSeconds(rnd.Next((int)(simSettings.UserStayTime * 0.75f),
+                                            (int)(simSettings.UserStayTime * 1.25f)))
                         };
                         users.Add(newUser);
                         foreach (var initItem in simSettings.InitEnabled)
@@ -74,7 +74,7 @@ namespace BannerlordTwitch.Testing
                     {
                         MainThreadSync.Run(() =>
                         {
-                            var item = simSettings.UseEnabled.SelectRandomWeighted(testingItem => testingItem.Weight <= 0? 1 : testingItem.Weight);
+                            var item = simSettings.UseEnabled.SelectRandomWeighted(testingItem => testingItem.Weight <= 0 ? 1 : testingItem.Weight);
                             RunItem(settings, item, user);
                         });
                     }

@@ -23,9 +23,9 @@ namespace BannerlordTwitch.Util
         };
 
         public ItemCollection GetValues() => items;
-        
-        public static string GetFriendlyName(string pfx) 
-            => items.FirstOrDefault(p => (string) p.Value == pfx)?.DisplayName ?? "{=a8ibMIfH}(none)".Translate();
+
+        public static string GetFriendlyName(string pfx)
+            => items.FirstOrDefault(p => (string)p.Value == pfx)?.DisplayName ?? "{=a8ibMIfH}(none)".Translate();
     }
 
     public class LoopingParticleEffectItemSource : IItemsSource
@@ -48,9 +48,9 @@ namespace BannerlordTwitch.Util
         };
 
         public ItemCollection GetValues() => items;
-        
-        public static string GetFriendlyName(string pfx) 
-            => items.FirstOrDefault(p => (string) p.Value == pfx)?.DisplayName ?? "{=a8ibMIfH}(none)".Translate();
+
+        public static string GetFriendlyName(string pfx)
+            => items.FirstOrDefault(p => (string)p.Value == pfx)?.DisplayName ?? "{=a8ibMIfH}(none)".Translate();
 
         private static string[] pfx = {
             "psys_adobe_battlement_destroyed",

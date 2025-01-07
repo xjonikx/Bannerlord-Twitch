@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using BannerlordTwitch;
 using BannerlordTwitch.Localization;
 using BannerlordTwitch.UI;
 using BannerlordTwitch.Util;
@@ -18,7 +17,7 @@ namespace BLTAdoptAHero.Powers
     {
         [LocDisplayName("{=WLtUn4t7}Requirements"),
          LocDescription("{=sl5ZoJdv}Optional unlock criteria"),
-         Editor(typeof(DerivedClassCollectionEditor<IAchievementRequirement>), 
+         Editor(typeof(DerivedClassCollectionEditor<IAchievementRequirement>),
              typeof(DerivedClassCollectionEditor<IAchievementRequirement>)),
          PropertyOrder(1), UsedImplicitly]
         public ObservableCollection<IAchievementRequirement> Requirements { get; set; } = new();
@@ -26,18 +25,18 @@ namespace BLTAdoptAHero.Powers
         public PowerGroupItemBase()
         {
             // For when these are created via the configure tool
-            PowerConfig = ConfigureContext.CurrentlyEditedSettings == null 
+            PowerConfig = ConfigureContext.CurrentlyEditedSettings == null
                 ? null : GlobalHeroPowerConfig.Get(ConfigureContext.CurrentlyEditedSettings);
         }
 
         public bool IsUnlocked(Hero hero) => Requirements.All(r => r.IsMet(hero));
 
-        public override string ToString() 
+        public override string ToString()
             => "{=hPcS0MIw}requires {Requirements}"
                 .Translate(("Requirements", string.Join("+", Requirements.Select(r => r.ToString()))));
 
         #region Implementation Detail
-        [YamlIgnore, Browsable(false)] 
+        [YamlIgnore, Browsable(false)]
         protected GlobalHeroPowerConfig PowerConfig { get; set; }
         #endregion
 
@@ -54,7 +53,7 @@ namespace BLTAdoptAHero.Powers
         #region ILoaded
         public void OnLoaded(BannerlordTwitch.Settings settings)
         {
-            PowerConfig = GlobalHeroPowerConfig.Get(settings);   
+            PowerConfig = GlobalHeroPowerConfig.Get(settings);
         }
         #endregion
 

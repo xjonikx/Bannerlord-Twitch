@@ -29,18 +29,18 @@ namespace BannerlordTwitch.Helpers
                 agent.DropItem(index2);
             }
         }
-        
+
         public static void SetAgentScale(Agent agent, float baseScale, float scale)
         {
             // Only remaining problem here is to get collision to work properly for scaled agents. 
-            
+
             //var n = ((this._data.ScaleData == 0f) ? MBBodyProperties.GetScaleFromKey(this.IsFemale ? 1 : 0, this._data.BodyPropertiesData) : this._data.ScaleData);
             // var frameData = agent.AgentVisuals.GetFrame();
             // frameData.rotation.ApplyScaleLocal(scale);
             // agent.AgentVisuals.SetFrame(ref frameData);
             //var entity = agent.AgentVisuals.GetEntity();
 
-            AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new []{ (object) scale });
+            AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new[] { (object)scale });
             // Not sure which of these (if either of them) is actually helpful here
             agent.AgentVisuals.LazyUpdateAgentRendererData();
             agent.AgentVisuals.UpdateSkeletonScale((int)agent.SpawnEquipment.BodyDeformType);
@@ -54,8 +54,8 @@ namespace BannerlordTwitch.Helpers
             if (rider != null)
             {
                 // Unset and reset the mount so the rider is reattached at the right place
-                AccessTools.Method(typeof(Agent), "SetMountAgent").Invoke(rider, new[] {(object) null});
-                AccessTools.Method(typeof(Agent), "SetMountAgent").Invoke(rider, new[] {(object) agent});
+                AccessTools.Method(typeof(Agent), "SetMountAgent").Invoke(rider, new[] { (object)null });
+                AccessTools.Method(typeof(Agent), "SetMountAgent").Invoke(rider, new[] { (object)agent });
                 //agent.RiderAgent?.Mount(null);
                 //agent.RiderAgent?.Mount(agent);
             }

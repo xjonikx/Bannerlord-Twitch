@@ -8,10 +8,12 @@ namespace BannerlordTwitch.Util
     internal class AssemblyHelper
     {
         ///<summary>Adds an AssemblyResolve handler to redirect all attempts to load a specific assembly name to the specified version.</summary>
-        public static void Redirect(string shortName, Version targetVersion, string publicKeyToken) {
+        public static void Redirect(string shortName, Version targetVersion, string publicKeyToken)
+        {
             ResolveEventHandler handler = null;
 
-            handler = (sender, args) => {
+            handler = (sender, args) =>
+            {
                 // Use latest strong name & version when trying to load SDK assemblies
                 var requestedAssembly = new AssemblyName(args.Name);
                 if (requestedAssembly.Name != shortName)
@@ -24,7 +26,7 @@ namespace BannerlordTwitch.Util
                 requestedAssembly.CultureInfo = CultureInfo.InvariantCulture;
 
                 // AppDomain.CurrentDomain.AssemblyResolve -= handler;
-                
+
                 Debug.Print($"[BLT] Redirecting assembly {args.Name} to version {targetVersion}");
 
                 return Assembly.Load(requestedAssembly);

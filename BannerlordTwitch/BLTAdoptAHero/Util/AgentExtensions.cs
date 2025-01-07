@@ -7,9 +7,9 @@ namespace BLTAdoptAHero
 {
     public static class AgentExtensions
     {
-        public static bool IsAdopted(this Agent agent) 
+        public static bool IsAdopted(this Agent agent)
             => (agent.Character as CharacterObject)?.HeroObject?.IsAdopted() == true;
-        
+
         public static bool IsAdoptedBy(this Agent agent, string user)
         {
             if (agent.Character is not CharacterObject charObj) return false;
@@ -21,7 +21,7 @@ namespace BLTAdoptAHero
         {
             return (agent?.Character as CharacterObject)?.HeroObject;
         }
-        
+
         public static Hero GetAdoptedHero(this Agent agent)
         {
             var hero = agent.GetHero();

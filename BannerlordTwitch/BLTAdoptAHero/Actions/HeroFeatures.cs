@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using BannerlordTwitch;
-using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Localization;
-using BannerlordTwitch.Rewards;
 using BannerlordTwitch.Util;
 using BLTAdoptAHero.Annotations;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.MountAndBlade;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using TaleWorlds.CampaignSystem.Settlements;
-using TaleWorlds.Core;
-using TaleWorlds.Localization;
-using TaleWorlds.Library;
 
 namespace BLTAdoptAHero.Actions
 {
@@ -46,7 +38,7 @@ namespace BLTAdoptAHero.Actions
 
         public override Type HandlerConfigType => typeof(Settings);
 
-        protected override void ExecuteInternal(Hero adoptedHero,ReplyContext context, object config, Action<string> onSuccess, Action<string> onFailure)
+        protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config, Action<string> onSuccess, Action<string> onFailure)
         {
             if (config is not Settings settings) return;
             //var adoptedHero = BLTAdoptAHeroCampaignBehavior.Current.GetAdoptedHero(context.UserName);

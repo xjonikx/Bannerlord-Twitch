@@ -14,7 +14,7 @@ namespace BannerlordTwitch.Util
         public int Min { get; set; }
         [PropertyOrder(2), UsedImplicitly]
         public int Max { get; set; }
-        
+
         [YamlIgnore, Browsable(false)]
         public bool IsFixed => Min == Max;
 
@@ -25,7 +25,7 @@ namespace BannerlordTwitch.Util
         }
 
         public int RandomInRange() => IsFixed ? Min : MBRandom.RandomInt(Min, Max);
-        
+
         public override string ToString() => $"{Min} - {Max}";
     }
 }

@@ -13,7 +13,7 @@ using YamlDotNet.Serialization;
 namespace BLTAdoptAHero.Powers
 {
     [LocDisplayName("{=UJHquN95}Take Damage Power"),
-     LocDescription("{=F3TxyV4d}Changes the effects of incoming damage"), 
+     LocDescription("{=F3TxyV4d}Changes the effects of incoming damage"),
      UsedImplicitly]
     public class TakeDamagePower : DurationMissionHeroPowerDefBase, IHeroPowerPassive, IDocumentable
     {
@@ -28,25 +28,25 @@ namespace BLTAdoptAHero.Powers
 
         [LocDisplayName("{=4XgEPe3Q}Damage To Add"),
          LocCategory("Effect", "{=VBuncBq5}Effect"),
-         LocDescription("{=wuOM9C4l}How much damage to add or subtract"), 
+         LocDescription("{=wuOM9C4l}How much damage to add or subtract"),
          PropertyOrder(2), UsedImplicitly]
         public int DamageToAdd { get; set; }
-        
+
         [LocDisplayName("{=2JFBV975}Add Hit Behavior"),
          LocCategory("Effect", "{=VBuncBq5}Effect"),
-         LocDescription("{=9t2oXdqy}Behaviors to add to the damage (e.g. add Shrug Off to ensure the hero is never stunned when hit)"), 
+         LocDescription("{=9t2oXdqy}Behaviors to add to the damage (e.g. add Shrug Off to ensure the hero is never stunned when hit)"),
          ExpandableObject, PropertyOrder(3), UsedImplicitly]
         public HitBehavior AddHitBehavior { get; set; }
 
         [LocDisplayName("{=GLAvDJl5}Remove Hit Behavior"),
          LocCategory("Effect", "{=VBuncBq5}Effect"),
-         LocDescription("{=oA2TrarN}Behaviors to remove from the damage (e.g. remove Shrug Off to ensure the hero is always stunned when hit)"), 
+         LocDescription("{=oA2TrarN}Behaviors to remove from the damage (e.g. remove Shrug Off to ensure the hero is always stunned when hit)"),
          ExpandableObject, PropertyOrder(4), UsedImplicitly]
         public HitBehavior RemoveHitBehavior { get; set; }
-        
+
         [LocDisplayName("{=9Lwkwni0}Armor To Ignore Percent"),
          LocCategory("Effect", "{=VBuncBq5}Effect"),
-         LocDescription("{=wSkoeVw1}What fraction (0 to 1) of armor to ignore when applying damage"), 
+         LocDescription("{=wSkoeVw1}What fraction (0 to 1) of armor to ignore when applying damage"),
          UIRangeAttribute(0, 100, 1f),
          Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(5), UsedImplicitly]
@@ -57,10 +57,10 @@ namespace BLTAdoptAHero.Powers
         protected override void OnActivation(Hero hero, PowerHandler.Handlers handlers,
             Agent agent = null, DeactivationHandler deactivationHandler = null)
             => handlers.OnTakeDamage += OnTakeDamage;
-        
+
         private void OnTakeDamage(Agent agent, Agent attackerAgent, BLTHeroPowersMissionBehavior.RegisterBlowParams blowParams)
         {
-            AddDamagePower.ApplyDamageEffects(agent, blowParams, ArmorToIgnorePercent, DamageModifierPercent, 
+            AddDamagePower.ApplyDamageEffects(agent, blowParams, ArmorToIgnorePercent, DamageModifierPercent,
                 DamageToAdd, AddHitBehavior, RemoveHitBehavior);
         }
         #endregion
@@ -71,11 +71,11 @@ namespace BLTAdoptAHero.Powers
         [YamlIgnore, Browsable(false)]
         public override LocString Description
         {
-            get 
+            get
             {
                 if (!IsEnabled) return "{=41sZdkDw}(disabled)";
                 var parts = new List<string>();
-                if (DamageModifierPercent != 100) 
+                if (DamageModifierPercent != 100)
                     parts.Add("{=stFtZvfp}{DamageModifierPercent}% damage"
                         .Translate(("DamageModifierPercent", DamageModifierPercent.ToString("0"))));
                 if (AddHitBehavior.IsEnabled) parts.Add(AddHitBehavior.ToString());
@@ -93,9 +93,9 @@ namespace BLTAdoptAHero.Powers
         public void GenerateDocumentation(IDocumentationGenerator generator)
         {
             generator.PropertyValuePair("{=GrBznDeq}Damage".Translate(), $"{DamageModifierPercent:0}%");
-            generator.PropertyValuePair(GetType().GetProperty(nameof(AddHitBehavior)).GetDisplayName(), 
+            generator.PropertyValuePair(GetType().GetProperty(nameof(AddHitBehavior)).GetDisplayName(),
                 () => AddHitBehavior.GenerateDocumentation(generator));
-            generator.PropertyValuePair(GetType().GetProperty(nameof(RemoveHitBehavior)).GetDisplayName(), 
+            generator.PropertyValuePair(GetType().GetProperty(nameof(RemoveHitBehavior)).GetDisplayName(),
                 () => RemoveHitBehavior.GenerateDocumentation(generator));
         }
         #endregion

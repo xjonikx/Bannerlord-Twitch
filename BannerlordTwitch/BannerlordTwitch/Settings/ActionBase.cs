@@ -16,28 +16,28 @@ namespace BannerlordTwitch
         [ReadOnly(true), UsedImplicitly]
         public Guid ID { get; set; } = Guid.NewGuid();
 
-        [LocDisplayName("{=sPKWnVA0}Enabled"), LocCategory("General", "{=C5T5nnix}General"), 
-         LocDescription("{=YM1rP7sP}Whether this is enabled or not"), 
+        [LocDisplayName("{=sPKWnVA0}Enabled"), LocCategory("General", "{=C5T5nnix}General"),
+         LocDescription("{=YM1rP7sP}Whether this is enabled or not"),
          PropertyOrder(-100), UsedImplicitly]
         public bool Enabled { get; set; }
-        [LocDisplayName("{=86rc4cz6}Respond In Twitch"), LocCategory("General", "{=C5T5nnix}General"), 
-         LocDescription("{=7IBsjc51}Show response in the twitch chat"), 
+        [LocDisplayName("{=86rc4cz6}Respond In Twitch"), LocCategory("General", "{=C5T5nnix}General"),
+         LocDescription("{=7IBsjc51}Show response in the twitch chat"),
          PropertyOrder(-99), UsedImplicitly]
         public bool RespondInTwitch { get; set; }
-        [LocDisplayName("{=0MgBhdtw}Respond In Overlay"), LocCategory("General", "{=C5T5nnix}General"), 
-         LocDescription("{=UQRfOFjs}Show response in the overlay window feed"), 
+        [LocDisplayName("{=0MgBhdtw}Respond In Overlay"), LocCategory("General", "{=C5T5nnix}General"),
+         LocDescription("{=UQRfOFjs}Show response in the overlay window feed"),
          PropertyOrder(-98), UsedImplicitly]
         public bool RespondInOverlay { get; set; }
-        
-        [LocDisplayName("{=dteVl09D}Handler"), LocCategory("General", "{=C5T5nnix}General"), 
-         LocDescription("{=ErhzbqFu}Name of the handler"), 
-         ReadOnly(true), PropertyOrder(1), UsedImplicitly, 
+
+        [LocDisplayName("{=dteVl09D}Handler"), LocCategory("General", "{=C5T5nnix}General"),
+         LocDescription("{=ErhzbqFu}Name of the handler"),
+         ReadOnly(true), PropertyOrder(1), UsedImplicitly,
          SuppressPropertyChangedWarnings]
         public abstract string Handler { get; set; }
 
-        [LocDisplayName("{=Zj8ni08E}Handler Config"), LocCategory("General", "{=C5T5nnix}General"), 
+        [LocDisplayName("{=Zj8ni08E}Handler Config"), LocCategory("General", "{=C5T5nnix}General"),
          LocDescription("{=cdEbk84n}Custom config for the handler"),
-         ExpandableObject, Expand, ReadOnly(true), 
+         ExpandableObject, Expand, ReadOnly(true),
          PropertyOrder(2), UsedImplicitly]
         public object HandlerConfig { get; set; }
 

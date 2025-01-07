@@ -21,7 +21,7 @@ namespace BLTAdoptAHero
         public delegate void GotAKillDelegate(Agent killer, Agent killed, AgentState agentState);
         public delegate void GotKilledDelegate(Agent killed, Agent killer, AgentState agentState);
         public delegate void MissionTickDelegate(float dt);
-            
+
         private class Listeners
         {
             public AgentCreatedDelegate onAgentCreated;
@@ -36,7 +36,7 @@ namespace BLTAdoptAHero
         private readonly Dictionary<Agent, Listeners> agentListeners = new();
         private IEnumerable<Listeners> AllListeners => heroListeners.Values.Concat(agentListeners.Values);
 
-        public bool AddListeners(Hero hero, 
+        public bool AddListeners(Hero hero,
             AgentCreatedDelegate onAgentCreated = null,
             MissionOverDelegate onMissionOver = null,
             GotAKillDelegate onGotAKill = null,
@@ -51,7 +51,7 @@ namespace BLTAdoptAHero
             RemoveListeners(hero);
             heroListeners.Add(hero, new Listeners
             {
-                onAgentCreated = onAgentCreated, 
+                onAgentCreated = onAgentCreated,
                 onMissionOver = onMissionOver,
                 onGotAKill = onGotAKill,
                 onGotKilled = onGotKilled,
@@ -60,8 +60,8 @@ namespace BLTAdoptAHero
             });
             return true;
         }
-        
-        public bool AddListeners(Agent agent, 
+
+        public bool AddListeners(Agent agent,
             AgentCreatedDelegate onAgentCreated = null,
             MissionOverDelegate onMissionOver = null,
             MissionModeChangeDelegate onModeChange = null,
@@ -78,7 +78,7 @@ namespace BLTAdoptAHero
             RemoveListeners(agent);
             agentListeners.Add(agent, new()
             {
-                onAgentCreated = onAgentCreated, 
+                onAgentCreated = onAgentCreated,
                 onMissionOver = onMissionOver,
                 onGotAKill = onGotAKill,
                 onGotKilled = onGotKilled,
@@ -121,7 +121,7 @@ namespace BLTAdoptAHero
 
         private const float SlowTickDuration = 2;
         private float slowTick = 0;
-            
+
         public override void OnMissionTick(float dt)
         {
             slowTick += dt;
@@ -148,7 +148,7 @@ namespace BLTAdoptAHero
         // {
         //     base.OnMissionRestart();
         // }
-        
+
         private Hero FindHero(Agent agent)
         {
             var hero = agent.GetAdoptedHero();

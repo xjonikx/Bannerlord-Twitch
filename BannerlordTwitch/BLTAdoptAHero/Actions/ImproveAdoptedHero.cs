@@ -17,7 +17,7 @@ namespace BLTAdoptAHero
         protected class SettingsBase
         {
             [LocDisplayName("{=01yarGvZ}Amount Low"),
-             LocDescription("{=UVKWPBjq}Lower bound of amount to improve"), 
+             LocDescription("{=UVKWPBjq}Lower bound of amount to improve"),
              PropertyOrder(1), UsedImplicitly]
             public int AmountLow { get; set; }
             [LocDisplayName("{=qi7FVuQB}Amount High"),
@@ -25,7 +25,7 @@ namespace BLTAdoptAHero
              PropertyOrder(2), UsedImplicitly]
             public int AmountHigh { get; set; }
             [LocDisplayName("{=DlZ7sV1N}Gold Cost"),
-             LocDescription("{=pGwh9edB}Gold that will be taken from the hero"), 
+             LocDescription("{=pGwh9edB}Gold that will be taken from the hero"),
              PropertyOrder(3), UsedImplicitly]
             public int GoldCost { get; set; }
         }
@@ -34,7 +34,7 @@ namespace BLTAdoptAHero
 
         protected override void ExecuteInternal(ReplyContext context, object config,
             Action<string> onSuccess,
-            Action<string> onFailure) 
+            Action<string> onFailure)
         {
             var settings = (SettingsBase)config;
             var adoptedHero = BLTAdoptAHeroCampaignBehavior.Current.GetAdoptedHero(context.UserName);
@@ -50,7 +50,7 @@ namespace BLTAdoptAHero
                 onFailure(Naming.NotEnoughGold(settings.GoldCost, availableGold));
                 return;
             }
-            
+
             int amount = MBRandom.RandomInt(settings.AmountLow, settings.AmountHigh);
             (bool success, string description) = Improve(context.UserName, adoptedHero, amount, settings, context.Args);
             if (success)
@@ -76,7 +76,7 @@ namespace BLTAdoptAHero
             (skillNames: SkillGroup.SkillsToStrings(SkillsEnum.Movement), weight: 2f),
             (skillNames: SkillGroup.SkillsToStrings(SkillsEnum.Personal), weight: 1f),
         };
-        
+
         protected static SkillObject GetSkill(Hero hero, SkillsEnum skills, bool auto, Func<SkillObject, bool> predicate = null)
         {
             predicate ??= s => true;
@@ -90,7 +90,7 @@ namespace BLTAdoptAHero
                 {
                     selectedSkills.AddRange(heroClass.Skills.Select(skill => (skill, weight: 15f)));
                 }
-                
+
                 // Equipment skills     weight x 2
                 selectedSkills.AddRange(hero.BattleEquipment
                     .YieldFilledWeaponSlots()

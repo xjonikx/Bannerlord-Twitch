@@ -16,17 +16,17 @@ namespace BannerlordTwitch.Util
 
         public static void CloneProperties(object from, object to)
         {
-            foreach(var pi in from.GetType()
+            foreach (var pi in from.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(p => 
+                .Where(p =>
                     // Only want writable properties
-                    p.CanWrite 
+                    p.CanWrite
                     // Exclude indexer properties
                     && p.GetMethod.GetParameters().Length == 0))
             {
                 if (typeof(ICloneable).IsAssignableFrom(pi.PropertyType))
                 {
-                    pi.SetValue(to, ((ICloneable) pi.GetValue(from))?.Clone());
+                    pi.SetValue(to, ((ICloneable)pi.GetValue(from))?.Clone());
                 }
                 else
                 {
@@ -34,7 +34,7 @@ namespace BannerlordTwitch.Util
                 }
             }
         }
-        
+
         // public static T CloneFields<T>(T from)
         // {
         //     var newObj = (T)Activator.CreateInstance(from.GetType()); // still use GetType, in-case T is a base class 
@@ -65,11 +65,11 @@ namespace BannerlordTwitch.Util
         //         type = type.BaseType;
         //     }
         // }
-        
+
         public static IEnumerable<T> CloneCollection<T>(IEnumerable<T> from) =>
             @from.Select(o =>
             {
-                if(o is ICloneable c)
+                if (o is ICloneable c)
                 {
                     return (T)c.Clone();
                 }

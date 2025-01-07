@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BannerlordTwitch.Util;
+using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
@@ -41,7 +40,7 @@ namespace BannerlordTwitch.SaveSystem
         }
 
         private static string GetTypeID(Type type) => type.Name;
-        
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             if (value is MBObjectBase mbObject)
@@ -49,13 +48,13 @@ namespace BannerlordTwitch.SaveSystem
                 var type = mbObject.GetType();
                 if (!references.TryGetValue(GetTypeID(type), out var typedList))
                 {
-                    typedList = (IList) Activator.CreateInstance(typeof(List<>).MakeGenericType(type));
+                    typedList = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(type));
                     references.Add(GetTypeID(type), typedList);
                 }
                 typedList.Add(mbObject);
 
                 // We use the index into the list as the key for this object
-                serializer.Serialize(writer, new SavedMBObject  { ID = typedList.Count - 1, Type = GetTypeID(type) });
+                serializer.Serialize(writer, new SavedMBObject { ID = typedList.Count - 1, Type = GetTypeID(type) });
                 return;
             }
 
@@ -67,19 +66,19 @@ namespace BannerlordTwitch.SaveSystem
             if (serializer.Deserialize<SavedMBObject?>(reader) is { } savedMBObject)
             {
                 if (!references.TryGetValue(savedMBObject.Type, out var typedList))
-                    throw new ($"{savedMBObject} could not be resolved on loading in {key}: list of references for this type doesn't exist");
+                    throw new($"{savedMBObject} could not be resolved on loading in {key}: list of references for this type doesn't exist");
                 if (savedMBObject.ID < 0 || savedMBObject.ID >= typedList.Count)
-                    throw new ($"{savedMBObject} could not be resolved on loading in {key}: ID was out of range");
+                    throw new($"{savedMBObject} could not be resolved on loading in {key}: ID was out of range");
                 return typedList[savedMBObject.ID];
             }
             return null;
         }
-        
+
         public void Save()
         {
             var types = references.Keys.ToList();
             dataStore.SyncData($"{key}_refs_type_list", ref types);
-            
+
             foreach ((string type, var typedList) in references)
             {
                 var listToSave = typedList;

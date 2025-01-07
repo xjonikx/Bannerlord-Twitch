@@ -10,7 +10,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 namespace BLTAdoptAHero
 {
     [LocDisplayName("{=sZhEiXyn}Retire Hero"),
-     LocDescription("{=Eh0m4R54}Retires the hero, allowing the viewer to adopt another"), 
+     LocDescription("{=Eh0m4R54}Retires the hero, allowing the viewer to adopt another"),
      UsedImplicitly]
     public class RetireMyHero : ActionHandlerBase
     {
@@ -52,7 +52,7 @@ namespace BLTAdoptAHero
                 onFailure("{=po20lHyz}You cannot retire your hero, as a mission is active!".Translate());
                 return;
             }
-            if(settings.RetireCreatedOnly && !BLTAdoptAHeroCampaignBehavior.Current.GetIsCreatedHero(adoptedHero))
+            if (settings.RetireCreatedOnly && !BLTAdoptAHeroCampaignBehavior.Current.GetIsCreatedHero(adoptedHero))
             {
                 onFailure("{=ihG4fs1r}You can only retire created heroes".Translate());
                 return;

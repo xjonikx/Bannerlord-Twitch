@@ -9,7 +9,7 @@ namespace BannerlordTwitch.UI
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class InstanceNameAttribute : Attribute { }
-    
+
     public class DefaultCollectionEditor : TypeEditor<CollectionPropertyEditor>
     {
         protected override void SetValueDependencyProperty()
@@ -19,7 +19,7 @@ namespace BannerlordTwitch.UI
 
         protected override void ResolveValueBinding(PropertyItem propertyItem)
         {
-            Editor.PropertyName = GetQualifiedName(propertyItem); 
+            Editor.PropertyName = GetQualifiedName(propertyItem);
             // propertyItem.PropertyDescriptor?.Name.SplitCamelCase();
             //Editor.ItemsSource = propertyItem.
             Editor.ItemsSourceType = propertyItem.PropertyType;
@@ -47,7 +47,7 @@ namespace BannerlordTwitch.UI
             {
                 parentItems.Add(GetObjectName(propertyGrid.SelectedObject));
             }
-            
+
             parentItems.Reverse();
             var qualifiedName = string.Join(" > ", parentItems);
             return qualifiedName;

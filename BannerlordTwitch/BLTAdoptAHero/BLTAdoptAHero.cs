@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Rewards;
@@ -17,7 +15,6 @@ using SandBox.View.Missions;
 using SandBox.ViewModelCollection.Missions.NameMarker;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker;
@@ -49,7 +46,7 @@ namespace BLTAdoptAHero
             GlobalTournamentConfig.Register();
             GlobalHeroClassConfig.Register();
             GlobalHeroPowerConfig.Register();
-            
+
             TournamentHub.Register();
             MissionInfoHub.Register();
         }
@@ -83,7 +80,7 @@ namespace BLTAdoptAHero
         }
 
 
-        [UsedImplicitly, HarmonyPostfix, 
+        [UsedImplicitly, HarmonyPostfix,
          HarmonyPatch(typeof(MissionNameMarkerTargetVM), MethodType.Constructor, typeof(Agent), typeof(bool))]
         public static void MissionNameMarkerTargetVMConstructorPostfix(MissionNameMarkerTargetVM __instance, Agent agent)
         {
@@ -146,7 +143,7 @@ namespace BLTAdoptAHero
                     HeroClassConfig = GlobalHeroClassConfig.Get();
                     HeroPowerConfig = GlobalHeroPowerConfig.Get();
 
-                    var campaignStarter = (CampaignGameStarter) gameStarterObject;
+                    var campaignStarter = (CampaignGameStarter)gameStarterObject;
                     campaignStarter.AddBehavior(new BLTAdoptAHeroCampaignBehavior());
                     campaignStarter.AddBehavior(new BLTTournamentQueueBehavior());
                     campaignStarter.AddBehavior(new BLTCustomItemsCampaignBehavior());
@@ -161,7 +158,7 @@ namespace BLTAdoptAHero
                 MessageBox.Show($"Error in {nameof(OnGameStart)}, please report this on the discord: {e}", "Bannerlord Twitch Mod STARTUP ERROR");
             }
         }
-        
+
         public override void BeginGameStart(Game game)
         {
         }
@@ -169,7 +166,7 @@ namespace BLTAdoptAHero
         public override void OnGameEnd(Game game)
         {
             base.OnGameEnd(game);
-            if(game.GameType is Campaign campaign) 
+            if (game.GameType is Campaign campaign)
             {
                 JoinTournament.OnGameEnd(campaign);
             }
@@ -186,7 +183,7 @@ namespace BLTAdoptAHero
         {
             this.previousModel = previousModel;
         }
-        
+
         public override float CalculateDamage(in AttackInformation attackInformation, in AttackCollisionData collisionData,
             in MissionWeapon weapon, float baseDamage)
         {
@@ -198,7 +195,7 @@ namespace BLTAdoptAHero
             public MissionWeapon missileWeapon;
             public WeaponFlags missileWeaponFlags;
         }
-        
+
         public override void DecideMissileWeaponFlags(Agent attackerAgent, MissionWeapon missileWeapon, ref WeaponFlags missileWeaponFlags)
         {
             previousModel.DecideMissileWeaponFlags(attackerAgent, missileWeapon, ref missileWeaponFlags);
@@ -207,7 +204,7 @@ namespace BLTAdoptAHero
                 missileWeapon = missileWeapon,
                 missileWeaponFlags = missileWeaponFlags,
             };
-            
+
             if (BLTHeroPowersMissionBehavior.PowerHandler?.CallHandlersForAgent(attackerAgent,
                 handlers => handlers.DecideMissileWeaponFlags(attackerAgent, args)
                 ) == true)
@@ -286,7 +283,7 @@ namespace BLTAdoptAHero
             public bool isPassiveUsageHit;
             public bool crushThrough; // set this to override the behaviour
         }
-        
+
         public override bool DecideCrushedThrough(Agent attackerAgent, Agent defenderAgent, float totalAttackEnergy,
             Agent.UsageDirection attackDirection, StrikeType strikeType, WeaponComponentData defendItem, bool isPassiveUsageHit)
         {
@@ -300,10 +297,10 @@ namespace BLTAdoptAHero
                 isPassiveUsageHit = isPassiveUsageHit,
                 crushThrough = originalResult,
             };
-            
+
             BLTHeroPowersMissionBehavior.PowerHandler?.CallHandlersForAgentPair(attackerAgent, defenderAgent,
                 handlers => handlers.DecideCrushedThrough(attackerAgent, defenderAgent, args));
-            
+
             return args.crushThrough;
         }
 

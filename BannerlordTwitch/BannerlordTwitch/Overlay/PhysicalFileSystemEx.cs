@@ -66,7 +66,7 @@ namespace BLTOverlay
             if (!fullRoot.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
             {
                 // When we do matches in GetFullPath, we want to only match full directory names.
-                fullRoot += Path.DirectorySeparatorChar; 
+                fullRoot += Path.DirectorySeparatorChar;
             }
             return fullRoot;
         }
@@ -76,8 +76,8 @@ namespace BLTOverlay
             try
             {
                 string fullPath = Path.GetFullPath(Path.Combine(Root, path));
-                return !fullPath.StartsWith(Root, StringComparison.OrdinalIgnoreCase) 
-                    ? null 
+                return !fullPath.StartsWith(Root, StringComparison.OrdinalIgnoreCase)
+                    ? null
                     : GetSymbolicLinkTarget(fullPath);
             }
             catch
@@ -261,7 +261,7 @@ namespace BLTOverlay
                 return null;
             }
         }
-        
+
         // From https://stackoverflow.com/a/13831529/6402065
         private const int FILE_SHARE_READ = 1;
         private const int FILE_SHARE_WRITE = 2;

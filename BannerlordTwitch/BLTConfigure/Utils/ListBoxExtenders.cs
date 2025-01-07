@@ -20,7 +20,7 @@ namespace BLTConfigure.Utils
         /// <returns>The value of the given property</returns>
         public static bool GetAutoScrollToEnd(DependencyObject obj)
         {
-            return (bool) obj.GetValue(AutoScrollToEndProperty);
+            return (bool)obj.GetValue(AutoScrollToEndProperty);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace BLTConfigure.Utils
                     }
                 });
 
-            if ((bool) e.NewValue)
+            if ((bool)e.NewValue)
                 data.CollectionChanged += scrollToEndHandler;
             else
                 data.CollectionChanged -= scrollToEndHandler;

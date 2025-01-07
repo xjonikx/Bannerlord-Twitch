@@ -19,33 +19,33 @@ namespace BLTAdoptAHero
         private class Settings
         {
             [LocDisplayName("{=34GjlaWu}Auction Duration In Seconds"),
-             LocDescription("{=zsvhQABf}How long the auction should last before the highest bidder wins"), 
+             LocDescription("{=zsvhQABf}How long the auction should last before the highest bidder wins"),
              PropertyOrder(1), UsedImplicitly]
             public int AuctionDurationInSeconds { get; set; } = 60;
-            
+
             [LocDisplayName("{=ssmJ9c5L}Auction Reminder Interval In Seconds"),
-             LocDescription("{=ijkjWj5q}Interval at which to output a reminder of the auction"), 
+             LocDescription("{=ijkjWj5q}Interval at which to output a reminder of the auction"),
              PropertyOrder(2), UsedImplicitly]
             public int AuctionReminderIntervalInSeconds { get; set; } = 15;
         }
 
         public override Type HandlerConfigType => typeof(Settings);
 
-        protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config, 
+        protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config,
             Action<string> onSuccess, Action<string> onFailure)
         {
             var settings = (Settings)config;
 
             if (BLTAdoptAHeroCampaignBehavior.Current.AuctionInProgress)
             {
-                ActionManager.SendReply(context, 
+                ActionManager.SendReply(context,
                     "{=T2R35HHV}Another auction is already in progress".Translate());
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(context.Args))
             {
-                ActionManager.SendReply(context, 
+                ActionManager.SendReply(context,
                     context.ArgsErrorMessage("{=}(custom item index) (reserve price)".Translate()));
                 return;
             }
@@ -63,7 +63,7 @@ namespace BLTAdoptAHero
                 ActionManager.SendReply(context, error ?? "(unknown error)");
                 return;
             }
-            
+
             if (!int.TryParse(argParts[1], out int reservePrice) || reservePrice < 0)
             {
                 ActionManager.SendReply(context, "{=mm1ay4I7}Invalid reserve price '{Arg}'".Translate(("Arg", argParts[1])));
@@ -73,7 +73,7 @@ namespace BLTAdoptAHero
             BLTAdoptAHeroCampaignBehavior.Current.StartItemAuction(element, adoptedHero, reservePrice,
                 settings.AuctionDurationInSeconds, settings.AuctionReminderIntervalInSeconds,
                 s => ActionManager.SendNonReply(context, s));
-            
+
             ActionManager.SendNonReply(context,
                 "{=BH5rnHNq}Auction of '{ItemName}' is OPEN! Reserve price is {ReservePrice}{GoldIcon}, bidding closes in {AuctionDurationInSeconds} seconds."
                     .Translate(
@@ -84,18 +84,18 @@ namespace BLTAdoptAHero
                     ));
         }
     }
-    
+
     [LocDisplayName("{=rBAvqAh7}Bid On Item"),
-     LocDescription("{=XuvGyCwD}Allows viewers bid on an active custom item auction (make sure to add an auction command also)"), 
+     LocDescription("{=XuvGyCwD}Allows viewers bid on an active custom item auction (make sure to add an auction command also)"),
      UsedImplicitly]
     public class BidOnItem : HeroCommandHandlerBase
     {
-        protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config, 
+        protected override void ExecuteInternal(Hero adoptedHero, ReplyContext context, object config,
             Action<string> onSuccess, Action<string> onFailure)
         {
             if (string.IsNullOrWhiteSpace(context.Args))
             {
-                ActionManager.SendReply(context, 
+                ActionManager.SendReply(context,
                     context.ArgsErrorMessage("{=ewjqhPqj}(bid amount)".Translate()));
                 return;
             }

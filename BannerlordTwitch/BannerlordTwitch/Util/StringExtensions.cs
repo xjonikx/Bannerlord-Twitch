@@ -11,10 +11,10 @@ namespace BannerlordTwitch.Util
                 "([A-Z])([A-Z])([a-z0-9])", "$1 $2$3")
                 .Trim();
 
-        public static string Translate(this string input) 
+        public static string Translate(this string input)
             => LocString.Translate(input);
 
-        public static string Translate(this string input, params (string key, object value)[] args) 
+        public static string Translate(this string input, params (string key, object value)[] args)
             => LocString.Translate(input, args);
     }
 }

@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace BannerlordTwitch.SaveSystem
 {
@@ -38,7 +37,7 @@ namespace BannerlordTwitch.SaveSystem
             if (existingValue is not IDictionary dict)
             {
                 var contract = serializer.ContractResolver.ResolveContract(objectType);
-                dict = (IDictionary) contract.DefaultCreator();
+                dict = (IDictionary)contract.DefaultCreator();
             }
 
             if (reader.TokenType == JsonToken.StartArray)

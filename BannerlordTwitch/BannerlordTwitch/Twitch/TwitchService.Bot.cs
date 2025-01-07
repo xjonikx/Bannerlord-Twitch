@@ -26,7 +26,7 @@ namespace BannerlordTwitch
             {
                 this.authSettings = authSettings;
                 this.channel = channel;
-                
+
                 var api = new TwitchAPI();
 
                 //api.Settings.Secret = SECRET;
@@ -99,7 +99,7 @@ namespace BannerlordTwitch
             }
 
             private string BotPrefix => authSettings.BotMessagePrefix ?? "{=b4tJSNJG}[BLT] ".Translate();
-            
+
             public void SendChat(params string[] msg)
             {
                 if (client.IsConnected)
@@ -118,7 +118,7 @@ namespace BannerlordTwitch
                     }
                 }
             }
-            
+
             public void SendChatReply(string userName, params string[] msg)
             {
                 if (client.IsConnected)
@@ -204,7 +204,7 @@ namespace BannerlordTwitch
                 //     }
                 // }, TaskCreationOptions.LongRunning);
             }
-            
+
             private void Client_OnDisconnected(object sender, OnDisconnectedEventArgs e)
             {
                 Log.LogFeedSystem("{=thucznzJ}Bot disconnected".Translate());
@@ -228,11 +228,11 @@ namespace BannerlordTwitch
                 // Double check we didn't already handle this message, as sometimes bot can be receiving them twice
                 if (!handledMessages.Add(e.ChatMessage.Id))
                     return;
-                
+
                 // Register the user info always and before doing anything else, so it is appropriately up to date in
                 // case a bot command is being issued
                 TwitchHub.AddUser(e.ChatMessage.DisplayName, e.ChatMessage.ColorHex);
-                
+
                 string msg = e.ChatMessage.Message;
                 if (msg.StartsWith("!"))
                 {

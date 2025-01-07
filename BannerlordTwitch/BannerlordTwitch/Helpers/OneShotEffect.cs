@@ -12,13 +12,13 @@ namespace BannerlordTwitch.Helpers
 {
     public struct OneShotEffect
     {
-        [LocDisplayName("{=cv0hxm25}ParticleEffect"), LocDescription("{=N1WsBndO}Particle Effect to play"), 
-         ItemsSource(typeof(OneShotParticleEffectItemSource)), 
+        [LocDisplayName("{=cv0hxm25}ParticleEffect"), LocDescription("{=N1WsBndO}Particle Effect to play"),
+         ItemsSource(typeof(OneShotParticleEffectItemSource)),
          PropertyOrder(1), UsedImplicitly]
         public string ParticleEffect { get; set; }
 
-        [LocDisplayName("{=FyXztxDH}Sound"), LocDescription("{=2KrpVrR8}Sound to play"), 
-         ItemsSource(typeof(SoundEffectItemSource)), 
+        [LocDisplayName("{=FyXztxDH}Sound"), LocDescription("{=2KrpVrR8}Sound to play"),
+         ItemsSource(typeof(SoundEffectItemSource)),
          PropertyOrder(2), UsedImplicitly]
         public string Sound { get; set; }
 
@@ -26,7 +26,7 @@ namespace BannerlordTwitch.Helpers
         {
             Trigger(Mission.Current?.Agents?.FirstOrDefault(a => a.GetHero() == hero));
         }
-        
+
         public void Trigger(Agent agent)
         {
             if (agent?.AgentVisuals != null)
@@ -39,7 +39,7 @@ namespace BannerlordTwitch.Helpers
         {
             Trigger(ParticleEffect, Sound, location, relatedAgentIndex);
         }
-        
+
         public static void Trigger(string particleEffect, string sound, MatrixFrame location, int relatedAgentIndex = -1)
         {
             if (!string.IsNullOrEmpty(particleEffect))

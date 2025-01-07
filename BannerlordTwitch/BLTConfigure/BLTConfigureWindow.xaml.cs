@@ -11,7 +11,6 @@ using System.Reflection;
 using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
@@ -23,7 +22,6 @@ using System.Windows.Navigation;
 using BannerlordTwitch;
 using BannerlordTwitch.Annotations;
 using BannerlordTwitch.Util;
-using BLTAdoptAHero.UI;
 using BLTConfigure.UI;
 using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
@@ -61,22 +59,22 @@ namespace BLTConfigure
         };
         public string Message { get; set; }
     }
-    
+
     public partial class BLTConfigureWindow : INotifyPropertyChanged
     {
         public ConfigurationRootViewModel ConfigurationRoot { get; set; }
-        
+
         public string OverlayUrl => BLTOverlay.BLTOverlay.UrlRoot;
 
         public ObservableCollection<LogMessage> LogEntries { get; } = new();
-        
+
         public BLTConfigureWindow()
         {
             Log.OnLog += (level, msg) =>
             {
                 this.Dispatcher.InvokeAsync(() =>
                 {
-                    LogEntries.Add(new () { Level = level, Message = msg });
+                    LogEntries.Add(new() { Level = level, Message = msg });
                     if (LogEntries.Count > 500)
                     {
                         for (int i = 0; i < 100; i++)
@@ -86,12 +84,12 @@ namespace BLTConfigure
                     }
                 });
             };
-            
+
             //Loaded += (_, _) => UpdateLastSavedLoop();
 
             InitializeComponent();
             this.DataContext = this;
-            
+
             Load();
 
             ConfigurationFrame.Navigate(new ConfigurationRootPage(ConfigurationRoot));
@@ -102,7 +100,7 @@ namespace BLTConfigure
             //         TargetProperties = {typeof(RangeInt)}
             //     });
         }
-        
+
         protected override void OnDeactivated(EventArgs e)
         {
             base.OnDeactivated(e);
@@ -116,7 +114,7 @@ namespace BLTConfigure
             // Don't let user accidentally close this
             e.Cancel = true;
         }
-        
+
         public class TypeGroupDescription : GroupDescription
         {
             public override object GroupNameFromItem(object item, int level, CultureInfo culture)
@@ -132,20 +130,20 @@ namespace BLTConfigure
                 };
             }
         }
-        
+
         private void Load()
         {
             ConfigurationRoot = new ConfigurationRootViewModel();
-            
+
             UpdateToken(ConfigurationRoot.EditedAuthSettings.AccessToken);
             UpdateBotToken(ConfigurationRoot.EditedAuthSettings.BotAccessToken);
-            
+
             NeocitiesUsername.Text = ConfigurationRoot.EditedAuthSettings.NeocitiesUsername ?? string.Empty;
-            NeocitiesPassword.Password = !string.IsNullOrEmpty(ConfigurationRoot.EditedAuthSettings.NeocitiesPassword) 
-                ? UnprotectString(ConfigurationRoot.EditedAuthSettings.NeocitiesPassword) 
+            NeocitiesPassword.Password = !string.IsNullOrEmpty(ConfigurationRoot.EditedAuthSettings.NeocitiesPassword)
+                ? UnprotectString(ConfigurationRoot.EditedAuthSettings.NeocitiesPassword)
                 : string.Empty;
         }
-        
+
         private static int RoundUp(int numToRound, int multiple)
         {
             if (multiple == 0)
@@ -169,7 +167,7 @@ namespace BLTConfigure
                 writer.Write(pwBytes);
                 while (ms.Length % 16 != 0)
                 {
-                    writer.Write((byte) 0);
+                    writer.Write((byte)0);
                 }
 
                 byte[] packedBytes = ms.GetBuffer();
@@ -182,7 +180,7 @@ namespace BLTConfigure
                 return string.Empty;
             }
         }
-        
+
         private static string UnprotectString(string protectedString)
         {
             try
@@ -201,7 +199,7 @@ namespace BLTConfigure
                 return string.Empty;
             }
         }
-        
+
         private void StoreNeocitiesLogin()
         {
             ConfigurationRoot.EditedAuthSettings.NeocitiesUsername = NeocitiesUsername.Text;
@@ -214,7 +212,7 @@ namespace BLTConfigure
                 ConfigurationRoot.EditedAuthSettings.NeocitiesPassword = string.Empty;
             }
         }
-        
+
         private static readonly string[] MainScopes =
         {
             "user:read:email",
@@ -261,9 +259,9 @@ namespace BLTConfigure
             }
             AuthTokenTextBox.Text = ConfigurationRoot.EditedAuthSettings.AccessToken = token;
             TestToken();
-            
+
             UseMainAccountForBotButton.Visibility =
-                ConfigurationRoot.EditedAuthSettings.BotAccessToken == ConfigurationRoot.EditedAuthSettings.AccessToken 
+                ConfigurationRoot.EditedAuthSettings.BotAccessToken == ConfigurationRoot.EditedAuthSettings.AccessToken
                     ? Visibility.Collapsed
                     : Visibility.Visible;
         }
@@ -309,7 +307,7 @@ namespace BLTConfigure
         {
             BotAccessTokenTextBox.Text = ConfigurationRoot.EditedAuthSettings.BotAccessToken = token;
             UseMainAccountForBotButton.Visibility =
-                ConfigurationRoot.EditedAuthSettings.BotAccessToken == ConfigurationRoot.EditedAuthSettings.AccessToken 
+                ConfigurationRoot.EditedAuthSettings.BotAccessToken == ConfigurationRoot.EditedAuthSettings.AccessToken
                     ? Visibility.Collapsed
                     : Visibility.Visible;
             // TestBotTokenButton.Visibility = !string.IsNullOrEmpty(token) 
@@ -367,7 +365,7 @@ namespace BLTConfigure
                     $"You need to start the campaign, or load a save before generating documentation!";
                 return;
             }
-            
+
             try
             {
                 GenerateDocumentationButton.IsEnabled = false;
@@ -399,7 +397,7 @@ namespace BLTConfigure
 
         private void OpenGeneratedDocumentationButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if(File.Exists(DocumentationGenerator.DocumentationPath))
+            if (File.Exists(DocumentationGenerator.DocumentationPath))
             {
                 try
                 {
@@ -423,7 +421,7 @@ namespace BLTConfigure
 
         private void OpenGeneratedDocumentationFolderButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if(Directory.Exists(DocumentationGenerator.DocumentationRootDir))
+            if (Directory.Exists(DocumentationGenerator.DocumentationRootDir))
             {
                 try
                 {
@@ -450,7 +448,7 @@ namespace BLTConfigure
             [UsedImplicitly]
             public string path;
         }
-        
+
         private class ResponseFiles
         {
             [UsedImplicitly]
@@ -458,7 +456,7 @@ namespace BLTConfigure
             [UsedImplicitly]
             public ResponseFile[] files;
         }
-        
+
         private async void UploadDocumentation_OnClick(object sender, RoutedEventArgs e)
         {
             if (!Directory.Exists(DocumentationGenerator.DocumentationRootDir))
@@ -485,8 +483,8 @@ namespace BLTConfigure
 
             try
             {
-                using var httpClient = new HttpClient(new HttpClientHandler{UseProxy = false});
-                httpClient.DefaultRequestHeaders.Authorization = new("Basic", 
+                using var httpClient = new HttpClient(new HttpClientHandler { UseProxy = false });
+                httpClient.DefaultRequestHeaders.Authorization = new("Basic",
                     Convert.ToBase64String(
                         Encoding.ASCII.GetBytes($"{NeocitiesUsername.Text}:{NeocitiesPassword.Password}")));
 
@@ -544,12 +542,12 @@ namespace BLTConfigure
 
             UploadDocumentationButton.IsEnabled = true;
         }
-        
+
         private void CopyOverlayUrlButton_OnClick(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(OverlayUrl);
         }
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void ConfigurationFrame_OnNavigating(object sender, NavigatingCancelEventArgs e)
@@ -558,14 +556,14 @@ namespace BLTConfigure
             {
                 Duration = TimeSpan.FromSeconds(0.3),
                 DecelerationRatio = 0.7,
-                To = new Thickness(0 , 0 , 0 , 0),
+                To = new Thickness(0, 0, 0, 0),
             };
             if (e.NavigationMode == NavigationMode.New)
                 ta.From = new Thickness(500, 0, 0, 0);
             else if (e.NavigationMode == NavigationMode.Back)
                 ta.From = new Thickness(0, 0, 500, 0);
-            (e.Content as UIElement)?.BeginAnimation(MarginProperty , ta);
+            (e.Content as UIElement)?.BeginAnimation(MarginProperty, ta);
         }
-        
+
     }
 }

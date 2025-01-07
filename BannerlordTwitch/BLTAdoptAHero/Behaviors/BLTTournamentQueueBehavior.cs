@@ -66,7 +66,7 @@ namespace BLTAdoptAHero
         {
             return (TournamentQueue.Count, 16);
         }
-        
+
         // private void UpdatePanel()
         // {
         //     (int entrants, int tournamentSize) = GetTournamentQueueSize();
@@ -75,11 +75,11 @@ namespace BLTAdoptAHero
 
         public class TournamentQueueEntry
         {
-            [UsedImplicitly] 
+            [UsedImplicitly]
             public Hero Hero { get; set; }
-            [UsedImplicitly] 
+            [UsedImplicitly]
             public bool IsSub { get; set; }
-            [UsedImplicitly] 
+            [UsedImplicitly]
             public int EntryFee { get; set; }
 
             public TournamentQueueEntry(Hero hero = null, bool isSub = false, int entryFee = 0)
@@ -116,12 +116,12 @@ namespace BLTAdoptAHero
 
         public void RemoveFromQueue(Hero hero)
         {
-            if(TournamentQueue.RemoveAll(e => e.Hero == hero) > 0)
+            if (TournamentQueue.RemoveAll(e => e.Hero == hero) > 0)
             {
                 TournamentHub.UpdateEntrants();
             }
         }
-        
+
         public void JoinViewerTournament()
         {
             StartViewerTournament(true);
@@ -142,7 +142,7 @@ namespace BLTAdoptAHero
             tournamentGame.PrepareForTournamentGame(isPlayerParticipating);
 
             startingTournament.PrepareForTournamentGame();
-            
+
             // Mission is created by PrepareForTournamentGame, so we can add to it here
             MissionState.Current.CurrentMission.AddMissionBehavior(startingTournament);
             MissionState.Current.CurrentMission.AddMissionBehavior(new BLTTournamentBetMissionBehavior());
@@ -166,8 +166,8 @@ namespace BLTAdoptAHero
         {
             ReleaseUnmanagedResources();
         }
-        
-        
+
+
         private void GetParticipantCharactersPostfixImpl(Settlement settlement, List<CharacterObject> __result)
         {
             if (Settlement.CurrentSettlement == settlement && startingTournament != null)
@@ -176,10 +176,10 @@ namespace BLTAdoptAHero
                 __result.AddRange(startingTournament.GetParticipants());
             }
         }
-        
+
         #region Patches
 
-        private static void SafeCallStatic(Action a, [CallerMemberName]string fnName = "")
+        private static void SafeCallStatic(Action a, [CallerMemberName] string fnName = "")
         {
             try
             {
@@ -190,7 +190,7 @@ namespace BLTAdoptAHero
                 Log.Exception($"{nameof(BLTTournamentQueueBehavior)}.{fnName}", e);
             }
         }
-        
+
         // MissionState.Current.CurrentMission doesn't have any behaviours yet added during this function,
         // so we split the initialization that requires access to mission behaviours into another patch below
         [UsedImplicitly, HarmonyPostfix, HarmonyPatch(typeof(FightTournamentGame), nameof(FightTournamentGame.GetParticipantCharacters))]

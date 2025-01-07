@@ -9,7 +9,7 @@ namespace BLTAdoptAHero
     internal class BLTRemoveAgentsBehavior : AutoMissionBehavior<BLTRemoveAgentsBehavior>
     {
         private readonly List<Hero> heroesAdded = new();
- 
+
         public void Add(Hero hero)
         {
             heroesAdded.Add(hero);

@@ -9,7 +9,7 @@ namespace BLTConfigure.UI
     {
         private void PropertyGrid_OnPreparePropertyItem(object sender, PropertyItemEventArgs e)
         {
-            if (e.PropertyItem.IsExpandable 
+            if (e.PropertyItem.IsExpandable
                 && e.PropertyItem is PropertyItem p && p.PropertyDescriptor.Attributes.Contains(new ExpandAttribute()))
             {
                 e.PropertyItem.IsExpanded = true;

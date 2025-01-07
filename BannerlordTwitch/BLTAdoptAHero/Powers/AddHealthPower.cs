@@ -11,13 +11,13 @@ using YamlDotNet.Serialization;
 namespace BLTAdoptAHero.Powers
 {
     [LocDisplayName("{=ZbxNmvem}Add Health Power"),
-     LocDescription("{=NlJXiSkn}Adds fixed or relative amount of extra HP to the hero when they spawn"), 
+     LocDescription("{=NlJXiSkn}Adds fixed or relative amount of extra HP to the hero when they spawn"),
      UsedImplicitly]
     public class AddHealthPower : HeroPowerDefBase, IHeroPowerPassive, IDocumentable
     {
         #region User Editable
         [LocDisplayName("{=EQ16SH5A}Health Modifier Percent"),
-         LocCategory("Power Config", "{=75UOuDM}Power Config"), 
+         LocCategory("Power Config", "{=75UOuDM}Power Config"),
          LocDescription("{=Dr2whvVV}Modifier to apply to base HP"),
          UIRange(0, 1000, 1f),
          Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
@@ -25,8 +25,8 @@ namespace BLTAdoptAHero.Powers
         public float HealthModifierPercent { get; set; } = 100f;
 
         [LocDisplayName("{=pnr7P9sj}Health To Add"),
-         LocCategory("Power Config", "{=75UOuDM}Power Config"), 
-         LocDescription("{=sprkIlxQ}How much HP to add (applied after Modifier)"), 
+         LocCategory("Power Config", "{=75UOuDM}Power Config"),
+         LocDescription("{=sprkIlxQ}How much HP to add (applied after Modifier)"),
          PropertyOrder(2), UsedImplicitly]
         public float HealthToAdd { get; set; }
         #endregion

@@ -39,16 +39,17 @@ namespace BannerlordTwitch
             "Configs", "BLT-documentation");
 
         public static string DocumentationPath => Path.Combine(DocumentationRootDir, "index.html");
-        
+
         public async Task SaveAsync(string title, string introduction, bool addTOC = true)
         {
             // Wait for image writes first
             await WaitForPendingImagesAsync();
 
-            await MainThreadSync.RunWaitAsync(() => {
+            await MainThreadSync.RunWaitAsync(() =>
+            {
                 if (addTOC)
                 {
-                    toc.InsertRange(0, new []
+                    toc.InsertRange(0, new[]
                     {
                         "<div class=\"toc-container\">",
                         "<h2 class=\"toc-title\">Table of Contents</h2>"
@@ -56,7 +57,7 @@ namespace BannerlordTwitch
                     toc.Add("</div>");
                     content.InsertRange(0, toc);
                 }
-                
+
                 content.InsertRange(0, new[]
                 {
                     "<!DOCTYPE html><html>",
@@ -77,7 +78,7 @@ namespace BannerlordTwitch
                     Directory.CreateDirectory(DocumentationRootDir);
                     File.WriteAllLines(DocumentationPath, content);
                     string targetCSSFilePath = Path.Combine(DocumentationRootDir, "style.css");
-                    if(File.Exists(targetCSSFilePath))
+                    if (File.Exists(targetCSSFilePath))
                         File.Delete(targetCSSFilePath);
                     File.Copy(CSSFullPath, targetCSSFilePath);
                 }
@@ -127,23 +128,23 @@ namespace BannerlordTwitch
             this.content.Add($"</{tag}>");
             return this;
         }
-        
+
         private IDocumentationGenerator Tag(string tag, string css, string content)
         {
             this.content.Add(
-                css != null 
+                css != null
                     ? $"<{tag} class={css}>{content}</{tag}>"
                     : $"<{tag}>{content}</{tag}>"
                 );
             return this;
         }
-        
+
         public IDocumentationGenerator Div(string css, Action content) => ScopedTag("div", css, content);
         public IDocumentationGenerator Div(Action content) => Div(null, content);
-        
+
         public IDocumentationGenerator Details(string css, Action content) => ScopedTag("details", css, content);
         public IDocumentationGenerator Details(Action content) => Details(null, content);
-        
+
         public IDocumentationGenerator Summary(string css, Action content) => ScopedTag("summary", css, content);
         public IDocumentationGenerator Summary(Action content) => Summary(null, content);
         public IDocumentationGenerator Summary(string css, string content) => Tag("summary", css, content);
@@ -157,7 +158,7 @@ namespace BannerlordTwitch
         }
 
         public IDocumentationGenerator H1(string content) => H1(null, content);
-        
+
         public IDocumentationGenerator H2(string css, string content)
         {
             toc.Add($"<a href=\"#{++anchor}\"><h2 class=\"toc-h2\">{content}</h2></a>");
@@ -166,7 +167,7 @@ namespace BannerlordTwitch
         }
 
         public IDocumentationGenerator H2(string content) => H2(null, content);
-        
+
         public IDocumentationGenerator H3(string css, string content)
         {
             toc.Add($"<a href=\"#{++anchor}\"><h3 class=\"toc-h3\">{content}</h3></a>");
@@ -175,11 +176,11 @@ namespace BannerlordTwitch
         }
 
         public IDocumentationGenerator H3(string content) => H3(null, content);
-        
+
 
         public IDocumentationGenerator Table(string css, Action content) => ScopedTag("table", css, content);
         public IDocumentationGenerator Table(Action content) => Table(null, content);
-        
+
 
         public IDocumentationGenerator TR(string css, Action content) => ScopedTag("tr", css, content);
         public IDocumentationGenerator TR(Action content) => TR(null, content);
@@ -190,7 +191,7 @@ namespace BannerlordTwitch
         public IDocumentationGenerator TH(Action content) => TH(null, content);
         public IDocumentationGenerator TH(string css, string content) => Tag("th", css, content);
         public IDocumentationGenerator TH(string content) => TH(null, content);
-        
+
         public IDocumentationGenerator TD(string css, Action content) => ScopedTag("td", css, content);
         public IDocumentationGenerator TD(Action content) => TD(null, content);
         public IDocumentationGenerator TD(string css, string content) => Tag("td", css, content);
@@ -214,7 +215,7 @@ namespace BannerlordTwitch
             {
                 await Task.Delay(100);
             }
-            
+
             pendingImages.Clear();
         }
 
@@ -233,17 +234,17 @@ namespace BannerlordTwitch
             }
             pendingImages.TryAdd(localPath, null);
 
-            #if e159 || e1510
+#if e159 || e1510
             TableauCacheManager.Current.BeginCreateItemTexture(item, 
                 texture => TextureComplete(item.Name.ToString(), localPath, texture));
-            #else
-            TableauCacheManager.Current.BeginCreateItemTexture(item, 
+#else
+            TableauCacheManager.Current.BeginCreateItemTexture(item,
                 Hero.MainHero.ClanBanner.Serialize(),
                 texture => TextureComplete(item.Name.ToString(), localPath, texture));
-            #endif
+#endif
             return this;
         }
-        
+
         public IDocumentationGenerator Img(CharacterCode cc, string altText) => Img(null, cc, altText);
         public IDocumentationGenerator Img(string css, CharacterCode cc, string altText)
         {
@@ -267,7 +268,7 @@ namespace BannerlordTwitch
                 camera.SetFovHorizontal(camera.GetFovHorizontal(), 120f / 256f, 0.1f, 1000f);
                 return (120, 256);
             };
-            TableauCacheManager.Current.BeginCreateCharacterTexture(cc, 
+            TableauCacheManager.Current.BeginCreateCharacterTexture(cc,
                 texture => TextureComplete(altText, localPath, texture), true);
             return this;
         }
@@ -279,7 +280,7 @@ namespace BannerlordTwitch
             this.content.Add("</a>");
             return this;
         }
-        
+
         public IDocumentationGenerator MakeAnchor(string tag, string content)
         {
             this.content.Add($"<a name=\"{tag}\">{content}</a>");
@@ -293,13 +294,13 @@ namespace BannerlordTwitch
             this.content.Add("</a>");
             return this;
         }
-        
+
         public IDocumentationGenerator LinkToAnchor(string tag, string content)
         {
             this.content.Add($"<a href=\"#{tag}\">{content}</a>");
             return this;
         }
-        
+
         private Bitmap SwapRedAndBlueChannels(Bitmap bitmap)
         {
             var imageAttr = new ImageAttributes();
@@ -316,7 +317,7 @@ namespace BannerlordTwitch
             var temp = new Bitmap(bitmap.Width, bitmap.Height);
             var pixel = GraphicsUnit.Pixel;
             using var g = Graphics.FromImage(temp);
-            g.DrawImage(bitmap, Rectangle.Round(bitmap.GetBounds(ref pixel)), 0, 0, 
+            g.DrawImage(bitmap, Rectangle.Round(bitmap.GetBounds(ref pixel)), 0, 0,
                 bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, imageAttr);
             return temp;
         }
@@ -375,7 +376,7 @@ namespace BannerlordTwitch
         }
 
         private static Func<Camera, (int, int)> overrideRenderSettings;
-        
+
         [HarmonyPatch(typeof(ThumbnailCreatorView), nameof(ThumbnailCreatorView.RegisterEntityWithoutTexture)), HarmonyPrefix, UsedImplicitly]
         private static void RegisterEntityWithoutTexturePrefix(Camera camera, ref int width, ref int height)
         {
@@ -385,7 +386,7 @@ namespace BannerlordTwitch
                 overrideRenderSettings = null;
             }
         }
-        
+
         //
         // private static GameEntity CreateCharacterBaseEntityPostfix(
         //     CharacterCode characterCode,

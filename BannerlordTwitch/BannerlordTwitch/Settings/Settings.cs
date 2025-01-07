@@ -22,31 +22,31 @@ namespace BannerlordTwitch
 
     public class Settings : IDocumentable, IUpdateFromDefault
     {
-        public ObservableCollection<Reward> Rewards { get; set; } = new ();
+        public ObservableCollection<Reward> Rewards { get; set; } = new();
         [YamlIgnore]
         public IEnumerable<Reward> EnabledRewards => Rewards.Where(r => r.Enabled);
-        public ObservableCollection<Command> Commands { get; set; } = new ();
+        public ObservableCollection<Command> Commands { get; set; } = new();
         [YamlIgnore]
         public IEnumerable<Command> EnabledCommands => Commands.Where(r => r.Enabled);
-        public ObservableCollection<GlobalConfig> GlobalConfigs { get; set; } = new ();
+        public ObservableCollection<GlobalConfig> GlobalConfigs { get; set; } = new();
         public SimTestingConfig SimTesting { get; set; }
         [YamlIgnore, Browsable(false)]
         public IEnumerable<ActionBase> AllActions => Rewards.Cast<ActionBase>().Concat(Commands);
 
         public bool DisableAutomaticFulfillment { get; set; }
-        
+
         public Command GetCommand(string id) => EnabledCommands.FirstOrDefault(c =>
             string.Equals(c.Name.ToString(), id, StringComparison.CurrentCultureIgnoreCase));
 
         public T GetGlobalConfig<T>(string id) => (T)GlobalConfigs.First(c => c.Id == id).Config;
 
-        private static string DefaultSettingsFileName 
-            => Path.Combine(Path.GetDirectoryName(typeof(Settings).Assembly.Location) ?? ".", 
+        private static string DefaultSettingsFileName
+            => Path.Combine(Path.GetDirectoryName(typeof(Settings).Assembly.Location) ?? ".",
                 "..", "..", "Bannerlord-Twitch-v3.yaml");
-        
+
         public static Settings DefaultSettings { get; private set; }
-        
-        #if DEBUG
+
+#if DEBUG
         private static string ProjectRootDir([CallerFilePath]string file = "") => Path.Combine(Path.GetDirectoryName(file) ?? ".", "..");
         private static string SaveFilePath => Path.Combine(ProjectRootDir(), "_Module", "Bannerlord-Twitch-v3.yaml");
         public static Settings Load()
@@ -68,7 +68,7 @@ namespace BannerlordTwitch
             File.WriteAllText(SaveFilePath, YamlHelpers.Serialize(settings));
         }
 
-        #else
+#else
         private static PlatformFilePath SaveFilePath => FileSystem.GetConfigPath("Bannerlord-Twitch-v3.yaml");
 
         public static Settings Load()
@@ -77,8 +77,8 @@ namespace BannerlordTwitch
 
             // If the proper save file exists load it, otherwise load defaults
             Settings settings = null;
-            
-            if(FileSystem.FileExists(SaveFilePath))
+
+            if (FileSystem.FileExists(SaveFilePath))
             {
                 try
                 {
@@ -122,13 +122,13 @@ namespace BannerlordTwitch
 
             SettingsPostLoad(settings);
 
-            SettingsHelpers.CallInDepth<IUpdateFromDefault>(settings, 
+            SettingsHelpers.CallInDepth<IUpdateFromDefault>(settings,
                 config => config.OnUpdateFromDefault(DefaultSettings));
 
             SaveSettingsBackup(settings);
 
             Log.Info($"Settings loaded from {SaveFilePath}");
-            
+
             return settings;
         }
 
@@ -146,12 +146,12 @@ namespace BannerlordTwitch
                 DefaultSettings = YamlHelpers.Deserialize<Settings>(File.ReadAllText(DefaultSettingsFileName));
                 if (DefaultSettings == null)
                 {
-                    throw new ($"Couldn't load the mod default settings from {DefaultSettingsFileName}");
+                    throw new($"Couldn't load the mod default settings from {DefaultSettingsFileName}");
                 }
                 SettingsPostLoad(DefaultSettings);
             }
         }
-        
+
         public static void SaveSettingsBackup(Settings settings)
         {
             SettingsPreSave(settings);
@@ -172,7 +172,7 @@ namespace BannerlordTwitch
                 var newBackupPath = FileSystem.GetConfigPath($"Bannerlord-Twitch-v3-Backup-{DateTime.Now:yyyy-dd-M--HH-mm-ss}.yaml");
                 FileSystem.SaveFileString(newBackupPath, configStr);
                 Log.Info($"Backed up settings to {newBackupPath}");
-                
+
                 // Delete old config backups
                 foreach (var o in GetBackupConfigPaths()
                     .OrderByDescending(f => f.FileName).Skip(5))
@@ -189,19 +189,19 @@ namespace BannerlordTwitch
 
         private static IEnumerable<PlatformFilePath> GetBackupConfigPaths() =>
             FileSystem.GetFiles(FileSystem.GetConfigDir(), "Bannerlord-Twitch-v3-Backup-*.yaml");
-        
+
         private static PlatformFilePath? GetLastBackup() =>
             GetBackupConfigPaths().OrderByDescending(f => f.FileName)
                 .Cast<PlatformFilePath?>()
                 .FirstOrDefault();
-        
+
         private static void SettingsPostLoad(Settings settings)
         {
             settings.Commands ??= new();
             settings.Rewards ??= new();
             settings.GlobalConfigs ??= new();
             settings.SimTesting ??= new();
-            
+
             ActionManager.ConvertSettings(settings.Commands);
             ActionManager.ConvertSettings(settings.Rewards);
             ActionManager.EnsureGlobalSettings(settings.GlobalConfigs);
@@ -219,7 +219,8 @@ namespace BannerlordTwitch
             generator.Div("commands", () =>
             {
                 generator.H1("{=JlFpeaxe}Commands".Translate());
-                generator.Table(() => {
+                generator.Table(() =>
+                {
                     generator.TR(() => generator
                         .TH("{=15umM0Xo}Command".Translate())
                         .TH("{=J6daarYb}Description".Translate())
@@ -229,7 +230,7 @@ namespace BannerlordTwitch
                         generator.TR(() =>
                         {
                             generator.TD(d.Name.ToString());
-                            generator.TD(string.IsNullOrEmpty(d.Documentation.ToString()) 
+                            generator.TD(string.IsNullOrEmpty(d.Documentation.ToString())
                                 ? d.Help.ToString()
                                 : d.Documentation.ToString());
                             generator.TD(() =>
@@ -251,7 +252,8 @@ namespace BannerlordTwitch
             generator.Div("rewards", () =>
             {
                 generator.H1("{=u6xsREDY}Channel Point Rewards".Translate());
-                generator.Table(() => {
+                generator.Table(() =>
+                {
                     generator.TR(() => generator
                         .TH("{=15umM0Xo}Command".Translate())
                         .TH("{=J6daarYb}Description".Translate())

@@ -13,27 +13,27 @@ namespace BannerlordTwitch.Localization
         public string Value { get; set; }
 
         [UsedImplicitly]
-        public LocString() {}
-        
+        public LocString() { }
+
         public LocString(string value)
         {
             Value = value;
         }
-        
+
         public static implicit operator LocString(string str) => new(str);
 
         public override string ToString() => Translate(Value);
-        
+
         public string ToString(params (string key, object value)[] arg) => Translate(Value, arg);
 
         public static bool IsNullOrEmpty(LocString ls) => ls == null || string.IsNullOrEmpty(ls.Value);
 
-        public static string Translate(string str) 
+        public static string Translate(string str)
             => !string.IsNullOrEmpty(str)
                 ? new TextObject(str).ToString()
                 : string.Empty;
 
-        public static string Translate(string str, params (string key, object value)[] arg) 
+        public static string Translate(string str, params (string key, object value)[] arg)
             => !string.IsNullOrEmpty(str)
                 ? new TextObject(str, arg.ToDictionary(
                     kv => kv.key,
@@ -47,7 +47,7 @@ namespace BannerlordTwitch.Localization
         {
             return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
         }
-        
+
         public override bool CanConvertTo(ITypeDescriptorContext context, Type sourceType)
         {
             return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
@@ -56,16 +56,16 @@ namespace BannerlordTwitch.Localization
         public override object ConvertFrom(ITypeDescriptorContext context,
             CultureInfo culture, object value)
         {
-            return value is string 
-                ? new LocString(value.ToString()) 
+            return value is string
+                ? new LocString(value.ToString())
                 : base.ConvertFrom(context, culture, value);
         }
-        
+
         public override object ConvertTo(ITypeDescriptorContext context,
             CultureInfo culture, object value, Type destinationType)
         {
-            return destinationType == typeof(string) 
-                ? ((LocString)value).ToString() 
+            return destinationType == typeof(string)
+                ? ((LocString)value).ToString()
                 : base.ConvertTo(context, culture, value, destinationType);
         }
     }

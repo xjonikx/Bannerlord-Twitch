@@ -10,22 +10,22 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 namespace BLTAdoptAHero
 {
     [LocDisplayName("{=tLSFX9Xc}Retinue"),
-     LocDescription("{=bhC3VcmU}Add and improve adopted heroes retinue"), 
+     LocDescription("{=bhC3VcmU}Add and improve adopted heroes retinue"),
      UsedImplicitly]
     public class Retinue : ActionHandlerBase
     {
         private class Settings : IDocumentable
         {
             [LocDisplayName("{=tLSFX9Xc}Retinue"),
-             LocDescription("{=iNoFrKsN}Retinue Upgrade Settings"), 
+             LocDescription("{=iNoFrKsN}Retinue Upgrade Settings"),
              PropertyOrder(1), ExpandableObject, Expand, UsedImplicitly]
             public BLTAdoptAHeroCampaignBehavior.RetinueSettings Retinue { get; set; } = new();
 
             [LocDisplayName("{=nIsuuFMC}All By Default"),
-             LocDescription("{=mJSGvWlR}Whether this action should attempt to buy/upgrade as many times as possible when called with no parameter."), 
+             LocDescription("{=mJSGvWlR}Whether this action should attempt to buy/upgrade as many times as possible when called with no parameter."),
              PropertyOrder(2), UsedImplicitly]
             public bool AllByDefault { get; set; } = true;
-            
+
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
                 Retinue.GenerateDocumentation(generator);
@@ -33,7 +33,7 @@ namespace BLTAdoptAHero
         }
 
         protected override Type ConfigType => typeof(Settings);
-        
+
         protected override void ExecuteInternal(ReplyContext context, object config, Action<string> onSuccess, Action<string> onFailure)
         {
             var settings = (Settings)config;
@@ -43,7 +43,7 @@ namespace BLTAdoptAHero
                 onFailure(AdoptAHero.NoHeroMessage);
                 return;
             }
-            
+
             if (Mission.Current != null)
             {
                 onFailure("{=mCcpMwrN}You cannot upgrade retinue, as a mission is active!".Translate());
@@ -53,7 +53,7 @@ namespace BLTAdoptAHero
             int numToUpgrade = settings.AllByDefault ? int.MaxValue : 1;
             if (!string.IsNullOrEmpty(context.Args))
             {
-                if (string.Compare(context.Args, 
+                if (string.Compare(context.Args,
                     "{=hHekZwYB}all".Translate(), StringComparison.CurrentCultureIgnoreCase) == 0)
                 {
                     numToUpgrade = int.MaxValue;

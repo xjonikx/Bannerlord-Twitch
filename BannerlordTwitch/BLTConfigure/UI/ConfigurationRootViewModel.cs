@@ -10,9 +10,9 @@ namespace BLTConfigure.UI
 {
     public class ConfigurationRootViewModel : INotifyPropertyChanged
     {
-        public Settings EditedSettings  { get; set; }
-        
-        public AuthSettings EditedAuthSettings  { get; set; }
+        public Settings EditedSettings { get; set; }
+
+        public AuthSettings EditedAuthSettings { get; set; }
 
         // public delegate void NewRewardDelegate(IRewardHandler handler);
         //
@@ -47,8 +47,8 @@ namespace BLTConfigure.UI
                 SaveSettings();
             }
         }
-        
-                
+
+
         public string DocsTitle
         {
             get => EditedAuthSettings.DocsTitle;
@@ -57,8 +57,8 @@ namespace BLTConfigure.UI
                 EditedAuthSettings.DocsTitle = value;
                 SaveAuth();
             }
-        }          
-        
+        }
+
         public string DocsIntroduction
         {
             get => EditedAuthSettings.DocsIntroduction;
@@ -68,7 +68,7 @@ namespace BLTConfigure.UI
                 SaveAuth();
             }
         }
-        
+
         public void RefreshActionList()
         {
             if (EditedSettings != null)
@@ -99,8 +99,8 @@ namespace BLTConfigure.UI
             }
 
             EditedSettings ??= new Settings();
-            ConfigureContext.CurrentlyEditedSettings = EditedSettings; 
-            
+            ConfigureContext.CurrentlyEditedSettings = EditedSettings;
+
             RefreshActionList();
 
             try
@@ -119,22 +119,22 @@ namespace BLTConfigure.UI
                 BotMessagePrefix = "░BLT░ ",
             };
         }
-        
+
         private DateTime lastSaved = DateTime.MinValue;
         public string LastSavedMessage => lastSaved == DateTime.MinValue || DateTime.Now - lastSaved > TimeSpan.FromSeconds(5)
             ? string.Empty
             : $"Saved {(DateTime.Now - lastSaved).TotalSeconds:0} seconds ago. " +
               $"Reload save to apply changes.";
-        
+
         private async void UpdateLastSavedLoop()
         {
             while (true)
             {
                 await Task.Delay(TimeSpan.FromSeconds(1));
-                PropertyChanged?.Invoke(this, new (nameof(LastSavedMessage)));
+                PropertyChanged?.Invoke(this, new(nameof(LastSavedMessage)));
             }
         }
-        
+
         public void SaveSettings()
         {
             if (EditedSettings == null)
@@ -149,7 +149,7 @@ namespace BLTConfigure.UI
                 Log.Exception($"BLTConfigureWindow.SaveSettings", ex);
             }
         }
-        
+
         public void SaveAuth()
         {
             if (EditedAuthSettings == null)
@@ -163,7 +163,7 @@ namespace BLTConfigure.UI
                 Log.Exception($"BLTConfigureWindow.SaveAuth", ex);
             }
         }
-        
+
         public ICollectionView ActionFilterView { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;

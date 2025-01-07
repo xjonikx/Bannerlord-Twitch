@@ -18,14 +18,14 @@ namespace BLTConfigure.UI
         public IEnumerable<NewActionViewModel> RewardHandlersViewModel => ActionManager.RewardHandlers.Select(a => new NewActionViewModel(_ => this.NewReward(a), a.GetType()));
 
         public IEnumerable<NewActionViewModel> CommandHandlersViewModel => ActionManager.CommandHandlers.Select(h => new NewActionViewModel(_ => this.NewCommand(h), h.GetType()));
-        
+
         public ConfigurationRootPage(ConfigurationRootViewModel model)
         {
             Model = model;
             DataContext = this;
             InitializeComponent();
         }
-        
+
         private void Actions_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
@@ -44,7 +44,7 @@ namespace BLTConfigure.UI
             {
                 return;
             }
-            
+
             while (DateTime.Now < saveIn)
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -55,7 +55,7 @@ namespace BLTConfigure.UI
 
             saveIn = default;
         }
-        
+
         private void NewReward(IRewardHandler handler)
         {
             NewRewardDropDown.IsOpen = false;
@@ -71,7 +71,7 @@ namespace BLTConfigure.UI
             {
                 newReward.HandlerConfig = Activator.CreateInstance(settingsType);
             }
-            
+
             Model.EditedSettings.Rewards.Add(newReward);
             Model.RefreshActionList();
             ActionsListBox.SelectedItem = newReward;

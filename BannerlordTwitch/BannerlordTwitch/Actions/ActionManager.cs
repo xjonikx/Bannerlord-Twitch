@@ -44,7 +44,7 @@ namespace BannerlordTwitch.Rewards
                 .Where(t => typeof(IRewardHandler).IsAssignableFrom(t) && !t.IsAbstract);
             foreach (var redemptionActionType in rewardHandlerTypes)
             {
-                RegisterRewardHandler((IRewardHandler) Activator.CreateInstance(redemptionActionType));
+                RegisterRewardHandler((IRewardHandler)Activator.CreateInstance(redemptionActionType));
             }
 
             var commandHandlerTypes = assembly
@@ -52,7 +52,7 @@ namespace BannerlordTwitch.Rewards
                 .Where(t => typeof(ICommandHandler).IsAssignableFrom(t) && !t.IsAbstract);
             foreach (var botCommandType in commandHandlerTypes)
             {
-                RegisterCommandHandler((ICommandHandler) Activator.CreateInstance(botCommandType));
+                RegisterCommandHandler((ICommandHandler)Activator.CreateInstance(botCommandType));
             }
         }
 
@@ -68,7 +68,7 @@ namespace BannerlordTwitch.Rewards
             rewardHandlers.Add(id, action);
             return true;
         }
-        
+
         public static bool RegisterCommandHandler(ICommandHandler commandHandler)
         {
             string id = commandHandler.GetType().Name;
@@ -102,13 +102,13 @@ namespace BannerlordTwitch.Rewards
                 return default;
             }
 
-            if(type != typeof(T))
+            if (type != typeof(T))
             {
                 Log.Error($"Registered type {type} of Global Settings {id} doesn't match request type {typeof(T)}");
                 return default;
             }
-            
-            return (T) BLTModule.TwitchService?.FindGlobalConfig(id);
+
+            return (T)BLTModule.TwitchService?.FindGlobalConfig(id);
         }
 
         public static void ConvertSettings(IEnumerable<Reward> rewards)
@@ -142,7 +142,7 @@ namespace BannerlordTwitch.Rewards
                 }
             }
         }
-        
+
         public static void ConvertSettings(IEnumerable<Command> commands)
         {
             foreach (var commandDef in commands)
@@ -184,7 +184,7 @@ namespace BannerlordTwitch.Rewards
                 if (globalConfig == null)
                 {
                     // Create new default
-                    globalSettings.Add(new GlobalConfig { Id = id, Config = Activator.CreateInstance(configType)});
+                    globalSettings.Add(new GlobalConfig { Id = id, Config = Activator.CreateInstance(configType) });
                 }
                 else
                 {
@@ -198,7 +198,7 @@ namespace BannerlordTwitch.Rewards
                         Log.Exception($"{globalConfig} had invalid config ({ex.Message}), resetting it to default", ex);
                         globalConfig.Config = Activator.CreateInstance(configType);
                     }
-                    
+
                 }
             }
 
@@ -242,7 +242,7 @@ namespace BannerlordTwitch.Rewards
                 NotifyCancelled(context, NotStartedMessage);
                 return false;
             }
-            
+
             if (!rewardHandlers.TryGetValue(rewardId, out var action))
             {
                 NotifyCancelled(context, "{=B39sGef4}Action with the id {RewardId} doesn't exist"
@@ -273,7 +273,7 @@ namespace BannerlordTwitch.Rewards
         {
             BLTModule.TwitchService?.RedemptionComplete(context, status);
         }
-        
+
         public static void NotifyCancelled(ReplyContext context, string reason = null)
         {
             BLTModule.TwitchService?.RedemptionCancelled(context, reason);
@@ -283,12 +283,12 @@ namespace BannerlordTwitch.Rewards
         {
             BLTModule.TwitchService?.SendChat(messages);
         }
-        
+
         public static void SendReply(ReplyContext context, params string[] messages)
         {
             BLTModule.TwitchService?.SendReply(context, messages);
         }
-                
+
         public static void SendNonReply(ReplyContext context, params string[] messages)
         {
             BLTModule.TwitchService?.SendNonReply(context, messages);

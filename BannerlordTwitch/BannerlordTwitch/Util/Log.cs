@@ -40,14 +40,14 @@ namespace BannerlordTwitch.Util
                 pending = string.Empty;
             }
         }
-        
+
         static Log()
         {
             // Useless, just catching broken stuff in other mods:
             // System.Diagnostics.Trace.Listeners.Add(new LogTraceListener());
             // System.Diagnostics.Debug.Listeners.Add(new LogTraceListener());
         }
-        
+
         public static event Action<Level, string> OnLog;
 
         public static void LogMessage(Level level, string str)
@@ -75,10 +75,10 @@ namespace BannerlordTwitch.Util
 
         private static readonly ConcurrentBag<string> reportedExceptions = new();
 
-        private static string GetSolutionRoot([CallerFilePath] string path = null) 
+        private static string GetSolutionRoot([CallerFilePath] string path = null)
             => path?.Replace("BannerlordTwitch\\Util\\Log.cs", "") ?? string.Empty;
 
-        private static string GetExceptionStr(Exception ex) 
+        private static string GetExceptionStr(Exception ex)
             => ex?.GetBaseException().ToString().Replace(GetSolutionRoot(), "") ?? string.Empty;
 
         public static void Exception(string context, Exception ex, bool noRethrow = false)
@@ -111,7 +111,7 @@ namespace BannerlordTwitch.Util
         //             "event:/ui/notification/quest_finished"));
         //     });
         // }
-        
+
         private static void LogFeedError(string str) => LogFeed("!ERROR!: " + str, LogStyle.Fail);
         private static void LogFeedFatal(string str) => LogFeed("!!FATAL!!: " + str, LogStyle.Critical);
 
@@ -131,7 +131,7 @@ namespace BannerlordTwitch.Util
             Event,
             Response,
         }
-        
+
         private static void LogFeed(string str, LogStyle style)
         {
             BLTModule.AddToFeed(str, style.ToString().ToLower());
@@ -168,7 +168,7 @@ namespace BannerlordTwitch.Util
                 Sound.Horns3 => "event:/ui/mission/horns/retreat",
                 Sound.Notification1 => "event:/ui/notification/levelup",
                 _ => throw new ArgumentOutOfRangeException(nameof(sound), sound, null)
-            }; 
+            };
             MBInformationManager.AddQuickInformation(new TextObject(message), 1000, characterObject, soundStr);
         }
 

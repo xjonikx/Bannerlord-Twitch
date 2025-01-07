@@ -16,8 +16,8 @@ namespace BannerlordTwitch.Helpers
     public class ParticleEffectDef : ICloneable, INotifyPropertyChanged
     {
         // private int Id { get; set; }
-        
-        [LocDisplayName("{=uUzmy7Lh}Name"), 
+
+        [LocDisplayName("{=uUzmy7Lh}Name"),
          LocDescription("{=xgnntAyd}Particle effect system name, see ParticleEffects.txt for the full vanilla list"),
          ItemsSource(typeof(LoopingParticleEffectItemSource)), PropertyOrder(1), UsedImplicitly]
         public string Name { get; set; }
@@ -34,12 +34,12 @@ namespace BannerlordTwitch.Helpers
             OnBody,
         }
 
-        [LocDisplayName("{=GCe3gQcz}Attach Point"), 
+        [LocDisplayName("{=GCe3gQcz}Attach Point"),
          LocDescription("{=uNOYtEdN}Where to attach the particles"), PropertyOrder(2), UsedImplicitly]
         public AttachPointEnum AttachPoint { get; set; }
 
         public override string ToString() => $"{LoopingParticleEffectItemSource.GetFriendlyName(Name)} {AttachPoint}";
-        
+
         #region ICloneable
         public object Clone() => CloneHelpers.CloneProperties(this);
         #endregion
@@ -48,7 +48,7 @@ namespace BannerlordTwitch.Helpers
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
     }
-    
+
     public class AgentPfx
     {
         public Agent Agent { get; }
@@ -110,8 +110,8 @@ namespace BannerlordTwitch.Helpers
             if (pfxStates == null) return;
             foreach (var s in pfxStates)
             {
-                if(s.weaponEffects != null) RemoveWeaponEffects(s.weaponEffects);
-                if(s.boneAttachments != null) RemoveAgentEffects(s.boneAttachments);
+                if (s.weaponEffects != null) RemoveWeaponEffects(s.weaponEffects);
+                if (s.boneAttachments != null) RemoveAgentEffects(s.boneAttachments);
             }
 
             pfxStates = null;
@@ -177,13 +177,13 @@ namespace BannerlordTwitch.Helpers
             //var dropLock = true;
             agent.DropItem(index);
             var spawnedItemEntity = wieldedWeaponEntity.GetFirstScriptOfType<SpawnedItemEntity>();
-            if(spawnedItemEntity != null)
+            if (spawnedItemEntity != null)
                 agent.OnItemPickup(spawnedItemEntity, EquipmentIndex.None, out bool _);
             //dropLock = false;
 
             return components;
         }
-        
+
         private static void RemoveWeaponEffects(List<GameEntityComponent> effects)
         {
             foreach (var effect in effects)
@@ -192,7 +192,7 @@ namespace BannerlordTwitch.Helpers
             }
         }
         #endregion
-        
+
         #region Agent Effects
         private static BoneAttachments CreateAgentEffects(Agent agent, string pfxSystem, MatrixFrame offset, params sbyte[] boneIndices)
         {
@@ -200,11 +200,11 @@ namespace BannerlordTwitch.Helpers
             if (agentVisuals == null)
             {
                 return null;
-            }   
+            }
             var skeleton = agentVisuals.GetSkeleton();
             //var localFrame = MatrixFrame.Identity;
             //var localFrame = MatrixFrame.Identity;//new MatrixFrame(Mat3.Identity, new Vec3(0f, 0f, 0f, -1f)).Elevate(0.5f);
-            
+
             //var prevents = new List<GameEntity>();
             //agentVisuals.GetEntity().Scene.GetEntities(ref prevents);
 
@@ -216,7 +216,7 @@ namespace BannerlordTwitch.Helpers
             //     allEnts.Add(e);
             //     e.GetChildrenRecursive(ref allEnts);
             // }
-            
+
             // var prevPfx = allEnts
             //     .SelectMany(e =>
             //     {
@@ -294,7 +294,7 @@ namespace BannerlordTwitch.Helpers
             BLTAgentPfxBehaviour.Current.AddAttachments(boneAttachments);
             return boneAttachments;
         }
-        
+
         private static void RemoveAgentEffects(BoneAttachments attachments)
         {
             // attachments?.holderEntity?.Scene?.RemoveEntity(attachments.holderEntity, 85);

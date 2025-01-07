@@ -9,60 +9,60 @@ namespace BannerlordTwitch.UI
     public partial class CollectionPropertyEditor
     {
         #region Owner
-        public static readonly DependencyProperty OwnerProperty 
-            = DependencyProperty.Register( "Owner", typeof(string), 
-                typeof( CollectionPropertyEditor ), new UIPropertyMetadata( null ) );
+        public static readonly DependencyProperty OwnerProperty
+            = DependencyProperty.Register("Owner", typeof(string),
+                typeof(CollectionPropertyEditor), new UIPropertyMetadata(null));
         public string Owner
         {
-            get => ( string )GetValue( OwnerProperty );
-            set => SetValue( OwnerProperty, value );
+            get => (string)GetValue(OwnerProperty);
+            set => SetValue(OwnerProperty, value);
         }
         #endregion
-        
+
         #region PropertyName
-        public static readonly DependencyProperty PropertyNameProperty 
-            = DependencyProperty.Register( "PropertyName", typeof(string), 
-                typeof( CollectionPropertyEditor ), new UIPropertyMetadata( null ) );
+        public static readonly DependencyProperty PropertyNameProperty
+            = DependencyProperty.Register("PropertyName", typeof(string),
+                typeof(CollectionPropertyEditor), new UIPropertyMetadata(null));
         public string PropertyName
         {
-            get => ( string )GetValue( PropertyNameProperty );
-            set => SetValue( PropertyNameProperty, value );
+            get => (string)GetValue(PropertyNameProperty);
+            set => SetValue(PropertyNameProperty, value);
         }
         #endregion
-        
+
         #region ItemsSource Property
-        public static readonly DependencyProperty ItemsSourceProperty 
-            = DependencyProperty.Register( "ItemsSource", typeof(IEnumerable), 
-                typeof( CollectionPropertyEditor ), new UIPropertyMetadata( null ) );
+        public static readonly DependencyProperty ItemsSourceProperty
+            = DependencyProperty.Register("ItemsSource", typeof(IEnumerable),
+                typeof(CollectionPropertyEditor), new UIPropertyMetadata(null));
         public IEnumerable ItemsSource
         {
-            get => ( IEnumerable )GetValue( ItemsSourceProperty );
-            set => SetValue( ItemsSourceProperty, value );
+            get => (IEnumerable)GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
         }
         #endregion
 
         #region ItemsSourceType Property
-        public static readonly DependencyProperty ItemsSourceTypeProperty 
-            = DependencyProperty.Register( "ItemsSourceType", typeof( Type ), 
-                typeof( CollectionPropertyEditor ), new UIPropertyMetadata( null ) );
+        public static readonly DependencyProperty ItemsSourceTypeProperty
+            = DependencyProperty.Register("ItemsSourceType", typeof(Type),
+                typeof(CollectionPropertyEditor), new UIPropertyMetadata(null));
         public Type ItemsSourceType
         {
-            get => ( Type )GetValue( ItemsSourceTypeProperty );
-            set => SetValue( ItemsSourceTypeProperty, value );
+            get => (Type)GetValue(ItemsSourceTypeProperty);
+            set => SetValue(ItemsSourceTypeProperty, value);
         }
         #endregion
 
         #region NewItemTypes Property
-        public static readonly DependencyProperty NewItemTypesProperty 
-            = DependencyProperty.Register( "NewItemTypes", typeof( IList ), 
-                typeof( CollectionPropertyEditor ), new UIPropertyMetadata( null ) );
+        public static readonly DependencyProperty NewItemTypesProperty
+            = DependencyProperty.Register("NewItemTypes", typeof(IList),
+                typeof(CollectionPropertyEditor), new UIPropertyMetadata(null));
         public IList<Type> NewItemTypes
         {
-            get => ( IList<Type> )GetValue( NewItemTypesProperty );
-            set => SetValue( NewItemTypesProperty, value );
+            get => (IList<Type>)GetValue(NewItemTypesProperty);
+            set => SetValue(NewItemTypesProperty, value);
         }
         #endregion
-        
+
         public delegate void OpenCollectionEditorEventHandler(object sender, OpenCollectionEditorEventArgs e);
 
         public class OpenCollectionEditorEventArgs : RoutedEventArgs
@@ -85,9 +85,9 @@ namespace BannerlordTwitch.UI
             //     private set;
             // }
 
-            public OpenCollectionEditorEventArgs( RoutedEvent routedEvent, object source,
+            public OpenCollectionEditorEventArgs(RoutedEvent routedEvent, object source,
                 string propertyName, IEnumerable itemsSource, Type itemsSourceType, IList<Type> newItemTypes)
-                : base( routedEvent, source )
+                : base(routedEvent, source)
             {
                 PropertyName = propertyName;
                 ItemsSource = itemsSource;
@@ -97,23 +97,23 @@ namespace BannerlordTwitch.UI
                 // this.Item = item;
             }
         }
-        
-        public static readonly RoutedEvent OpenCollectionEditorEvent 
-            = EventManager.RegisterRoutedEvent( "OpenCollectionEditor", RoutingStrategy.Bubble, 
-                typeof( OpenCollectionEditorEventHandler ), typeof( CollectionPropertyEditor ) );
-        
+
+        public static readonly RoutedEvent OpenCollectionEditorEvent
+            = EventManager.RegisterRoutedEvent("OpenCollectionEditor", RoutingStrategy.Bubble,
+                typeof(OpenCollectionEditorEventHandler), typeof(CollectionPropertyEditor));
+
         public event OpenCollectionEditorEventHandler OpenCollectionEditor
         {
             add
             {
-                AddHandler( OpenCollectionEditorEvent, value );
+                AddHandler(OpenCollectionEditorEvent, value);
             }
             remove
             {
-                RemoveHandler( OpenCollectionEditorEvent, value );
+                RemoveHandler(OpenCollectionEditorEvent, value);
             }
         }
-        
+
         public CollectionPropertyEditor()
         {
             InitializeComponent();
@@ -121,8 +121,8 @@ namespace BannerlordTwitch.UI
 
         private void EditButton_OnClick(object sender, RoutedEventArgs e)
         {
-            this.RaiseEvent( new OpenCollectionEditorEventArgs(
-                OpenCollectionEditorEvent, this, 
+            this.RaiseEvent(new OpenCollectionEditorEventArgs(
+                OpenCollectionEditorEvent, this,
                 PropertyName, ItemsSource, ItemsSourceType, NewItemTypes));
         }
     }

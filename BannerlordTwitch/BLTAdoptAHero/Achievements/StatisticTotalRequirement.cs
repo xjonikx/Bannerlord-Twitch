@@ -15,7 +15,7 @@ namespace BLTAdoptAHero.Achievements
     {
         #region User Editable
         [LocDisplayName("{=ienuHzOP}Statistic"),
-         LocDescription("{=OKuz3zwY}The statistic this achievement relates to."), 
+         LocDescription("{=OKuz3zwY}The statistic this achievement relates to."),
          PropertyOrder(1), UsedImplicitly]
         public AchievementStatsData.Statistic Statistic { get; set; }
 
@@ -28,17 +28,17 @@ namespace BLTAdoptAHero.Achievements
         }
 
         [LocDisplayName("{=dXBsEW65}Comparison"),
-         LocDescription("{=4yoAe9WV}Whether hero needs more or less than the specifed Value. For instance you can make requirements for the hero to have less than 10 deaths and more than 100 kills."), 
+         LocDescription("{=4yoAe9WV}Whether hero needs more or less than the specifed Value. For instance you can make requirements for the hero to have less than 10 deaths and more than 100 kills."),
          PropertyOrder(2), UsedImplicitly]
         public Operator Comparison { get; set; } = Operator.GreaterOrEqual;
-        
+
         [LocDisplayName("{=a8Josr4g}Value"),
-         LocDescription("{=B9LEjEq8}Value needed to obtain the achievement."), 
+         LocDescription("{=B9LEjEq8}Value needed to obtain the achievement."),
          PropertyOrder(3), UsedImplicitly]
         public int Value { get; set; }
-        
+
         [LocDisplayName("{=nau8vg7o}Other Statistic"),
-         LocDescription("{=A3EKQ7up}Other statistic to compare against (this overrides Value if specified)."), 
+         LocDescription("{=A3EKQ7up}Other statistic to compare against (this overrides Value if specified)."),
          PropertyOrder(4), UsedImplicitly]
         public AchievementStatsData.Statistic OtherStatistic { get; set; }
         #endregion
@@ -71,7 +71,7 @@ namespace BLTAdoptAHero.Achievements
         };
 
         public override string ToString() => Description;
-        
+
         public object Clone() => CloneHelpers.CloneProperties(this);
 
         #endregion

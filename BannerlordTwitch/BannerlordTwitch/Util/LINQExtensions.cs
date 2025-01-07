@@ -13,7 +13,7 @@ public static class LINQExtensions
         var weighted = @this.Select(o => (item: o, weight: weightFn(o))).ToList();
         float totalWeight = weighted.Select(o => o.weight).Sum();
 
-        float randomP = (float) (StaticRandom.Next() * totalWeight);
+        float randomP = (float)(StaticRandom.Next() * totalWeight);
         float sum = 0;
         foreach ((var obj, float p) in weighted)
         {
@@ -50,7 +50,7 @@ public static class LINQExtensions
     {
         yield return item;
     }
-    
+
     public static IEnumerable ExceptNull(this IEnumerable @this) => @this.Cast<object>().Where(o => o != null);
 
 
@@ -58,53 +58,53 @@ public static class LINQExtensions
 
     public static IEnumerable<(EquipmentElement element, EquipmentIndex index)> YieldEquipmentSlots(this Equipment equipment)
     {
-        for (int i = 0; i < (int) EquipmentIndex.NumEquipmentSetSlots; i++)
+        for (int i = 0; i < (int)EquipmentIndex.NumEquipmentSetSlots; i++)
         {
-            yield return (equipment[i], (EquipmentIndex) i);
+            yield return (equipment[i], (EquipmentIndex)i);
         }
     }
-    
-    public static IEnumerable<(EquipmentElement element, EquipmentIndex index)> YieldFilledEquipmentSlots(this Equipment equipment) 
+
+    public static IEnumerable<(EquipmentElement element, EquipmentIndex index)> YieldFilledEquipmentSlots(this Equipment equipment)
         => equipment.YieldEquipmentSlots().Where(s => !s.element.IsEmpty);
 
-        
+
     public static IEnumerable<(EquipmentElement element, EquipmentIndex index)> YieldWeaponSlots(this Equipment equipment)
     {
-        for (int i = (int) EquipmentIndex.WeaponItemBeginSlot;
-            i < (int) EquipmentIndex.ExtraWeaponSlot; 
+        for (int i = (int)EquipmentIndex.WeaponItemBeginSlot;
+            i < (int)EquipmentIndex.ExtraWeaponSlot;
             i++)
         {
-            yield return (equipment[i], (EquipmentIndex) i);
+            yield return (equipment[i], (EquipmentIndex)i);
         }
     }
 
-    public static IEnumerable<(EquipmentElement element, EquipmentIndex index)> YieldFilledWeaponSlots(this Equipment equipment) 
+    public static IEnumerable<(EquipmentElement element, EquipmentIndex index)> YieldFilledWeaponSlots(this Equipment equipment)
         => equipment.YieldWeaponSlots().Where(s => !s.element.IsEmpty);
 
     public static IEnumerable<(EquipmentElement element, EquipmentIndex index)> YieldArmorSlots(this Equipment equipment)
     {
-        for (int i = (int) EquipmentIndex.ArmorItemBeginSlot; i < (int) EquipmentIndex.ArmorItemEndSlot; i++)
+        for (int i = (int)EquipmentIndex.ArmorItemBeginSlot; i < (int)EquipmentIndex.ArmorItemEndSlot; i++)
         {
-            yield return (equipment[i], (EquipmentIndex) i);
+            yield return (equipment[i], (EquipmentIndex)i);
         }
     }
-    
-    public static IEnumerable<EquipmentElement> YieldFilledArmorSlots(this Equipment equipment) 
+
+    public static IEnumerable<EquipmentElement> YieldFilledArmorSlots(this Equipment equipment)
         => equipment.YieldArmorSlots().Where(s => !s.element.IsEmpty).Select(s => s.element);
 
     public static IEnumerable<(MissionWeapon element, EquipmentIndex index)> YieldSlots(this MissionEquipment equipment)
     {
-        for (int i = (int) EquipmentIndex.WeaponItemBeginSlot;
-            i < (int) EquipmentIndex.ExtraWeaponSlot; 
+        for (int i = (int)EquipmentIndex.WeaponItemBeginSlot;
+            i < (int)EquipmentIndex.ExtraWeaponSlot;
             i++)
         {
-            yield return (equipment[i], (EquipmentIndex) i);
+            yield return (equipment[i], (EquipmentIndex)i);
         }
     }
 
-    public static IEnumerable<(MissionWeapon element, EquipmentIndex index)> YieldFilledSlots(this MissionEquipment equipment) 
+    public static IEnumerable<(MissionWeapon element, EquipmentIndex index)> YieldFilledSlots(this MissionEquipment equipment)
         => equipment.YieldSlots().Where(s => !s.element.IsEmpty);
-    
+
     // public static SerializableDict<TKey, TElement> ToSerializableDict<TSource, TKey, TElement>(
     //     this IEnumerable<TSource> source,
     //     Func<TSource, TKey> keySelector,

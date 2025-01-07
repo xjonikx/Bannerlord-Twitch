@@ -86,7 +86,7 @@ namespace BLTAdoptAHero.Achievements
             {
                 UpdateStatPair(Statistic.ConsecutiveAttacks, Statistic.ConsecutiveSummons);
             }
-            
+
             if (type is Statistic.Summons or Statistic.Attacks)
             {
                 TotalStats.AddInt(Statistic.Battles, amount);

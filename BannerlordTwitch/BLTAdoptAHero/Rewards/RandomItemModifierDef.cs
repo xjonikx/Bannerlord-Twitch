@@ -15,27 +15,27 @@ namespace BLTAdoptAHero
     {
         [LocDisplayName("{=1NLO6Gee}Power"),
          LocDescription("{=LXo3mTnr}Custom prize power, a global multiplier for the values below"),
-         Range(0.1, 10), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)), 
+         Range(0.1, 10), Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
          PropertyOrder(1), UsedImplicitly]
         public float Power { get; set; } = 1f;
-        
+
         [LocDisplayName("{=g2DZKK7M}Weapon Damage"),
-         LocDescription("{=R9lwIsrX}Weapon damage modifier for custom weapon prize"), 
+         LocDescription("{=R9lwIsrX}Weapon damage modifier for custom weapon prize"),
          PropertyOrder(2), UsedImplicitly]
         public RangeInt WeaponDamage { get; set; } = new(25, 50);
 
         [LocDisplayName("{=7TgyXbNe}Weapon Speed"),
-         LocDescription("{=1ZZDexjJ}Speed modifier for custom weapon prize"), 
+         LocDescription("{=1ZZDexjJ}Speed modifier for custom weapon prize"),
          PropertyOrder(3), UsedImplicitly]
         public RangeInt WeaponSpeed { get; set; } = new(25, 50);
 
         [LocDisplayName("{=4zhm204e}Weapon Missile Speed"),
-         LocDescription("{=gFO8L8CR}Missile speed modifier for custom weapon prize"), 
+         LocDescription("{=gFO8L8CR}Missile speed modifier for custom weapon prize"),
          PropertyOrder(4), UsedImplicitly]
         public RangeInt WeaponMissileSpeed { get; set; } = new(25, 50);
 
         [LocDisplayName("{=ny6l1USK}Ammo Damage"),
-         LocDescription("{=oTSCOXpf}Ammo damage modifier for custom ammo prize"), 
+         LocDescription("{=oTSCOXpf}Ammo damage modifier for custom ammo prize"),
          PropertyOrder(5), UsedImplicitly]
         public RangeInt AmmoDamage { get; set; } = new(10, 30);
 
@@ -70,7 +70,7 @@ namespace BLTAdoptAHero
         public RangeFloat MountChargeDamage { get; set; } = new(1.25f, 2f);
 
         [LocDisplayName("{=M8drveMF}Mount Hit Points"),
-         LocDescription("{=ewC5EV3Q}Hitpoints multiplier for custom mount prize"), 
+         LocDescription("{=ewC5EV3Q}Hitpoints multiplier for custom mount prize"),
          PropertyOrder(12), UsedImplicitly]
         public RangeFloat MountHitPoints { get; set; } = new(1.25f, 2f);
 
@@ -100,25 +100,25 @@ namespace BLTAdoptAHero
             {
                 return BLTCustomItemsCampaignBehavior.Current.CreateWeaponModifier(
                     customItemName,
-                    (int) Mathf.Ceil(WeaponDamage.RandomInRange() * modifierPower),
-                    (int) Mathf.Ceil(WeaponSpeed.RandomInRange() * modifierPower),
-                    (int) Mathf.Ceil(WeaponMissileSpeed.RandomInRange() * modifierPower),
-                    (short) Mathf.Ceil(ThrowingStack.RandomInRange() * modifierPower)
+                    (int)Mathf.Ceil(WeaponDamage.RandomInRange() * modifierPower),
+                    (int)Mathf.Ceil(WeaponSpeed.RandomInRange() * modifierPower),
+                    (int)Mathf.Ceil(WeaponMissileSpeed.RandomInRange() * modifierPower),
+                    (short)Mathf.Ceil(ThrowingStack.RandomInRange() * modifierPower)
                 );
             }
             else if (item.WeaponComponent?.PrimaryWeapon?.IsAmmo == true)
             {
                 return BLTCustomItemsCampaignBehavior.Current.CreateAmmoModifier(
                     customItemName,
-                    (int) Mathf.Ceil(AmmoDamage.RandomInRange() * modifierPower),
-                    (short) Mathf.Ceil(ArrowStack.RandomInRange() * modifierPower)
+                    (int)Mathf.Ceil(AmmoDamage.RandomInRange() * modifierPower),
+                    (short)Mathf.Ceil(ArrowStack.RandomInRange() * modifierPower)
                 );
             }
             else if (item.HasArmorComponent)
             {
                 return BLTCustomItemsCampaignBehavior.Current.CreateArmorModifier(
                     customItemName,
-                    (int) Mathf.Ceil(Armor.RandomInRange() * modifierPower)
+                    (int)Mathf.Ceil(Armor.RandomInRange() * modifierPower)
                 );
             }
             else if (item.IsMountable)

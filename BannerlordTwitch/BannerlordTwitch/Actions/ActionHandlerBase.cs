@@ -9,22 +9,22 @@ namespace BannerlordTwitch.Rewards
         Type IRewardHandler.RewardConfigType => ConfigType;
         void IRewardHandler.Enqueue(ReplyContext context, object config)
         {
-            ExecuteInternal(context, config, 
-                s => ActionManager.NotifyComplete(context, s), 
+            ExecuteInternal(context, config,
+                s => ActionManager.NotifyComplete(context, s),
                 s => ActionManager.NotifyCancelled(context, s));
         }
 
         Type ICommandHandler.HandlerConfigType => ConfigType;
         void ICommandHandler.Execute(ReplyContext context, object config)
         {
-            ExecuteInternal(context, config, 
+            ExecuteInternal(context, config,
                 s =>
                 {
-                    if(!string.IsNullOrEmpty(s)) ActionManager.SendReply(context, s);
-                }, 
+                    if (!string.IsNullOrEmpty(s)) ActionManager.SendReply(context, s);
+                },
                 s =>
                 {
-                    if(!string.IsNullOrEmpty(s)) ActionManager.SendReply(context, s);
+                    if (!string.IsNullOrEmpty(s)) ActionManager.SendReply(context, s);
                 });
         }
 

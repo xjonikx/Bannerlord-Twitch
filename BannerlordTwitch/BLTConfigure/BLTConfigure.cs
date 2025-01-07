@@ -24,13 +24,13 @@ namespace BLTConfigure
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly;
             };
-            
+
             thread = new Thread(() =>
             {
                 try
                 {
                     var _ = new Application();
-                    
+
                     // Need to make sure these styles are set globally
                     var globalStyles = (ResourceDictionary)Application.LoadComponent(
                         new Uri("BLTConfigure;component/UI/Styles.xaml",

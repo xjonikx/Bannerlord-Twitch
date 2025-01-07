@@ -38,11 +38,11 @@ namespace BLTAdoptAHero
                 ActionManager.SendReply(context, context.ArgsErrorMessage("{=}(custom item index) (new item name)".Translate()));
                 return;
             }
-            
+
             var argParts = context.Args.Trim().Split(' ').ToList();
             if (argParts.Count < 2)
             {
-                ActionManager.SendReply(context, 
+                ActionManager.SendReply(context,
                     context.ArgsErrorMessage("{=}(custom item index) (new item name)".Translate()));
                 return;
             }
@@ -60,7 +60,7 @@ namespace BLTAdoptAHero
             string itemNewName = string.Join(" ", argParts.Skip(1)).Replace("#", "");
 
             BLTCustomItemsCampaignBehavior.Current.NameItem(element.ItemModifier, itemNewName);
-            ActionManager.SendReply(context, 
+            ActionManager.SendReply(context,
                 "{=iqNEr6Y7}{PreviousName} renamed to {NewName}"
                     .Translate(("PreviousName", previousName), ("NewName", element.GetModifiedItemName().ToString()))
                 );

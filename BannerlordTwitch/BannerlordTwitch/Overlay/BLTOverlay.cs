@@ -39,25 +39,25 @@ namespace BLTOverlay
         public static void Start()
         {
             string indexTemplate = File.ReadAllText(Path.Combine(WebRoot, "index-template.html"));
-            
+
             overlayProviders.Sort((l, r) => l.order.CompareTo(r.order));
 
-            indexTemplate = indexTemplate.Replace("$custom_styles$", 
+            indexTemplate = indexTemplate.Replace("$custom_styles$",
                 string.Join("\n", overlayProviders
                     .Where(o => !string.IsNullOrWhiteSpace(o.css))
                     .Select(o => $"<style type=\"text/css\">\n{o.css}\n</style>")));
-            indexTemplate = indexTemplate.Replace("$custom_body$", 
+            indexTemplate = indexTemplate.Replace("$custom_body$",
                 string.Join("\n", overlayProviders
                     .Where(o => !string.IsNullOrWhiteSpace(o.body))
                     .Select(o => o.body)));
-            indexTemplate = indexTemplate.Replace("$custom_scripts$", 
+            indexTemplate = indexTemplate.Replace("$custom_scripts$",
                 string.Join("\n", overlayProviders
                     .Where(o => !string.IsNullOrWhiteSpace(o.script))
                     .Select(o => $"<script type=\"text/javascript\">\n{o.script}\n</script>")));
 
             indexTemplate = indexTemplate.Replace("$url_root$", UrlRoot);
             indexTemplate = indexTemplate.Replace("$min_js$", JSExtension);
-            indexTemplate = indexTemplate.Replace("$version$", Assembly.GetExecutingAssembly().GetName().Version.ToString(3)); 
+            indexTemplate = indexTemplate.Replace("$version$", Assembly.GetExecutingAssembly().GetName().Version.ToString(3));
 
             File.WriteAllText(Path.Combine(WebRoot, "index.html"), indexTemplate);
 
@@ -73,7 +73,7 @@ namespace BLTOverlay
                 OpenPort();
                 return;
             }
-                
+
             GlobalHost.Configuration.ConnectionTimeout = TimeSpan.FromDays(1);
             GlobalHost.Configuration.DisconnectTimeout = TimeSpan.FromDays(1);
 
@@ -87,29 +87,29 @@ namespace BLTOverlay
                 {
                     EnableDefaultFiles = true,
                     FileSystem = physicalFileSystem,
-                    StaticFileOptions = {FileSystem = physicalFileSystem, ServeUnknownFileTypes = true},
-                    DefaultFilesOptions = {DefaultFileNames = new[] {"index.html"}}
+                    StaticFileOptions = { FileSystem = physicalFileSystem, ServeUnknownFileTypes = true },
+                    DefaultFilesOptions = { DefaultFileNames = new[] { "index.html" } }
                 };
                 app.UseStaticFiles();
                 app.UseFileServer(options);
             });
-            
+
             // Process.Start(UrlRoot);
         }
-        
+
         private static void OpenPort()
         {
             InformationManager.ShowInquiry(
-                new ("{=fmjzDasd}BLT Overlay".Translate(),
+                new("{=fmjzDasd}BLT Overlay".Translate(),
                     "{=Kgi2isWy}For the BLT Overlay Browser Source to work it needs to reserve port {Port}, and allow it via the Windows Firewall. This requires administrator privileges, which will be requested after you press Ok. If successful, you won't see this popup again.".Translate(("Port", Port)),
                     true, false, "{=yXwMSbr4}Okay".Translate(), null,
                     () =>
                     {
                         // To remove them again:
-                        
+
                         // netsh http delete urlacl url={UrlBinding}
                         // netsh advfirewall firewall delete rule name=BLTOverlay
-                        
+
                         // netsh http delete urlacl url=http://*:8087/ & netsh advfirewall firewall delete rule name=BLTOverlay
 
                         try
@@ -122,7 +122,7 @@ namespace BLTOverlay
                             Log.Info($"Adding Url ACL with command {aclCmd}");
                             string firewallCmd = $"netsh advfirewall firewall add rule name=BLTOverlay dir=in action=allow protocol=TCP localport={Port}";
                             Log.Info($"Adding firewall rule with command {firewallCmd}");
-                            
+
                             var proc = Process.Start(new ProcessStartInfo("cmd.exe")
                             {
                                 Arguments =
@@ -135,23 +135,23 @@ namespace BLTOverlay
                             });
                             proc?.WaitForExit(5000);
                             InformationManager.ShowInquiry(
-                                new ("{=fmjzDasd}BLT Overlay".Translate(),
+                                new("{=fmjzDasd}BLT Overlay".Translate(),
                                     "{=6ucf05tp}Configuration Successful! You can now access the overlay at {UrlRoot}. You can find this link again on the Authorize tab in the BLT Configure window."
                                         .Translate(("UrlRoot", UrlRoot)),
                                     true, false, "Okay", null,
-                                    Start, () => {}), true);
+                                    Start, () => { }), true);
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             InformationManager.ShowInquiry(
-                                new ("{=fmjzDasd}BLT Overlay".Translate(),
+                                new("{=fmjzDasd}BLT Overlay".Translate(),
                                     "{=usADfORe}Configuration FAILED:\n  \"{e.Message}\"\nYou may not be able to access the overlay.\nReport this problem in the discord."
                                         .Translate(("e.Message", e.Message)),
                                     true, false, "Okay", null,
-                                    () => {}, () => {}), true);
+                                    () => { }, () => { }), true);
                             Log.Exception($"{nameof(BLTOverlay)}.{nameof(OpenPort)}", e, noRethrow: true);
                         }
-                    }, () => {}), true);
+                    }, () => { }), true);
         }
 
         private class OverlayProvider
@@ -164,10 +164,10 @@ namespace BLTOverlay
         }
 
         private static readonly List<OverlayProvider> overlayProviders = new();
-        
+
         public static void Register(string id, int order, string css, string body, string script)
         {
-            overlayProviders.Add(new ()
+            overlayProviders.Add(new()
             {
                 id = id,
                 order = order,

@@ -15,7 +15,7 @@ namespace BannerlordTwitch.Util
         {
             MainThreadId = Thread.CurrentThread.ManagedThreadId;
         }
-        
+
         internal static void RunQueued()
         {
             var st = new Stopwatch();
@@ -50,7 +50,7 @@ namespace BannerlordTwitch.Util
 
             return waitHandle;
         }
-        
+
         public static async Task RunWaitAsync(Action action)
         {
             if (Thread.CurrentThread.ManagedThreadId == MainThreadId)

@@ -8,21 +8,21 @@ namespace BannerlordTwitch.UI
     public partial class RangeFloatControl : UserControl, INotifyPropertyChanged
     {
         public static readonly DependencyProperty RangeFloatProperty = DependencyProperty.Register(
-            "Value", typeof(RangeFloat), typeof(RangeFloatControl), 
+            "Value", typeof(RangeFloat), typeof(RangeFloatControl),
             new PropertyMetadata(default(RangeFloat)));
 
         public RangeFloat Value
         {
-            get => (RangeFloat) GetValue(RangeFloatProperty);
+            get => (RangeFloat)GetValue(RangeFloatProperty);
             set => SetValue(RangeFloatProperty, value);
         }
-        
+
         public float Min
         {
             get => Value.Min;
             set => Value = new RangeFloat(value, Max);
         }
-        
+
         public float Max
         {
             get => Value.Max;
@@ -31,7 +31,7 @@ namespace BannerlordTwitch.UI
 
         public string MinLabel => "{=TZN2VR8Q}Min".Translate();
         public string MaxLabel => "{=bySwFF1n}Max".Translate();
-        
+
         public RangeFloatControl()
         {
             InitializeComponent();

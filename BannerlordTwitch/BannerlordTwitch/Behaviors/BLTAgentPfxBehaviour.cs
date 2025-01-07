@@ -48,7 +48,7 @@ namespace BannerlordTwitch
     public class BLTAgentPfxBehaviour : AutoMissionBehavior<BLTAgentPfxBehaviour>
     {
         private readonly List<BoneAttachments> attachmentsList = new();
-        
+
         internal void AddAttachments(BoneAttachments attachments)
         {
             attachmentsList.Add(attachments);

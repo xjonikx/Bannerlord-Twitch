@@ -33,16 +33,16 @@ namespace BannerlordTwitch
 
         #region Public Interface
         [YamlIgnore, Browsable(false)]
-        public IEnumerable<SimTestingItem> InitEnabled 
+        public IEnumerable<SimTestingItem> InitEnabled
             => Init?.Where(i => i.Enabled) ?? Enumerable.Empty<SimTestingItem>();
-        
+
         [YamlIgnore, Browsable(false)]
-        public IEnumerable<SimTestingItem> UseEnabled 
+        public IEnumerable<SimTestingItem> UseEnabled
             => Use?.Where(i => i.Enabled) ?? Enumerable.Empty<SimTestingItem>();
 
         public override string ToString() => "Sim Testing Config";
         #endregion
-        
+
         #region IUpdateFromDefault
         public void OnUpdateFromDefault(Settings defaultSettings)
         {
@@ -50,12 +50,12 @@ namespace BannerlordTwitch
             Use ??= new();
 
             SettingsHelpers.MergeCollections(
-                Init, 
+                Init,
                 defaultSettings.SimTesting.Init,
                 (a, b) => a.ID == b.ID
             );
             SettingsHelpers.MergeCollections(
-                Use, 
+                Use,
                 defaultSettings.SimTesting.Use,
                 (a, b) => a.ID == b.ID
             );

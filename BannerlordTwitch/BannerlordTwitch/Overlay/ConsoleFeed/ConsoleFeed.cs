@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNet.SignalR;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Microsoft.AspNet.SignalR;
 
 namespace BLTOverlay
 {
@@ -16,7 +16,7 @@ namespace BLTOverlay
             public int id = ++Id;
             [UsedImplicitly]
             public string message;
-            [UsedImplicitly] 
+            [UsedImplicitly]
             public string style;
         }
 
@@ -39,11 +39,11 @@ namespace BLTOverlay
                 }
             }
         }
-        
+
         public static void SendMessage(string message, string style)
         {
             var newMsg = new Message { message = message, style = style };
-            lock(messages)
+            lock (messages)
             {
                 messages.Add(newMsg);
                 if (messages.Count > 100)
@@ -55,17 +55,17 @@ namespace BLTOverlay
             GlobalHost.ConnectionManager.GetHubContext<ConsoleFeedHub>()
                 .Clients.All.addMessage(newMsg);
         }
-        
+
         private static string GetContentPath(string fileName) => Path.Combine(
             Path.GetDirectoryName(typeof(ConsoleFeedHub).Assembly.Location) ?? ".",
  "Overlay", "ConsoleFeed", fileName);
         private static string GetContent(string fileName) => File.ReadAllText(GetContentPath(fileName));
-        
+
         public static void Register()
         {
-            BLTOverlay.Register("console", 0, 
-                GetContent("ConsoleFeed.css"), 
-                GetContent("ConsoleFeed.html"), 
+            BLTOverlay.Register("console", 0,
+                GetContent("ConsoleFeed.css"),
+                GetContent("ConsoleFeed.html"),
                 GetContent("ConsoleFeed.js"));
         }
     }

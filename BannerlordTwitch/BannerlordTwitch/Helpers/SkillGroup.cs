@@ -12,27 +12,27 @@ namespace BannerlordTwitch.Helpers
         [LocDisplayName("{=p2ImRezI}None")] None,
         [LocDisplayName("{=ZJUJQl8V}All")] All,
         [LocDisplayName("{=Mtc9BiNI}Melee")] Melee,
-        [LocDisplayName("{=NRNrLcBt}One Handed")] OneHanded, 
-        [LocDisplayName("{=93kpWTwA}Two Handed")] TwoHanded, 
+        [LocDisplayName("{=NRNrLcBt}One Handed")] OneHanded,
+        [LocDisplayName("{=93kpWTwA}Two Handed")] TwoHanded,
         [LocDisplayName("{=PWibGbJ4}Polearm")] Polearm,
         [LocDisplayName("{=oidnJJjF}Ranged")] Ranged,
-        [LocDisplayName("{=HW64G8xr}Bow")] Bow, 
-        [LocDisplayName("{=yR8vmGlW}Throwing")] Throwing, 
+        [LocDisplayName("{=HW64G8xr}Bow")] Bow,
+        [LocDisplayName("{=yR8vmGlW}Throwing")] Throwing,
         [LocDisplayName("{=UG5KpbT7}Crossbow")] Crossbow,
         [LocDisplayName("{=tVQs3vuO}Movement")] Movement,
-        [LocDisplayName("{=14Unsmk1}Riding")] Riding, 
+        [LocDisplayName("{=14Unsmk1}Riding")] Riding,
         [LocDisplayName("{=4zlH32Z5}Athletics")] Athletics,
         [LocDisplayName("{=AZD2nxRg}Support")] Support,
-        [LocDisplayName("{=pOYKEhhf}Scouting")] Scouting, 
-        [LocDisplayName("{=ijZZGbRE}Trade")] Trade, 
-        [LocDisplayName("{=CQqpGRtH}Steward")] Steward, 
-        [LocDisplayName("{=X6rHMhsQ}Medicine")] Medicine, 
+        [LocDisplayName("{=pOYKEhhf}Scouting")] Scouting,
+        [LocDisplayName("{=ijZZGbRE}Trade")] Trade,
+        [LocDisplayName("{=CQqpGRtH}Steward")] Steward,
+        [LocDisplayName("{=X6rHMhsQ}Medicine")] Medicine,
         [LocDisplayName("{=tNC2NHRC}Engineering")] Engineering,
         [LocDisplayName("{=eYTQ1TD7}Personal")] Personal,
-        [LocDisplayName("{=PrE6W0WX}Crafting")] Crafting, 
-        [LocDisplayName("{=BfNX6sak}Tactics")] Tactics, 
-        [LocDisplayName("{=OvyNv1El}Roguery")] Roguery, 
-        [LocDisplayName("{=1NcKYexo}Charm")] Charm, 
+        [LocDisplayName("{=PrE6W0WX}Crafting")] Crafting,
+        [LocDisplayName("{=BfNX6sak}Tactics")] Tactics,
+        [LocDisplayName("{=OvyNv1El}Roguery")] Roguery,
+        [LocDisplayName("{=1NcKYexo}Charm")] Charm,
         [LocDisplayName("{=4684bsD7}Leadership")] Leadership,
     }
 
@@ -43,17 +43,18 @@ namespace BannerlordTwitch.Helpers
             switch (skills)
             {
                 case SkillsEnum.Melee: return new[] { SkillsEnum.OneHanded, SkillsEnum.TwoHanded, SkillsEnum.Polearm };
-                case SkillsEnum.Ranged: return new[] { SkillsEnum.Bow , SkillsEnum.Throwing , SkillsEnum.Crossbow };
-                case SkillsEnum.Movement: return new[] { SkillsEnum.Riding , SkillsEnum.Athletics };
-                case SkillsEnum.Support: return new[] { SkillsEnum.Scouting , SkillsEnum.Trade , SkillsEnum.Steward , SkillsEnum.Medicine , SkillsEnum.Engineering };
-                case SkillsEnum.Personal: return new[] { SkillsEnum.Crafting ,SkillsEnum.Tactics , SkillsEnum.Roguery , SkillsEnum.Charm ,  SkillsEnum.Leadership };
-                case SkillsEnum.All: return new[] {SkillsEnum.OneHanded , SkillsEnum.TwoHanded , SkillsEnum.Polearm , SkillsEnum.Bow , SkillsEnum.Throwing ,
-                    SkillsEnum.Crossbow , SkillsEnum.Riding , SkillsEnum.Athletics , SkillsEnum.Crafting , SkillsEnum.Tactics , 
+                case SkillsEnum.Ranged: return new[] { SkillsEnum.Bow, SkillsEnum.Throwing, SkillsEnum.Crossbow };
+                case SkillsEnum.Movement: return new[] { SkillsEnum.Riding, SkillsEnum.Athletics };
+                case SkillsEnum.Support: return new[] { SkillsEnum.Scouting, SkillsEnum.Trade, SkillsEnum.Steward, SkillsEnum.Medicine, SkillsEnum.Engineering };
+                case SkillsEnum.Personal: return new[] { SkillsEnum.Crafting, SkillsEnum.Tactics, SkillsEnum.Roguery, SkillsEnum.Charm, SkillsEnum.Leadership };
+                case SkillsEnum.All:
+                    return new[] {SkillsEnum.OneHanded , SkillsEnum.TwoHanded , SkillsEnum.Polearm , SkillsEnum.Bow , SkillsEnum.Throwing ,
+                    SkillsEnum.Crossbow , SkillsEnum.Riding , SkillsEnum.Athletics , SkillsEnum.Crafting , SkillsEnum.Tactics ,
                     SkillsEnum.Scouting , SkillsEnum.Roguery , SkillsEnum.Charm , SkillsEnum.Trade , SkillsEnum.Steward ,
                     SkillsEnum.Medicine , SkillsEnum.Engineering , SkillsEnum.Leadership};
                 case SkillsEnum.None: return new SkillsEnum[] { };
                 default:
-                    return new[] {skills};
+                    return new[] { skills };
             }
         }
 
@@ -92,7 +93,7 @@ namespace BannerlordTwitch.Helpers
             (DefaultSkills.TwoHanded, ItemObject.ItemTypeEnum.TwoHandedWeapon),
             (DefaultSkills.Polearm, ItemObject.ItemTypeEnum.Polearm),
         };
-        
+
         public static (SkillObject skill, ItemObject.ItemTypeEnum itemType)[] SkillItemPairs => new[]
         {
             (DefaultSkills.OneHanded, ItemObject.ItemTypeEnum.OneHandedWeapon),
@@ -102,7 +103,7 @@ namespace BannerlordTwitch.Helpers
             (DefaultSkills.Crossbow, ItemObject.ItemTypeEnum.Crossbow),
             (DefaultSkills.Throwing, ItemObject.ItemTypeEnum.Thrown),
         };
-        
+
         // notice that ChestArmor is NOT here, its not currently used by the game, 
         // and including it will result in a failure to find any matching items
         public static readonly (EquipmentIndex slot, ItemObject.ItemTypeEnum itemType)[] ArmorIndexType = {
@@ -118,12 +119,12 @@ namespace BannerlordTwitch.Helpers
 
         public static IEnumerable<SkillObject> GetSkills(IEnumerable<SkillsEnum> sk)
             => sk.SelectMany(ExpandSkills).Distinct().Select(GetSkill);
-        
-        public static IEnumerable<SkillObject> GetSkills(IEnumerable<string> sk) 
-            => sk.Select(sn 
-                => CampaignHelpers.AllSkillObjects.FirstOrDefault(so 
+
+        public static IEnumerable<SkillObject> GetSkills(IEnumerable<string> sk)
+            => sk.Select(sn
+                => CampaignHelpers.AllSkillObjects.FirstOrDefault(so
                     => string.Equals(so.StringId, sn, StringComparison.CurrentCultureIgnoreCase)));
-        
+
         public static IEnumerable<ItemObject.ItemTypeEnum> GetItemsForSkills(params SkillsEnum[] sk)
             => GetItemsForSkills((IEnumerable<SkillsEnum>)sk);
 
@@ -157,7 +158,7 @@ namespace BannerlordTwitch.Helpers
 
         public static IEnumerable<SkillsEnum> GetSkillsForItem(params ItemObject.ItemTypeEnum[] items)
             => GetSkillsForItem((IEnumerable<ItemObject.ItemTypeEnum>)items);
-        
+
         public static IEnumerable<SkillsEnum> GetSkillsForItem(IEnumerable<ItemObject.ItemTypeEnum> items)
         {
             foreach (var i in items)
@@ -185,10 +186,10 @@ namespace BannerlordTwitch.Helpers
                 }
             }
         }
-        
+
         public static IEnumerable<SkillsEnum> GetSkillsForEquipmentType(params EquipmentType[] equipTypes)
             => GetSkillsForEquipmentType((IEnumerable<EquipmentType>)equipTypes);
-        
+
         public static IEnumerable<SkillsEnum> GetSkillsForEquipmentType(IEnumerable<EquipmentType> equipTypes)
         {
             foreach (var i in equipTypes)
@@ -232,10 +233,10 @@ namespace BannerlordTwitch.Helpers
                 }
             }
         }
-        
+
         public static IEnumerable<EquipmentType> GetEquipmentTypeForSkills(params SkillObject[] skills)
             => GetEquipmentTypeForSkills((IEnumerable<SkillObject>)skills);
-        
+
         public static IEnumerable<EquipmentType> GetEquipmentTypeForSkills(IEnumerable<SkillObject> skills)
         {
             foreach (var i in skills)
@@ -246,30 +247,30 @@ namespace BannerlordTwitch.Helpers
                     yield return EquipmentType.OneHandedAxe;
                     yield return EquipmentType.OneHandedMace;
                 }
-                else if(i == DefaultSkills.TwoHanded)
+                else if (i == DefaultSkills.TwoHanded)
                 {
                     yield return EquipmentType.TwoHandedSword;
                     yield return EquipmentType.TwoHandedAxe;
                     yield return EquipmentType.TwoHandedMace;
                 }
-                else if(i == DefaultSkills.Polearm)
+                else if (i == DefaultSkills.Polearm)
                 {
                     yield return EquipmentType.OneHandedLance;
                     yield return EquipmentType.TwoHandedLance;
                     yield return EquipmentType.OneHandedGlaive;
                     yield return EquipmentType.TwoHandedGlaive;
                 }
-                else if(i == DefaultSkills.Bow)
+                else if (i == DefaultSkills.Bow)
                 {
                     yield return EquipmentType.Bow;
                     yield return EquipmentType.Arrows;
                 }
-                else if(i == DefaultSkills.Crossbow)
+                else if (i == DefaultSkills.Crossbow)
                 {
                     yield return EquipmentType.Crossbow;
                     yield return EquipmentType.Bolts;
                 }
-                else if(i == DefaultSkills.Throwing)
+                else if (i == DefaultSkills.Throwing)
                 {
                     yield return EquipmentType.ThrowingKnives;
                     yield return EquipmentType.ThrowingAxes;

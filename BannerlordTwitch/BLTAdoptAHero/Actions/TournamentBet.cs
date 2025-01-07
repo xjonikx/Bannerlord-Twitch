@@ -24,7 +24,7 @@ namespace BLTAdoptAHero
             string[] parts = context.Args?.Split(' ');
             if (parts?.Length != 2)
             {
-                ActionManager.SendReply(context, 
+                ActionManager.SendReply(context,
                     context.ArgsErrorMessage("{=8XQwqd4f}(team) (gold)".Translate()));
                 return;
             }
@@ -38,7 +38,7 @@ namespace BLTAdoptAHero
                 else if (string.Equals(args[1], "{=hHekZwYB}all".Translate(), StringComparison.CurrentCultureIgnoreCase))
                 {
                     return (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero), args[0]);
-                } 
+                }
                 else if (int.TryParse(args[0], out int gold0))
                 {
                     return (gold0, args[1]);
@@ -51,23 +51,23 @@ namespace BLTAdoptAHero
             }
 
             (int? gold, string team) = ParseArgs(parts);
-            if(gold is null or <= 0)
+            if (gold is null or <= 0)
             {
                 ActionManager.SendReply(context, "{=GiU7feEu}Invalid gold argument".Translate());
                 return;
             }
 
-            (bool success, string failReason) 
-                = BLTTournamentBetMissionBehavior.Current?.PlaceBet(adoptedHero, team, gold.Value) 
+            (bool success, string failReason)
+                = BLTTournamentBetMissionBehavior.Current?.PlaceBet(adoptedHero, team, gold.Value)
                   ?? (false, "{=3AQKsF9f}Betting not active".Translate());
-            
+
             if (!success)
             {
                 ActionManager.SendReply(context, failReason);
             }
             else
             {
-                ActionManager.SendReply(context,  "{=9tlhaGyH}Bet {GoldAmount}{GoldIcon} on {Team}"
+                ActionManager.SendReply(context, "{=9tlhaGyH}Bet {GoldAmount}{GoldIcon} on {Team}"
                     .Translate(("GoldAmount", gold), ("GoldIcon", Naming.Gold), ("Team", team)));
             }
         }

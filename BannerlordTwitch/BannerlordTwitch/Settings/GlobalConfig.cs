@@ -13,7 +13,7 @@ namespace BannerlordTwitch
 
         [ExpandableObject, Expand, ReadOnly(true)]
         public object Config { get; set; }
-        
+
         public override string ToString() => Config?.GetType().GetDisplayName() ?? Id;
     }
 }

@@ -28,40 +28,40 @@ namespace BLTAdoptAHero.Powers
 
         public override string ToString() => Power?.ToString() ?? "{=8mrSEyNk}(no power)".Translate() + ": " + base.ToString();
     }
-    
+
     public class PassivePowerGroup : ILoaded, IDocumentable, ICloneable
     {
         #region User Editable
-        [LocDisplayName("{=uUzmy7Lh}Name"), 
-         LocDescription("{=QsdqVpNE}The name of the power: how the power will be described in messages"), 
+        [LocDisplayName("{=uUzmy7Lh}Name"),
+         LocDescription("{=QsdqVpNE}The name of the power: how the power will be described in messages"),
          PropertyOrder(1), UsedImplicitly]
         public LocString Name { get; set; } = "{=aQgYs3mI}Enter Name Here";
-        
-        [LocDisplayName("{=61fc3xTQ}Powers"), 
-         LocDescription("{=wtD908lt}The various effects in the power. These can also have customized unlock requirements, so you can have classes that get stronger (or weaker!) over time (or by any other measure)."), 
-         Editor(typeof(DefaultCollectionEditor), typeof(DefaultCollectionEditor)), 
+
+        [LocDisplayName("{=61fc3xTQ}Powers"),
+         LocDescription("{=wtD908lt}The various effects in the power. These can also have customized unlock requirements, so you can have classes that get stronger (or weaker!) over time (or by any other measure)."),
+         Editor(typeof(DefaultCollectionEditor), typeof(DefaultCollectionEditor)),
          PropertyOrder(2), UsedImplicitly]
         public ObservableCollection<PassivePowerGroupItem> Powers { get; set; } = new();
         #endregion
-        
+
         #region Implementation Detail
-        [YamlIgnore, Browsable(false)] 
+        [YamlIgnore, Browsable(false)]
         private GlobalHeroPowerConfig PowerConfig { get; set; }
         #endregion
 
         #region Public Interface
         [YamlIgnore, Browsable(false)]
         public IEnumerable<PassivePowerGroupItem> ValidPowers => Powers.Where(p => p.Power != null);
-        public IEnumerable<IHeroPowerPassive> GetUnlockedPowers(Hero hero) 
+        public IEnumerable<IHeroPowerPassive> GetUnlockedPowers(Hero hero)
             => ValidPowers.Where(p => p.IsUnlocked(hero)).Select(p => p.Power);
 
         public PassivePowerGroup()
         {
             // For when these are created via the configure tool
-            PowerConfig = ConfigureContext.CurrentlyEditedSettings == null 
+            PowerConfig = ConfigureContext.CurrentlyEditedSettings == null
                 ? null : GlobalHeroPowerConfig.Get(ConfigureContext.CurrentlyEditedSettings);
         }
-                
+
         public void OnHeroJoinedBattle(Hero hero)
         {
             if (PowerConfig.DisablePowersInTournaments && MissionHelpers.InTournament())
@@ -69,14 +69,14 @@ namespace BLTAdoptAHero.Powers
                 return;
             }
 
-            foreach(var power in GetUnlockedPowers(hero))
+            foreach (var power in GetUnlockedPowers(hero))
             {
                 BLTHeroPowersMissionBehavior.PowerHandler.ConfigureHandlers(
                     hero, power as HeroPowerDefBase, handlers => power.OnHeroJoinedBattle(hero, handlers));
             }
         }
-                
-        public override string ToString() 
+
+        public override string ToString()
             => $"{Name} {string.Join(" ", Powers.Select(p => p.ToString()))}";
         #endregion
 
@@ -85,7 +85,7 @@ namespace BLTAdoptAHero.Powers
         {
             var clone = CloneHelpers.CloneProperties(this);
             clone.Powers = new(CloneHelpers.CloneCollection(Powers));
-            clone.PowerConfig = PowerConfig; 
+            clone.PowerConfig = PowerConfig;
             return clone;
         }
         #endregion
@@ -93,7 +93,7 @@ namespace BLTAdoptAHero.Powers
         #region ILoaded
         public void OnLoaded(BannerlordTwitch.Settings settings)
         {
-            PowerConfig = GlobalHeroPowerConfig.Get(settings);   
+            PowerConfig = GlobalHeroPowerConfig.Get(settings);
         }
         #endregion
 
@@ -112,7 +112,7 @@ namespace BLTAdoptAHero.Powers
                     generator.P(power.ToString());
                 }
             }
-                    
+
             // generator.Table("power", () =>
             // {
             //     generator.TR(() => generator.TD("Name").TD(Name));

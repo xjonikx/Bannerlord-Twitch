@@ -4,16 +4,15 @@ using System.Text;
 using BannerlordTwitch;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Localization;
-using BannerlordTwitch.Rewards;
 using BannerlordTwitch.Util;
 using BLTAdoptAHero.Annotations;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.MountAndBlade;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
-using TaleWorlds.Localization;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero.Actions
 {
@@ -201,7 +200,7 @@ namespace BLTAdoptAHero.Actions
                 onFailure("{=CVcUtTWc}Could not find the clan with the name {name}".Translate(("name", desiredName)));
                 return;
             }
-            if(desiredClan.Heroes.Count >= settings.JoinMaxHeroes)
+            if (desiredClan.Heroes.Count >= settings.JoinMaxHeroes)
             {
                 onFailure("{=CVcUtTWc}The clan {name} is full".Translate(("name", desiredName)));
                 return;

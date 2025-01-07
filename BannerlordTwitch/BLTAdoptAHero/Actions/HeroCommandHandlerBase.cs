@@ -18,11 +18,11 @@ namespace BLTAdoptAHero
 
             ExecuteInternal(adoptedHero, context, config, s =>
                 {
-                    if(!string.IsNullOrEmpty(s)) ActionManager.SendReply(context, s);
-                }, 
+                    if (!string.IsNullOrEmpty(s)) ActionManager.SendReply(context, s);
+                },
                 s =>
                 {
-                    if(!string.IsNullOrEmpty(s)) ActionManager.SendReply(context, s);
+                    if (!string.IsNullOrEmpty(s)) ActionManager.SendReply(context, s);
                 });
         }
 

@@ -2,7 +2,6 @@
 using BannerlordTwitch;
 using BannerlordTwitch.Rewards;
 using JetBrains.Annotations;
-using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -25,7 +24,7 @@ namespace BLTBuffet
             }
             if (!string.IsNullOrEmpty(context.Args))
             {
-                active = CharacterEffect.CreateAgentEffects(Agent.Main, context.Args, 
+                active = CharacterEffect.CreateAgentEffects(Agent.Main, context.Args,
                     MatrixFrame.Identity.Strafe(0.1f),
                     Agent.Main.Monster.HeadLookDirectionBoneIndex);
             }

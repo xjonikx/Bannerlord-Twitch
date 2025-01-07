@@ -18,7 +18,7 @@ namespace BLTAdoptAHero.Powers
     // Active Power should have Agent life time in Battle
     // Passive Power has Battle life time
     // The specific implementation can define the lifetime though, using events/callbacks/however its going to be implemented
-    
+
     [LocDisplayName("{=HmDfLY2B}Absorb Health Power"),
      LocDescription("{=ZHdogsAa}Absorbs a fraction of damage you do to enemies as health"),
      UsedImplicitly]
@@ -31,21 +31,21 @@ namespace BLTAdoptAHero.Powers
          PropertyOrder(1), UsedImplicitly]
         public float DamageToAbsorbPercent { get; set; }
         #endregion
-        
+
         #region IHeroPowerPassive
-        void IHeroPowerPassive.OnHeroJoinedBattle(Hero hero, PowerHandler.Handlers handlers) 
+        void IHeroPowerPassive.OnHeroJoinedBattle(Hero hero, PowerHandler.Handlers handlers)
             => OnActivation(hero, handlers);
         #endregion
 
         #region Implementation Details
         protected override void OnActivation(Hero hero, PowerHandler.Handlers handlers,
-            Agent agent = null, DeactivationHandler deactivationHandler = null) 
+            Agent agent = null, DeactivationHandler deactivationHandler = null)
             => handlers.OnDoDamage += OnDoDamage;
 
-        private void OnDoDamage(Agent agent, Agent victimAgent, 
+        private void OnDoDamage(Agent agent, Agent victimAgent,
             BLTHeroPowersMissionBehavior.RegisterBlowParams blowParams)
         {
-            agent.Health = Math.Min(agent.HealthLimit, 
+            agent.Health = Math.Min(agent.HealthLimit,
                 agent.Health + blowParams.blow.InflictedDamage * DamageToAbsorbPercent / 100f);
         }
         #endregion
@@ -53,10 +53,10 @@ namespace BLTAdoptAHero.Powers
         #region Public Interface
         [YamlIgnore, Browsable(false)]
         public bool IsEnabled => DamageToAbsorbPercent != 0;
-        
+
         [YamlIgnore, Browsable(false)]
-        public override LocString Description => !IsEnabled 
-            ? "{=41sZdkDw}(disabled)".Translate() 
+        public override LocString Description => !IsEnabled
+            ? "{=41sZdkDw}(disabled)".Translate()
             : "{=04WkC9p6}Absorb {DamageToAbsorbPercent}% of damage dealt as HP"
                 .Translate(("DamageToAbsorbPercent", DamageToAbsorbPercent.ToString("0")));
         #endregion

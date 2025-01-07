@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.GameComponents;
-using TaleWorlds.CampaignSystem;
 
 namespace BLTAdoptAHero.Util
 {

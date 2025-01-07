@@ -26,56 +26,56 @@ namespace BLTAdoptAHero.Powers
 
         [Browsable(false), YamlIgnore]
         public IHeroPowerActive Power => PowerConfig?.GetPower(PowerID) as IHeroPowerActive;
-        
+
         public override string ToString() => $"[{Power?.ToString() ?? "{=ddNSQjWq}(no power)".Translate()}] {base.ToString()}";
     }
-    
+
     [LocDisplayName("{=HvTIrx0b}Active Power Group")]
     public class ActivePowerGroup : IDocumentable, ICloneable
     {
         #region User Editable
         [LocDisplayName("{=uUzmy7Lh}Name"),
-         LocDescription("{=EvVyh3WM}The name of the power: how the power will be described in messages"), 
+         LocDescription("{=EvVyh3WM}The name of the power: how the power will be described in messages"),
          PropertyOrder(1), UsedImplicitly]
         public LocString Name { get; set; } = "{=aQgYs3mI}Enter Name Here";
 
         [LocDisplayName("{=acLMixuK}Powers"),
-         LocDescription("{=6aKmeGgU}The various effects in the power. These can also have customized unlock requirements, so you can have classes that get stronger (or weaker!) over time (or by any other measure)."), 
-         Editor(typeof(DefaultCollectionEditor), typeof(DefaultCollectionEditor)), 
+         LocDescription("{=6aKmeGgU}The various effects in the power. These can also have customized unlock requirements, so you can have classes that get stronger (or weaker!) over time (or by any other measure)."),
+         Editor(typeof(DefaultCollectionEditor), typeof(DefaultCollectionEditor)),
          PropertyOrder(2), UsedImplicitly]
         public ObservableCollection<ActivePowerGroupItem> Powers { get; set; } = new();
 
         [LocDisplayName("{=ticZtKY4}ActivateEffect"),
-         LocDescription("{=YWHa7H42}Particles/sound effects to play when this power group is activated"), 
+         LocDescription("{=YWHa7H42}Particles/sound effects to play when this power group is activated"),
          PropertyOrder(3), ExpandableObject, UsedImplicitly]
         public OneShotEffect ActivateEffect { get; set; }
 
         [LocDisplayName("{=MXnon4pc}DeactivateEffect"),
-         LocDescription("{=V9fqIgvH}Particles/sound effects to play when this power group is deactivated"), 
+         LocDescription("{=V9fqIgvH}Particles/sound effects to play when this power group is deactivated"),
          PropertyOrder(4), ExpandableObject, UsedImplicitly]
         public OneShotEffect DeactivateEffect { get; set; }
         #endregion
-        
+
         #region Implementation Detail
-        [YamlIgnore, Browsable(false)] 
+        [YamlIgnore, Browsable(false)]
         private GlobalHeroPowerConfig PowerConfig { get; set; }
         #endregion
-        
+
         #region Public Interface
         [YamlIgnore, Browsable(false)]
         public IEnumerable<ActivePowerGroupItem> ValidPowers => Powers.Where(p => p.Power != null);
-        public IEnumerable<IHeroPowerActive> GetUnlockedPowers(Hero hero) 
+        public IEnumerable<IHeroPowerActive> GetUnlockedPowers(Hero hero)
             => ValidPowers.Where(p => p.IsUnlocked(hero)).Select(p => p.Power);
-        
+
         public bool IsActive(Hero hero) => Powers.Any(power => power.Power.IsActive(hero));
 
         public ActivePowerGroup()
         {
             // For when these are created via the configure tool
-            PowerConfig = ConfigureContext.CurrentlyEditedSettings == null 
+            PowerConfig = ConfigureContext.CurrentlyEditedSettings == null
                 ? null : GlobalHeroPowerConfig.Get(ConfigureContext.CurrentlyEditedSettings);
         }
-        
+
         public (bool canActivate, string failReason) CanActivate(Hero hero)
         {
             if (PowerConfig.DisablePowersInTournaments && MissionHelpers.InTournament())
@@ -93,7 +93,7 @@ namespace BLTAdoptAHero.Powers
             (bool _, string failReason) = unlockedPowers
                 .Select(power => power.CanActivate(hero))
                 .FirstOrDefault(r => !r.canActivate);
-            return failReason != null 
+            return failReason != null
                 ? (false, failReason)
                 : (true, null);
         }
@@ -106,7 +106,7 @@ namespace BLTAdoptAHero.Powers
             }
 
             var activatedPowers = GetUnlockedPowers(hero).ToList();
-            foreach(var power in activatedPowers)
+            foreach (var power in activatedPowers)
             {
                 power.Activate(hero, () =>
                 {
@@ -123,7 +123,7 @@ namespace BLTAdoptAHero.Powers
 
         public (float duration, float remaining) DurationRemaining(Hero hero)
         {
-            if (!ValidPowers.Any()) 
+            if (!ValidPowers.Any())
                 return (1, 0);
             var remaining = ValidPowers
                 .Select(active => active.Power.DurationRemaining(hero))

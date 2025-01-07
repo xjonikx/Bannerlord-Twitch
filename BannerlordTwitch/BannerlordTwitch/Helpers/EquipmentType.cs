@@ -61,9 +61,9 @@ namespace BannerlordTwitch.Helpers
         };
 
         public ItemCollection GetValues() => items;
-        
-        public static string GetFriendlyName(EquipmentType value) 
-            => items.FirstOrDefault(p => (EquipmentType) p.Value == value)?.DisplayName ?? "{=a8ibMIfH}(none)".Translate();
+
+        public static string GetFriendlyName(EquipmentType value)
+            => items.FirstOrDefault(p => (EquipmentType)p.Value == value)?.DisplayName ?? "{=a8ibMIfH}(none)".Translate();
     }
 
     public static class EquipmentTypeHelpers
@@ -74,18 +74,18 @@ namespace BannerlordTwitch.Helpers
         public static bool NoWeaponMatches(this ItemObject item, Func<WeaponComponentData, bool> predicate)
             => item.Weapons?.Any(predicate) != true;
 
-        public static bool IsSwingable(this ItemObject item) 
+        public static bool IsSwingable(this ItemObject item)
             => item.AnyWeaponMatches(w => w.IsMeleeWeapon && w.SwingDamageType != DamageTypes.Invalid);
-        
-        public static bool IsRanged(this ItemObject item) 
+
+        public static bool IsRanged(this ItemObject item)
             => item.AnyWeaponMatches(w => w.IsRangedWeapon);
 
         public static bool HasWeaponClass(this ItemObject item, WeaponClass weaponClass)
             => item.AnyWeaponMatches(w => w.WeaponClass == weaponClass);
-        
+
         public static bool PrimaryWeaponClass(this ItemObject item, WeaponClass weaponClass)
             => item.PrimaryWeapon?.WeaponClass == weaponClass;
-        
+
         public static bool IsEquipmentType(this ItemObject item, EquipmentType equipmentType)
         {
             return equipmentType switch
@@ -110,7 +110,7 @@ namespace BannerlordTwitch.Helpers
                 EquipmentType.ThrowingAxes => item.PrimaryWeaponClass(WeaponClass.ThrowingAxe),
                 EquipmentType.ThrowingJavelins => item.PrimaryWeaponClass(WeaponClass.Javelin),
                 EquipmentType.Shield => item.ItemType == ItemObject.ItemTypeEnum.Shield,
-                EquipmentType.Stone => item.HasWeaponClass(WeaponClass.Stone) ,
+                EquipmentType.Stone => item.HasWeaponClass(WeaponClass.Stone),
                 _ => throw new ArgumentOutOfRangeException(nameof(equipmentType), equipmentType, null)
             };
         }
@@ -124,7 +124,7 @@ namespace BannerlordTwitch.Helpers
             }
             return EquipmentType.None;
         }
-        
+
         public static WeaponClass GetWeaponClass(EquipmentType equipmentType) =>
             equipmentType switch
             {

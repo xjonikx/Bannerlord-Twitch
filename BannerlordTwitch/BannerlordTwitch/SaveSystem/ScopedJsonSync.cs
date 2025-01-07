@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
 
 namespace BannerlordTwitch.SaveSystem
@@ -38,7 +36,7 @@ namespace BannerlordTwitch.SaveSystem
             if (dataStore.IsSaving)
             {
                 string dataJson = JsonConvert.SerializeObject(data, Formatting.None, settings);
-                string jsonData = JsonConvert.SerializeObject(new FormatDataPair{ Format = 2, Data = dataJson });
+                string jsonData = JsonConvert.SerializeObject(new FormatDataPair { Format = 2, Data = dataJson });
                 string[] chunks = ToChunks(jsonData, short.MaxValue - 1024).ToArray();
                 return dataStore.SyncData(key, ref chunks);
             }
@@ -93,11 +91,11 @@ namespace BannerlordTwitch.SaveSystem
             public int Format { get; set; }
             public string Data { get; set; }
         }
-        
+
         private static IEnumerable<string> ToChunks(string str, int maxChunkSize)
         {
             for (int i = 0; i < str.Length; i += maxChunkSize)
-                yield return str.Substring(i, Math.Min(maxChunkSize, str.Length-i));
+                yield return str.Substring(i, Math.Min(maxChunkSize, str.Length - i));
         }
 
         private static string ChunksToString(string[] chunks)

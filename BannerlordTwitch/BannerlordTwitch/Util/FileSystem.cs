@@ -35,7 +35,7 @@ namespace BannerlordTwitch.Util
         public override string ToString() => FileName;
     }
 #endif
-    
+
     public static class FileSystem
     {
 #if e159
@@ -51,15 +51,15 @@ namespace BannerlordTwitch.Util
         public static void DeleteFile(PlatformFilePath path) => File.Delete(path.FileName);
 #else
         public static PlatformDirectoryPath GetConfigDir() => EngineFilePaths.ConfigsPath;
-        public static PlatformFilePath GetConfigPath(string fileName) 
-            => new (GetConfigDir(), fileName);
-        public static bool FileExists(PlatformFilePath path) 
+        public static PlatformFilePath GetConfigPath(string fileName)
+            => new(GetConfigDir(), fileName);
+        public static bool FileExists(PlatformFilePath path)
             => Common.PlatformFileHelper.FileExists(path);
-        public static void SaveFileString(PlatformFilePath path, string str) 
+        public static void SaveFileString(PlatformFilePath path, string str)
             => Common.PlatformFileHelper.SaveFileString(path, str);
-        public static string GetFileContentString(PlatformFilePath path) 
+        public static string GetFileContentString(PlatformFilePath path)
             => Common.PlatformFileHelper.GetFileContentString(path);
-        public static PlatformFilePath[] GetFiles(PlatformDirectoryPath path, string searchPattern) 
+        public static PlatformFilePath[] GetFiles(PlatformDirectoryPath path, string searchPattern)
             => Common.PlatformFileHelper.GetFiles(path, searchPattern);
         public static void DeleteFile(PlatformFilePath path) => Common.PlatformFileHelper.DeleteFile(path);
 #endif

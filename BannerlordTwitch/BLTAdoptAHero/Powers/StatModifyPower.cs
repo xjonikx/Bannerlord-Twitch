@@ -12,14 +12,14 @@ using YamlDotNet.Serialization;
 namespace BLTAdoptAHero.Powers
 {
     [LocDisplayName("{=pVdYFJNQ}Stat Modify Power"),
-     LocDescription("{=AOaW2ORo}Applies modifiers to various character stats"), 
+     LocDescription("{=AOaW2ORo}Applies modifiers to various character stats"),
      UsedImplicitly]
     public class StatModifyPower : DurationMissionHeroPowerDefBase, IHeroPowerPassive, IDocumentable
     {
         #region User Editable
         [LocDisplayName("{=9gTYAifL}Modifiers"),
-         LocCategory("Power Config", "{=75UOuDM}Power Config"), 
-         LocDescription("{=URinrDNq}What hero stat to modify"), 
+         LocCategory("Power Config", "{=75UOuDM}Power Config"),
+         LocDescription("{=URinrDNq}What hero stat to modify"),
          PropertyOrder(1), ExpandableObject, Expand, UsedImplicitly]
         public AgentModifierConfig Modifiers { get; set; } = new();
         #endregion
@@ -27,7 +27,7 @@ namespace BLTAdoptAHero.Powers
         #region Implementation Details
         [YamlIgnore, Browsable(false)]
         protected override bool RequiresHeroAgent => true;
-        
+
         protected override void OnActivation(Hero hero, PowerHandler.Handlers handlers,
             Agent agent = null, DeactivationHandler deactivationHandler = null)
         {

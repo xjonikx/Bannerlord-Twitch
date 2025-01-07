@@ -37,7 +37,7 @@ namespace BLTBuffet
                     agent.Health = Math.Min(agent.HealthLimit, agent.Health + Math.Abs(config.HealPerSecond) * dt);
                 }
 
-                if(config.DamagePerSecond != 0 && agent.CurrentMortalityState == Agent.MortalityState.Mortal && Mission.Current?.DisableDying != true)
+                if (config.DamagePerSecond != 0 && agent.CurrentMortalityState == Agent.MortalityState.Mortal && Mission.Current?.DisableDying != true)
                 {
                     var blow = new Blow(agent.Index)
                     {
@@ -50,7 +50,7 @@ namespace BLTBuffet
                         // blow.Position.z += agent.GetEyeGlobalHeight();
                         //BaseMagnitude = 0f,
                         //WeaponRecord = new() { AffectorWeaponSlotOrMissileIndex = -1 },
-                        InflictedDamage = (int) Math.Abs(config.DamagePerSecond * dt),
+                        InflictedDamage = (int)Math.Abs(config.DamagePerSecond * dt),
                         SwingDirection = agent.LookDirection.NormalizedCopy(),
                         Direction = agent.LookDirection.NormalizedCopy(),
                         DamageCalculated = true
@@ -88,7 +88,7 @@ namespace BLTBuffet
 
             public bool CheckRemove()
             {
-                if (config.Duration.HasValue 
+                if (config.Duration.HasValue
                     && CampaignHelpers.GetTotalMissionTime() > config.Duration.Value + started)
                 {
                     Log.LogFeedEvent("{Config} expired on {Target}!"
@@ -111,8 +111,8 @@ namespace BLTBuffet
             {
                 foreach (var s in state)
                 {
-                    if(s.weaponEffects != null) RemoveWeaponEffects(s.weaponEffects);
-                    if(s.boneAttachments != null) RemoveAgentEffects(s.boneAttachments);
+                    if (s.weaponEffects != null) RemoveWeaponEffects(s.weaponEffects);
+                    if (s.boneAttachments != null) RemoveAgentEffects(s.boneAttachments);
                 }
 
                 agent.UpdateAgentProperties();
@@ -170,8 +170,8 @@ namespace BLTBuffet
                     if (hitDamageMultipliers.Any())
                     {
                         float forceMag = hitDamageMultipliers.Sum();
-                        attackCollisionData.BaseMagnitude = (int) (attackCollisionData.BaseMagnitude * forceMag);
-                        attackCollisionData.InflictedDamage = (int) (attackCollisionData.InflictedDamage * forceMag);
+                        attackCollisionData.BaseMagnitude = (int)(attackCollisionData.BaseMagnitude * forceMag);
+                        attackCollisionData.InflictedDamage = (int)(attackCollisionData.InflictedDamage * forceMag);
                     }
                 }
                 catch (Exception e)
@@ -261,20 +261,20 @@ namespace BLTBuffet
                         // Restore all the properties from the cache to start with
                         if (!agentDrivenPropertiesCache.TryGetValue(agent, out float[] initialAgentDrivenProperties))
                         {
-                            initialAgentDrivenProperties = new float[(int) DrivenProperty.Count];
-                            for (int i = 0; i < (int) DrivenProperty.Count; i++)
+                            initialAgentDrivenProperties = new float[(int)DrivenProperty.Count];
+                            for (int i = 0; i < (int)DrivenProperty.Count; i++)
                             {
                                 initialAgentDrivenProperties[i] =
-                                    agent.AgentDrivenProperties.GetStat((DrivenProperty) i);
+                                    agent.AgentDrivenProperties.GetStat((DrivenProperty)i);
                             }
 
                             agentDrivenPropertiesCache.Add(agent, initialAgentDrivenProperties);
                         }
                         else
                         {
-                            for (int i = 0; i < (int) DrivenProperty.Count; i++)
+                            for (int i = 0; i < (int)DrivenProperty.Count; i++)
                             {
-                                agent.AgentDrivenProperties.SetStat((DrivenProperty) i,
+                                agent.AgentDrivenProperties.SetStat((DrivenProperty)i,
                                     initialAgentDrivenProperties[i]);
                             }
                         }

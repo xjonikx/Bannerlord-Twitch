@@ -52,7 +52,7 @@ namespace BLTAdoptAHero
         public HeroSummonState GetHeroSummonState(Hero hero)
             => heroSummonStates.FirstOrDefault(h => h.Hero == hero);
 
-        public HeroSummonState GetHeroSummonStateForRetinue(Agent retinueAgent) 
+        public HeroSummonState GetHeroSummonStateForRetinue(Agent retinueAgent)
             => heroSummonStates.FirstOrDefault(h => h.Retinue.Any(r => r.Agent == retinueAgent));
 
         /// <summary>
@@ -70,10 +70,10 @@ namespace BLTAdoptAHero
                 Hero = hero,
                 WasPlayerSide = playerSide,
                 Party = party,
-                SummonTime = CampaignHelpers.GetTotalMissionTime(), 
+                SummonTime = CampaignHelpers.GetTotalMissionTime(),
             };
             heroSummonStates.Add(heroSummonState);
-            
+
             BLTAdoptAHeroCampaignBehavior.Current.IncreaseParticipationCount(hero, playerSide, forced);
 
             return heroSummonState;
@@ -84,27 +84,27 @@ namespace BLTAdoptAHero
             SafeCall(() =>
             {
                 // We only use this for heroes in battle
-                if (CampaignMission.Current.Location != null) 
+                if (CampaignMission.Current.Location != null)
                     return;
-                
+
                 var adoptedHero = agent.GetAdoptedHero();
                 if (adoptedHero == null)
                     return;
 
-                var heroSummonState = GetHeroSummonState(adoptedHero) 
-                                   ?? AddHeroSummonState(adoptedHero, 
-                                       Mission != null 
-                                       && agent.Team != null 
+                var heroSummonState = GetHeroSummonState(adoptedHero)
+                                   ?? AddHeroSummonState(adoptedHero,
+                                       Mission != null
+                                       && agent.Team != null
                                        && Mission.PlayerTeam?.IsValid == true
                                        && agent.Team.IsFriendOf(Mission.PlayerTeam),
-                                       adoptedHero.GetMapEventParty(), 
+                                       adoptedHero.GetMapEventParty(),
                                        forced: true);
-                
+
                 // First spawn, so spawn retinue also
                 if (heroSummonState.TimesSummoned == 0 && RetinueAllowed())
                 {
                     var formationClass = agent.Formation.FormationIndex;
-                    SpawnRetinue(adoptedHero, ShouldBeMounted(formationClass), formationClass, 
+                    SpawnRetinue(adoptedHero, ShouldBeMounted(formationClass), formationClass,
                         heroSummonState, heroSummonState.WasPlayerSide);
                 }
 
@@ -129,7 +129,7 @@ namespace BLTAdoptAHero
 
                 // Set the final retinue state
                 var (retinueOwner, retinueState) = heroSummonStates
-                    .Select(h 
+                    .Select(h
                         => (state: h, retinue: h.Retinue.FirstOrDefault(r => r.Agent == affectedAgent)))
                     .FirstOrDefault(h => h.retinue != null);
 
@@ -183,7 +183,7 @@ namespace BLTAdoptAHero
                 }
             });
         }
-        
+
         private static void SpawnRetinue(Hero adoptedHero, bool ownerIsMounted, FormationClass ownerFormationClass,
             HeroSummonState existingHero, bool onPlayerSide)
         {
@@ -209,8 +209,8 @@ namespace BLTAdoptAHero
                 existingHero.Party.MemberRoster.AddToCounts(retinueTroop, 1);
 
                 bool DeploymentFlag = Mission.Current.Mode is MissionMode.Deployment;
-                var retinueAgent = SpawnAgent(onPlayerSide, retinueTroop, existingHero.Party, 
-                    retinueTroop.IsMounted && retinueMounted,false,!DeploymentFlag);
+                var retinueAgent = SpawnAgent(onPlayerSide, retinueTroop, existingHero.Party,
+                    retinueTroop.IsMounted && retinueMounted, false, !DeploymentFlag);
 
                 existingHero.Retinue.Add(new()
                 {

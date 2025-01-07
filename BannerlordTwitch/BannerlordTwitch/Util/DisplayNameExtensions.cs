@@ -13,11 +13,11 @@ namespace BannerlordTwitch.Util
             var attribute = fieldInfo.GetCustomAttribute<DisplayNameAttribute>();
             return attribute?.DisplayName ?? value.ToString().SplitCamelCase();
         }
-        
-        public static string GetDisplayName(this Type type) 
+
+        public static string GetDisplayName(this Type type)
             => type.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
-        
-        public static string GetDisplayName(this MemberInfo memberInfo) 
+
+        public static string GetDisplayName(this MemberInfo memberInfo)
             => memberInfo.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName
                ?? memberInfo.Name.SplitCamelCase();
     }
