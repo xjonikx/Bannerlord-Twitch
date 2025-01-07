@@ -272,7 +272,7 @@ Commands:
     Duration: 10
     ForceDropWeapons: false
     HealPerSecond: 6
-    Name: 
+    Name: healing
     ParticleEffects: []
     Properties: []
     RemoveArmor: false
