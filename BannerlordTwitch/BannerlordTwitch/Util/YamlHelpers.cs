@@ -19,18 +19,17 @@ namespace BannerlordTwitch.Util
         {
             public bool Accepts(Type type) => type == typeof(LocString);
 
-            public object ReadYaml(IParser parser, Type type, ObjectDeserializer deserializer)
+            public object ReadYaml(IParser parser, Type type)
             {
                 return new LocString(parser.Consume<Scalar>().Value);
             }
 
-            public void WriteYaml(IEmitter emitter, object value, Type type, ObjectSerializer serializer)
+            public void WriteYaml(IEmitter emitter, object value, Type type)
             {
                 emitter.Emit(new Scalar((value as LocString)?.Value ?? string.Empty));
             }
         }
-
-
+        
         private class SortedTypeInspector : TypeInspectorSkeleton
         {
             private readonly ITypeInspector innerTypeInspector;
@@ -44,18 +43,8 @@ namespace BannerlordTwitch.Util
             {
                 return innerTypeInspector.GetProperties(type, container).OrderBy(x => x.Name);
             }
-
-            public override string GetEnumName(Type enumType, string name)
-            {
-                return innerTypeInspector.GetEnumName(enumType, name);
-            }
-
-            public override string GetEnumValue(object enumValue)
-            {
-                return innerTypeInspector.GetEnumValue(enumValue);
-            }
         }
-
+        
         public static string Serialize(object obj) => CreateDefaultSerializer().Serialize(obj);
         public static object Deserialize(string str, Type type) => CreateDefaultDeserializer().Deserialize(str, type);
         public static string SerializeUntagged(object obj) => CreateUntaggedSerializer().Serialize(obj);
