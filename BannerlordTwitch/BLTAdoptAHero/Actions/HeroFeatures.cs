@@ -20,7 +20,7 @@ namespace BLTAdoptAHero.Actions
     [LocDisplayName("{=NkZXnSQI}Hero Features"),
      LocDescription("{=fd7G5N0Q}Allow viewer to adjust characteristics about their Hero"),
      UsedImplicitly]
-    public class HeroFeatures : HeroCommandHandlerBase
+    public class HeroFeatures : ActionHandlerBase
     {
         [CategoryOrder("General", 0)]
         private class Settings : IDocumentable
@@ -44,12 +44,12 @@ namespace BLTAdoptAHero.Actions
             }
         }
 
-        public override Type HandlerConfigType => typeof(Settings);
+        protected override Type ConfigType => typeof(Settings);
 
-        protected override void ExecuteInternal(Hero adoptedHero,ReplyContext context, object config, Action<string> onSuccess, Action<string> onFailure)
+        protected override void ExecuteInternal(ReplyContext context, object config, Action<string> onSuccess, Action<string> onFailure)
         {
             if (config is not Settings settings) return;
-            //var adoptedHero = BLTAdoptAHeroCampaignBehavior.Current.GetAdoptedHero(context.UserName);
+            var adoptedHero = BLTAdoptAHeroCampaignBehavior.Current.GetAdoptedHero(context.UserName);
             if (adoptedHero == null)
             {
                 onFailure(AdoptAHero.NoHeroMessage);
