@@ -256,7 +256,7 @@ namespace BLTAdoptAHero
 
             // SpawnAgent (as called by this function) crashes if called in MissionMode.Deployment (would be nice to make it work though)
             if (Mission.Current == null
-                || Mission.Current.Mode is MissionMode.Barter or MissionMode.Conversation or MissionMode.Deployment or
+                || Mission.Current.Mode is MissionMode.Barter or MissionMode.Conversation or
                     MissionMode.Duel or MissionMode.Replay or MissionMode.CutScene)
             {
                 onFailure("{=TdykIizS}You cannot be summoned now!".Translate());

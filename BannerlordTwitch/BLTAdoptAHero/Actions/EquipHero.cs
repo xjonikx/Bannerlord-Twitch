@@ -85,7 +85,7 @@ namespace BLTAdoptAHero
                 }
 
                 generator.PropertyValuePair("{=wORNXOT5}Tier costs".Translate(),
-                    $"1={CostTier1}{Naming.Gold}, 2={CostTier2}{Naming.Gold}, 3={CostTier3}{Naming.Gold}, 4={CostTier4}{Naming.Gold}, 5={CostTier5}{Naming.Gold}, 5={CostTier5}{Naming.Gold}, 6={CostTier6}{Naming.Gold}");
+                    $"1={CostTier1}{Naming.Gold}, 2={CostTier2}{Naming.Gold}, 3={CostTier3}{Naming.Gold}, 4={CostTier4}{Naming.Gold}, 5={CostTier5}{Naming.Gold}, 6={CostTier6}{Naming.Gold}");
 
                 if (!AllowCompanionUpgrade)
                 {
@@ -137,7 +137,12 @@ namespace BLTAdoptAHero
             }
 
             var charClass = BLTAdoptAHeroCampaignBehavior.Current.GetClass(adoptedHero);
-
+            // Ensure charClass is not null before using it
+            if (charClass == null)
+            {
+                onFailure("{=FZh7ZtGp}Character class not found.".Translate());
+                return;
+            }
             UpgradeEquipment(adoptedHero, targetTier, charClass, replaceSameTier: settings.ReequipInsteadOfUpgrade);
 
             BLTAdoptAHeroCampaignBehavior.Current.SetEquipmentTier(adoptedHero, targetTier);
@@ -160,13 +165,14 @@ namespace BLTAdoptAHero
 
         internal static void RemoveAllEquipment(Hero adoptedHero)
         {
-            foreach (var slot in adoptedHero.BattleEquipment.YieldEquipmentSlots())
+            foreach (var (_, index) in adoptedHero.BattleEquipment.YieldEquipmentSlots())
             {
-                adoptedHero.BattleEquipment[slot.index] = EquipmentElement.Invalid;
+                adoptedHero.BattleEquipment[index] = EquipmentElement.Invalid;
             }
-            foreach (var slot in adoptedHero.CivilianEquipment.YieldEquipmentSlots())
+
+            foreach (var (_, index) in adoptedHero.CivilianEquipment.YieldEquipmentSlots())
             {
-                adoptedHero.CivilianEquipment[slot.index] = EquipmentElement.Invalid;
+                adoptedHero.CivilianEquipment[index] = EquipmentElement.Invalid;
             }
         }
 
@@ -223,9 +229,9 @@ namespace BLTAdoptAHero
                 => FindNewEquipment(o => o.ItemType == itemType && filter?.Invoke(o) != false, flags);
 
             // Clear the equipment slots
-            foreach (var x in adoptedHero.BattleEquipment.YieldEquipmentSlots())
+            foreach (var (element, index) in adoptedHero.BattleEquipment.YieldEquipmentSlots())
             {
-                adoptedHero.BattleEquipment[x.index] = EquipmentElement.Invalid;
+                adoptedHero.BattleEquipment[index] = EquipmentElement.Invalid;
             }
 
             if (classDef != null)
@@ -256,11 +262,11 @@ namespace BLTAdoptAHero
                 var addedWeapons = new List<EquipmentElement>();
                 var currSlot = EquipmentIndex.WeaponItemBeginSlot;
 
-                var weaponSkillAndType = SkillGroup.SkillItemPairs
+                var (skill, itemType) = SkillGroup.SkillItemPairs
                     .OrderByDescending(s => adoptedHero.GetSkillValue(s.skill))
                     .First();
 
-                var primaryWeapon = FindNewEquipmentBySkill(weaponSkillAndType.skill, IsPrimaryWeaponItemType);
+                var primaryWeapon = FindNewEquipmentBySkill(skill, IsPrimaryWeaponItemType);
                 if (!primaryWeapon.IsEmpty)
                 {
                     adoptedHero.BattleEquipment[currSlot++] = primaryWeapon;
@@ -412,9 +418,9 @@ namespace BLTAdoptAHero
             }
 
             // Clear weapon slots except the first one
-            foreach (var x in adoptedHero.CivilianEquipment.YieldWeaponSlots().Skip(1))
+            foreach (var (element, index) in adoptedHero.CivilianEquipment.YieldWeaponSlots().Skip(1))
             {
-                adoptedHero.CivilianEquipment[x.index] = EquipmentElement.Invalid;
+                adoptedHero.CivilianEquipment[index] = EquipmentElement.Invalid;
             }
 
             UpgradeItemInSlot(EquipmentIndex.Weapon0, ItemObject.ItemTypeEnum.OneHandedWeapon,

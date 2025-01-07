@@ -24,7 +24,7 @@ namespace BannerlordTwitch
         private readonly List<string> toc = new();
         private readonly List<string> content = new();
 
-        private static string CSSFileName = "Bannerlord-Twitch-Documentation.css";
+        private static readonly string CSSFileName = "Bannerlord-Twitch-Documentation.css";
         private static string CSSFullPath => Path.Combine(Path.GetDirectoryName(typeof(DocumentationGenerator).Assembly.Location) ?? ".", "..", "..", CSSFileName);
 
         public async Task Document(IDocumentable documentable)

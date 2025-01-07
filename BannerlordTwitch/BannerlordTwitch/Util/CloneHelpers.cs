@@ -16,13 +16,14 @@ namespace BannerlordTwitch.Util
 
         public static void CloneProperties(object from, object to)
         {
-            foreach (var pi in from.GetType()
+                foreach (var pi in from.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(p =>
                     // Only want writable properties
                     p.CanWrite
                     // Exclude indexer properties
                     && p.GetMethod.GetParameters().Length == 0))
+            try
             {
                 if (typeof(ICloneable).IsAssignableFrom(pi.PropertyType))
                 {
@@ -32,6 +33,11 @@ namespace BannerlordTwitch.Util
                 {
                     pi.SetValue(to, pi.GetValue(from));
                 }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and continue with the next property
+                Console.WriteLine($"Error cloning property '{pi.Name}': {ex.Message}");
             }
         }
 

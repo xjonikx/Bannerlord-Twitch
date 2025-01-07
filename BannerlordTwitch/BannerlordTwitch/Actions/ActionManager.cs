@@ -229,7 +229,7 @@ namespace BannerlordTwitch.Rewards
             }
             else
             {
-                // Log.ScreenFail($"Command with id {id} couldn't be found, check Commands config");
+                Log.Error($"Command with id {commandId} couldn't be found, check Commands config");
             }
         }
 

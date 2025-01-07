@@ -52,7 +52,7 @@ namespace BannerlordTwitch
             string clientId = null,
             string accessToken = null)
         {
-            HttpRequestMessage request = new HttpRequestMessage()
+            HttpRequestMessage request = new()
             {
                 RequestUri = new Uri(url),
                 Method = new HttpMethod(method)
