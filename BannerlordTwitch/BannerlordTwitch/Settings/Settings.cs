@@ -42,13 +42,13 @@ namespace BannerlordTwitch
 
         private static string DefaultSettingsFileName
             => Path.Combine(Path.GetDirectoryName(typeof(Settings).Assembly.Location) ?? ".",
-                "..", "..", "Bannerlord-Twitch-v3.yaml");
+                "..", "..", "Bannerlord-Twitch-v4.yaml");
 
         public static Settings DefaultSettings { get; private set; }
 
 #if DEBUG
         private static string ProjectRootDir([CallerFilePath]string file = "") => Path.Combine(Path.GetDirectoryName(file) ?? ".", "..");
-        private static string SaveFilePath => Path.Combine(ProjectRootDir(), "_Module", "Bannerlord-Twitch-v3.yaml");
+        private static string SaveFilePath => Path.Combine(ProjectRootDir(), "_Module", "Bannerlord-Twitch-v4.yaml");
         public static Settings Load()
         {
             LoadDefaultSettings();
@@ -69,7 +69,7 @@ namespace BannerlordTwitch
         }
 
 #else
-        private static PlatformFilePath SaveFilePath => FileSystem.GetConfigPath("Bannerlord-Twitch-v3.yaml");
+        private static PlatformFilePath SaveFilePath => FileSystem.GetConfigPath("Bannerlord-Twitch-v4.yaml");
 
         public static Settings Load()
         {
@@ -169,7 +169,7 @@ namespace BannerlordTwitch
                     }
                 }
 
-                var newBackupPath = FileSystem.GetConfigPath($"Bannerlord-Twitch-v3-Backup-{DateTime.Now:yyyy-dd-M--HH-mm-ss}.yaml");
+                var newBackupPath = FileSystem.GetConfigPath($"Bannerlord-Twitch-v4-Backup-{DateTime.Now:yyyy-dd-M--HH-mm-ss}.yaml");
                 FileSystem.SaveFileString(newBackupPath, configStr);
                 Log.Info($"Backed up settings to {newBackupPath}");
 
@@ -188,7 +188,7 @@ namespace BannerlordTwitch
         }
 
         private static IEnumerable<PlatformFilePath> GetBackupConfigPaths() =>
-            FileSystem.GetFiles(FileSystem.GetConfigDir(), "Bannerlord-Twitch-v3-Backup-*.yaml");
+            FileSystem.GetFiles(FileSystem.GetConfigDir(), "Bannerlord-Twitch-v4-Backup-*.yaml");
 
         private static PlatformFilePath? GetLastBackup() =>
             GetBackupConfigPaths().OrderByDescending(f => f.FileName)
