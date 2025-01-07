@@ -20,8 +20,7 @@ using YamlDotNet.Serialization;
 
 namespace BLTConfigure
 {
-    [CategoryOrder("General", 1),
-     LocDisplayName("{=vDjnDtoL}Overlay Config")]
+    [LocDisplayName("{=vDjnDtoL}Overlay Config")]
     internal class GlobalOverlayConfig : IUpdateFromDefault, IDocumentable, INotifyPropertyChanged
     {
         #region Static
@@ -34,8 +33,7 @@ namespace BLTConfigure
 
         #region User Editable
         #region General
-        [LocDisplayName("{=xwcKN7sH}Overlay Heroes List Max Height"),
-         LocCategory("General", "{=C5T5nnix}General"),
+        [LocDisplayName("{=xwcKN7sH}Overlay Heroes List Max Height (Not Functioning)"),
          LocDescription("{=rX68wbfF}Max height in pixels before the hero list starts scrolling"),
          PropertyOrder(1), Document, UsedImplicitly,
          Range(0, 10)]
@@ -76,6 +74,7 @@ namespace BLTConfigure
         #region IDocumentable
         public void GenerateDocumentation(IDocumentationGenerator generator)
         {
+            //TODO: Implement documentation
             //generator.Div("common-config", () =>
             //{
             //    generator.H1("{=F6vM1OJo}Common Config".Translate());

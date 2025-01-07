@@ -18,7 +18,7 @@
 //namespace BLTAdoptAHero.Actions
 //{
 //    [LocDisplayName("{=NkZXnSQI}Marriage"),
-//     LocDescription("{=fd7G5N0Q}Allow viewer to marry"),
+//     LocDescription("{=fd7G5N0Q}Allow adopted heroes to marry"),
 //     UsedImplicitly]
 //    public class Marriage : ActionHandlerBase
 //    {

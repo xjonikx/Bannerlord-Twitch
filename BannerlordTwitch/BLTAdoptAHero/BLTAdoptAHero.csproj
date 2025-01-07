@@ -319,11 +319,11 @@
     <Compile Include="Actions\HeroFeatures.cs" />
     <Compile Include="Actions\HeroInfoCommand.cs" />
     <Compile Include="Actions\ImproveAdoptedHero.cs" />
-    <Compile Include="Actions\JoinKingdom.cs" />
+    <Compile Include="Actions\Archived\JoinKingdom.cs" />
     <Compile Include="Actions\JoinTournament.cs" />
-    <Compile Include="Actions\Marry.cs" />
+    <Compile Include="Actions\Archived\Marry.cs" />
     <Compile Include="Actions\NameItem.cs" />
-    <Compile Include="Actions\Rebel.cs" />
+    <Compile Include="Actions\Archived\Rebel.cs" />
     <Compile Include="Actions\Rejuvenate.cs" />
     <Compile Include="Actions\Retinue.cs" />
     <Compile Include="Actions\RetireMyHero.cs" />
