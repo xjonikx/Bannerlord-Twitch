@@ -16,7 +16,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using Debug = TaleWorlds.Library.Debug;
 
-#pragma warning disable IDE0051 // Remove unused private members
+
 namespace BannerlordTwitch
 {
     // ReSharper disable once ClassNeverInstantiated.Global
@@ -102,7 +102,7 @@ namespace BannerlordTwitch
         {
             if (game.GameType is Campaign)
             {
-                object ownerHandle = new object();
+                object ownerHandle = new();
                 CampaignEvents.DailyTickEvent.AddNonSerializedListener(ownerHandle, () =>
                 {
                     if (

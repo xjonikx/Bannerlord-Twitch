@@ -547,10 +547,10 @@
     <Compile Include="Overlay\PhysicalFileSystemEx.cs" />
     <Compile Include="Overlay\TwitchHub.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="SaveSystem\DictionaryToArrayConverter.cs" />
-    <Compile Include="SaveSystem\MBGUIDConverter.cs" />
-    <Compile Include="SaveSystem\MBObjectBaseConverter.cs" />
-    <Compile Include="SaveSystem\ScopedJsonSync.cs" />
+    <Compile Include="Util\SaveSystem\DictionaryToArrayConverter.cs" />
+    <Compile Include="Util\SaveSystem\MBGUIDConverter.cs" />
+    <Compile Include="Util\SaveSystem\MBObjectBaseConverter.cs" />
+    <Compile Include="Util\SaveSystem\ScopedJsonSync.cs" />
     <Compile Include="BLTModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ActionBase.cs" />
@@ -568,7 +568,7 @@
     <Compile Include="Settings\SettingsHelpers.cs" />
     <Compile Include="Settings\SimTestingConfig.cs" />
     <Compile Include="Settings\SimTestingItem.cs" />
-    <Compile Include="Testing\SimulationTest.cs" />
+    <Compile Include="Util\Testing\SimulationTest.cs" />
     <Compile Include="Twitch\CustomTwitchHttpClient.cs" />
     <Compile Include="Twitch\Dummy\AffiliateSpoofingHttpCallHandler.cs" />
     <Compile Include="Twitch\Dummy\TwitchRedirectingHttpCallHandler.cs" />
@@ -621,7 +621,7 @@
     <Content Include="delete-acl.bat" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="FodyWeavers.xsd" />
-    <Resource Include="ILLink\ILLink.Descriptors.LibraryBuild.xml" />
+    <Resource Include="Util\ILLink\ILLink.Descriptors.LibraryBuild.xml" />
     <Content Include="Overlay\ConsoleFeed\ConsoleFeed.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -631,14 +631,14 @@
     <Content Include="Overlay\ConsoleFeed\ConsoleFeed.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SaveSystem\ButterLibLicense.txt" />
-    <Content Include="Scripts\jquery-3.7.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.7.1.js" />
-    <Content Include="Scripts\jquery-3.7.1.min.js" />
-    <Content Include="Scripts\jquery-3.7.1.slim.js" />
-    <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
+    <Content Include="Util\SaveSystem\ButterLibLicense.txt" />
+    <Content Include="Util\Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Util\Scripts\jquery-3.7.1.js" />
+    <Content Include="Util\Scripts\jquery-3.7.1.min.js" />
+    <Content Include="Util\Scripts\jquery-3.7.1.slim.js" />
+    <Content Include="Util\Scripts\jquery-3.7.1.slim.min.js" />
+    <Content Include="Util\Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Util\Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Web.config" />
     <Content Include="_Module\Bannerlord-Twitch-Auth.yaml" />
     <Content Include="_Module\Bannerlord-Twitch-Documentation.css" />
@@ -766,8 +766,8 @@
     <Content Include="_Module\web\Scripts\vue.min.js" />
     <Content Include="_Module\web\style.css" />
     <None Include="app.config" />
-    <None Include="Scripts\jquery-3.7.1.min.map" />
-    <None Include="Scripts\jquery-3.7.1.slim.min.map" />
+    <None Include="Util\Scripts\jquery-3.7.1.min.map" />
+    <None Include="Util\Scripts\jquery-3.7.1.slim.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

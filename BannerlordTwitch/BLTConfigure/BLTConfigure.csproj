@@ -296,6 +296,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
       <Private>False</Private>
     </Reference>
@@ -319,12 +320,16 @@
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\lib\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet, Version=15.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.15.3.0\lib\net47\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLTConfigure.cs" />
     <Compile Include="BLTConfigureWindow.xaml.cs">
       <DependentUpon>BLTConfigureWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalConfigs\GlobalOverlayConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\CollectionEditorPage.xaml.cs">
       <DependentUpon>CollectionEditorPage.xaml</DependentUpon>

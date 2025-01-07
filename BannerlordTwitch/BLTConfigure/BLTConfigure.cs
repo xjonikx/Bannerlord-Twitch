@@ -5,6 +5,12 @@ using System.Threading;
 using System.Windows;
 using JetBrains.Annotations;
 using TaleWorlds.MountAndBlade;
+using BannerlordTwitch.Rewards;
+using BLTAdoptAHero;
+using BannerlordTwitch.Util;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace BLTConfigure
 {
@@ -13,6 +19,7 @@ namespace BLTConfigure
     {
         private readonly Thread thread;
         private BLTConfigureWindow wnd;
+        internal static GlobalOverlayConfig OverlayConfig { get; private set; }
 
         public BLTConfigureModule()
         {
@@ -24,7 +31,7 @@ namespace BLTConfigure
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly;
             };
-
+            GlobalOverlayConfig.Register();
             thread = new Thread(() =>
             {
                 try
@@ -60,6 +67,23 @@ namespace BLTConfigure
             });
             wnd?.Dispatcher.InvokeShutdown();
             thread.Join(TimeSpan.FromMilliseconds(500));
+        }
+
+        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
+        {
+            try
+            {
+                if (game.GameType is Campaign)
+                {
+                    // Reload settings here so they are fresh
+                    OverlayConfig = GlobalOverlayConfig.Get();
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Exception(nameof(OnGameStart), e);
+                MessageBox.Show($"Error in {nameof(OnGameStart)}, please report this on the discord: {e}", "Bannerlord Twitch Mod STARTUP ERROR");
+            }
         }
     }
 }
