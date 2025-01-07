@@ -171,7 +171,7 @@ Commands:
   HideHelp: false
   ID: da8416ca-e59b-458a-8953-31291d03c835
   Name: '{=nV9iIsDC}class'
-  RespondInOverlay: true
+  RespondInOverlay: false
   RespondInTwitch: true
 - Documentation: Shows the viewers custom item list, which is required so they know what item index to use in the custom item related commands.
   Enabled: true
@@ -294,8 +294,8 @@ Commands:
   HideHelp: true
   ID: 8443567a-70cb-4073-bb00-b00cc150ab81
   Name: hero
-  RespondInOverlay: false
-  RespondInTwitch: true
+  RespondInOverlay: true
+  RespondInTwitch: false
 - Documentation: Shows your heroes equipped loadout and inventory, excluding custom items (do !customItems instead)
   Enabled: true
   Handler: HeroInfoCommand
@@ -382,7 +382,7 @@ Commands:
   Name: '{=fGfTaAoD}reequip'
   RespondInOverlay: true
   RespondInTwitch: false
-- Documentation: '{=zxAVjOW6}Purchases new retinue troops, or upgrades existing ones to the next tier if you have reached the limit. Retinue will appear with you in battle when you summon, earning you money when they make kills. You can pass a number to the command to specify how many troops you want to buy or upgrade. By default it will do as many as you can afford.'
+- Documentation: 'Purchases new retinue troops, or upgrades existing ones to the next tier if you have reached the limit. Retinue will appear with you in battle when you summon, earning you money when they make kills. <br> Usage is <code>!retinue (blank or all for auto upgrade/upgrade amount) </code> <br> Example: !retinue 1 or !retinue all'
   Enabled: true
   Handler: Retinue
   HandlerConfig:
@@ -399,7 +399,7 @@ Commands:
       UseBasicTroops: true
       UseEliteTroops: true
       UseHeroesCultureUnits: true
-  Help: 'upgrade retinue <br> Usage is <code>!retinue (blank or all for auto upgrade/upgrade amount) </code> <br> Example: !retinue 1 or !retinue all'
+  Help: upgrade retinue
   HideHelp: false
   ID: 38eed507-87b9-47f4-b235-af921cef00c4
   Name: '{=mge9rH9J}retinue'
@@ -439,7 +439,7 @@ Commands:
   ID: dd5268c5-3732-4c27-b990-6e364e66cc84
   Name: retire
   RespondInOverlay: false
-  RespondInTwitch: false
+  RespondInTwitch: true
 - Documentation: Smith a custom armor item
   Enabled: true
   Handler: SmithItem
@@ -452,7 +452,7 @@ Commands:
   HideHelp: true
   ID: 2d829c81-f451-4b59-b9b2-ae12962986e9
   Name: smitharmor
-  RespondInOverlay: true
+  RespondInOverlay: false
   RespondInTwitch: true
 - Documentation: Smith a custom weapon
   Enabled: true
@@ -466,7 +466,7 @@ Commands:
   HideHelp: true
   ID: a2b33796-a5f0-4bc9-be7c-8e887d3f00c4
   Name: smithweapon
-  RespondInOverlay: true
+  RespondInOverlay: false
   RespondInTwitch: true
 - Documentation: '{=JiMaaypq}Shows your heroes general information, including clan, gold, location, HP, skills, attributes and retinue.'
   Enabled: true
@@ -511,6 +511,17 @@ Commands:
   HideHelp: false
   ID: 01a497f3-d529-4780-80dd-41343b3e05ad
   Name: summon
+  RespondInOverlay: true
+  RespondInTwitch: false
+- Documentation: Join the tournament queue with your adopted hero. You can see the queue in the overlay. Each tournament can have up to 16 heroes in it, once it is full further heroes will remain in the queue for the next tournament.
+  Enabled: true
+  Handler: JoinTournament
+  HandlerConfig:
+    GoldCost: 0
+  Help: ''
+  HideHelp: false
+  ID: 7cd05224-859e-41b0-beaa-739907ffc4e0
+  Name: tournament
   RespondInOverlay: true
   RespondInTwitch: false
 DisableAutomaticFulfillment: false
