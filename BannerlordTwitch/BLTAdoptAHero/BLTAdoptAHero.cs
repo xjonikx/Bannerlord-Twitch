@@ -89,6 +89,7 @@ namespace BLTAdoptAHero
                 if (Agent.Main != null && agent.IsEnemyOf(Agent.Main) || Mission.Current.PlayerTeam?.IsValid == true && agent.Team.IsEnemyOf(Mission.Current.PlayerTeam))
                 {
                     __instance.NameType = MissionNameMarkerTargetVM.NameTypeEnemy;
+                    __instance.Name = __instance.Name.Replace(" [BLT]", null);
                     __instance.IsFriendly = false;
                     __instance.IsEnemy = true;
                     __instance.IsTracked = true;
@@ -97,6 +98,7 @@ namespace BLTAdoptAHero
                 else if (Agent.Main != null && agent.IsFriendOf(Agent.Main) || Mission.Current.PlayerTeam?.IsValid == true && agent.Team.IsFriendOf(Mission.Current.PlayerTeam))
                 {
                     __instance.NameType = MissionNameMarkerTargetVM.NameTypeFriendly;
+                    __instance.Name = __instance.Name.Replace(" [BLT]", null);
                     __instance.IsFriendly = true;
                     __instance.IsEnemy = false;
                     __instance.IsTracked = true;
