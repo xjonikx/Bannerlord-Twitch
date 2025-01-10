@@ -288,6 +288,7 @@ Commands:
   Enabled: true
   Handler: HeroFeatures
   HandlerConfig:
+    GenderCost: 50000
     GenderDisabledonNative: true
     GenderEnabled: true
   Help: ''
@@ -320,6 +321,24 @@ Commands:
   Name: '{=UbklIEGh}inv'
   RespondInOverlay: true
   RespondInTwitch: false
+- Documentation: 'Use to manage clan actions <br> Usage is <code>!kingdom (join/rebel/stats) name </code> <br> Example: !kingdom join Aserai or !clan stats'
+  Enabled: true
+  Handler: KingdomManagement
+  HandlerConfig:
+    JoinAllowPlayer: false
+    JoinEnabled: true
+    JoinMaxClans: 20
+    JoinPrice: 150000
+    RebelClanTierMinimum: 2
+    RebelEnabled: true
+    RebelPrice: 2500000
+    StatsEnabled: true
+  Help: ''
+  HideHelp: true
+  ID: a87232d0-93a7-4123-9981-892b3d19c832
+  Name: kingdom
+  RespondInOverlay: false
+  RespondInTwitch: true
 - Documentation: You can use this to name your custom items.<br>Usage is <code>!nameitem (custom item index) (name)</code>, for example <code>!nameitem 3 Foehammer</code>. The custom item index is shown in the 'customitems' command.
   Enabled: true
   Handler: NameItem
@@ -4132,9 +4151,9 @@ SimTesting:
     ID: 71a8a8de-3be2-4e3c-8844-60bf9e9f08d7
     Type: Command
     Weight: 0.1
-  - Args: ''
-    Enabled: false
-    Id: smithsale
+  - Args: join Aserai
+    Enabled: true
+    Id: kingdom
     ID: 71a8a8de-3be2-4e3c-8844-60bf9e9f08d7
     Type: Command
     Weight: 0.1
