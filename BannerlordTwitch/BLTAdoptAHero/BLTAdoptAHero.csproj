@@ -322,6 +322,7 @@
     <Compile Include="Actions\Archived\JoinKingdom.cs" />
     <Compile Include="Actions\JoinTournament.cs" />
     <Compile Include="Actions\Archived\Marry.cs" />
+    <Compile Include="Actions\KingdomManagement.cs" />
     <Compile Include="Actions\NameItem.cs" />
     <Compile Include="Actions\Archived\Rebel.cs" />
     <Compile Include="Actions\Rejuvenate.cs" />
