@@ -11,29 +11,29 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero.Actions
 {
-    [LocDisplayName("{=NkZXnSQI}Hero Features"),
-     LocDescription("{=fd7G5N0Q}Allow viewer to adjust characteristics about their Hero"),
+    [LocDisplayName("{=OoGyH5cw}Hero Features"),
+     LocDescription("{=Ia7ACrTK}Allow viewer to adjust characteristics about their Hero"),
      UsedImplicitly]
     public class HeroFeatures : HeroCommandHandlerBase
     {
         [CategoryOrder("General", 0)]
         private class Settings : IDocumentable
         {
-            [LocDisplayName("{=TLrDxhlh}Change Hero Gender Enabled"),
-             LocCategory("General", "{=C5T5nnix}General"),
-             LocDescription("{=F1KDzuZZ}Enable ability to change gender"),
+            [LocDisplayName("{=KjuNxda1}Change Hero Gender Enabled"),
+             LocCategory("General", "{=VmQECrnc}General"),
+             LocDescription("{=puULf6Ca}Enable ability to change gender"),
              PropertyOrder(1), UsedImplicitly]
             public bool GenderEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TLrDxhlh}Change Hero Gender Gold Cost"),
-             LocCategory("General", "{=C5T5nnix}General"),
-             LocDescription("{=F1KDzuZZ}Cost of changing gender"),
+            [LocDisplayName("{=Tt3LPI6w}Change Hero Gender Gold Cost"),
+             LocCategory("General", "{=VmQECrnc}General"),
+             LocDescription("{=oyxJVLCx}Cost of changing gender"),
              PropertyOrder(2), UsedImplicitly]
             public int GenderCost { get; set; } = 50000;
 
-            [LocDisplayName("{=TLrDxhlh}Only on created heroes?"),
-             LocCategory("General", "{=C5T5nnix}General"),
-             LocDescription("{=F1KDzuZZ}Only allow swapping gender for heroes that are created, instead of adopted"),
+            [LocDisplayName("{=jW4WABm2}Only on created heroes?"),
+             LocCategory("General", "{=VmQECrnc}General"),
+             LocDescription("{=guSdSDEy}Only allow swapping gender for heroes that are created, instead of adopted"),
              PropertyOrder(3), UsedImplicitly]
             public bool GenderDisabledonNative { get; set; } = true;
 
@@ -72,12 +72,12 @@ namespace BLTAdoptAHero.Actions
             }
             if (Mission.Current != null)
             {
-                onFailure("{=wkhZ6q7d}You cannot manage your hero, as a mission is active!".Translate());
+                onFailure("{=EyBgfdPz}You cannot manage your hero, as a mission is active!".Translate());
                 return;
             }
             if (adoptedHero.HeroState == Hero.CharacterStates.Prisoner)
             {
-                onFailure("{=wkhZ6q7d}You cannot manage your hero, as you are a prisoner!".Translate());
+                onFailure("{=KIaeC6OH}You cannot manage your hero, as you are a prisoner!".Translate());
                 return;
             }
             var splitArgs = context.Args.Split(' ');
@@ -114,31 +114,31 @@ namespace BLTAdoptAHero.Actions
                 case ("gender"):
                     if (!settings.GenderEnabled)
                     {
-                        onFailure("{=wkhZ6q7d}Changing heroes gender is not enabled".Translate());
+                        onFailure("{=rS4Ykysf}Changing heroes gender is not enabled".Translate());
                         return;
                     }
                     if (!BLTAdoptAHeroCampaignBehavior.Current.GetIsCreatedHero(adoptedHero) && settings.GenderDisabledonNative)
                     {
-                        onFailure("{=wkhZ6q7d}Changing heroes gender is only enabled for created heroes".Translate());
+                        onFailure("{=XfKeCtCR}Changing heroes gender is only enabled for created heroes".Translate());
                         return;
                     }
                     if (settings.GenderCost > BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero))
                     {
-                        onFailure("{=ve1C1aCl}You do not have enough gold ({price}) to change gender".Translate(("price", settings.GenderCost.ToString())));
+                        onFailure("{=LbXx5Jxt}You do not have enough gold ({price}) to change gender".Translate(("price", settings.GenderCost.ToString())));
                         return;
                     }
                     if (string.Equals(splitArgs[1].ToLower(), "female", StringComparison.CurrentCultureIgnoreCase))
                     {
                         if (adoptedHero.IsFemale)
                         {
-                            onFailure("{=wkhZ6q7d}Your hero is already female".Translate());
+                            onFailure("{=BE1uGwVi}Your hero is already female".Translate());
                             return;
                         }
-                        onSuccess("{=wkhZ6q7d}Your hero has changed their gender to female".Translate());
+                        onSuccess("{=kANu9D6d}Your hero has changed their gender to female".Translate());
                         BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.GenderCost);
                         adoptedHero.UpdatePlayerGender(true);
                         Log.ShowInformation(
-                            "{=K7nuJVCN}{Name} has changed their gender to female!".Translate(("Name", adoptedHero.Name)),
+                            "{=byvm3h6C}{Name} has changed their gender to female!".Translate(("Name", adoptedHero.Name)),
                             adoptedHero.CharacterObject);
                         return;
                     }
@@ -146,21 +146,21 @@ namespace BLTAdoptAHero.Actions
                     {
                         if (!adoptedHero.IsFemale)
                         {
-                            onFailure("{=wkhZ6q7d}Your hero is already male".Translate());
+                            onFailure("{=aG7rIjnV}Your hero is already male".Translate());
                             return;
                         }
-                        onSuccess("{=wkhZ6q7d}Your hero has changed their gender to male".Translate());
+                        onSuccess("{=FlGjts5K}Your hero has changed their gender to male".Translate());
                         BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.GenderCost);
                         adoptedHero.UpdatePlayerGender(false);
                         Log.ShowInformation(
-                            "{=K7nuJVCN}{Name} has changed their gender to male!".Translate(("Name", adoptedHero.Name)),
+                            "{=MgcrSo56}{Name} has changed their gender to male!".Translate(("Name", adoptedHero.Name)),
                             adoptedHero.CharacterObject);
                         return;
                     }
-                    onFailure("{=wkhZ6q7d}Invalid gender <male/female>".Translate());
+                    onFailure("{=rPqyzuoG}Invalid gender (male/female)".Translate());
                     return;
                 default:
-                    onFailure("{=wkhZ6q7d}Invalid action".Translate());
+                    onFailure("{=6t9UWDR2}Invalid action".Translate());
                     return;
             }
         }

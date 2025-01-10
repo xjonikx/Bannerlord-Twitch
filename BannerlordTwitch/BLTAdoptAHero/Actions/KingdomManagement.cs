@@ -17,8 +17,8 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace BLTAdoptAHero.Actions
 {
-    [LocDisplayName("{=NkZXnSQI}Kingdom Management"),
-     LocDescription("{=fd7G5N0Q}Allow viewer to change their clans Kingdom or make leader decisions"),
+    [LocDisplayName("{=1yrA4CUf}Kingdom Management"),
+     LocDescription("{=4vQgxBGr}Allow viewer to change their clans Kingdom or make leader decisions"),
      UsedImplicitly]
     public class KingdomManagement : HeroCommandHandlerBase
     {
@@ -27,51 +27,51 @@ namespace BLTAdoptAHero.Actions
          CategoryOrder("Stats", 4)]
         private class Settings : IDocumentable
         {
-            [LocDisplayName("{=TLrDxhlh}Enabled"),
-             LocCategory("Join", "{=C5T5nnix}Join"),
-             LocDescription("{=F1KDzuZZ}Enable joining kingdoms command"),
+            [LocDisplayName("{=pYjIUlTE}Enabled"),
+             LocCategory("Join", "{=q5JhpNMF}Join"),
+             LocDescription("{=583Jcer2}Enable joining kingdoms command"),
              PropertyOrder(1), UsedImplicitly]
             public bool JoinEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TLrDxhlh}Max Clans"),
-             LocCategory("Join", "{=C5T5nnix}Join"),
-             LocDescription("{=F1KDzuZZ}Maximum clans (includes NPC's) before join is disallowed"),
+            [LocDisplayName("{=5KY2Vdfx}Max Clans"),
+             LocCategory("Join", "{=q5JhpNMF}Join"),
+             LocDescription("{=5WqAw2LI}Maximum clans (includes NPC's) before join is disallowed"),
              PropertyOrder(2), UsedImplicitly]
             public int JoinMaxClans { get; set; } = 20;
 
-            [LocDisplayName("{=TLrDxhlh}Gold Cost"),
-             LocCategory("Join", "{=C5T5nnix}Join"),
-             LocDescription("{=F1KDzuZZ}Cost of joining a kingdom"),
+            [LocDisplayName("{=6PUxQuLg}Gold Cost"),
+             LocCategory("Join", "{=q5JhpNMF}Join"),
+             LocDescription("{=6fkIuAEC}Cost of joining a kingdom"),
              PropertyOrder(3), UsedImplicitly]
             public int JoinPrice { get; set; } = 150000;
 
-            [LocDisplayName("{=TLrDxhlh}Players Kingdom?"),
-             LocCategory("Join", "{=C5T5nnix}Join"),
-             LocDescription("{=F1KDzuZZ}Allow viewers to join the players kingdom"),
+            [LocDisplayName("{=7KEOBexC}Players Kingdom?"),
+             LocCategory("Join", "{=q5JhpNMF}Join"),
+             LocDescription("{=7ivCO9JL}Allow viewers to join the players kingdom"),
              PropertyOrder(4), UsedImplicitly]
             public bool JoinAllowPlayer { get; set; } = true;
 
-            [LocDisplayName("{=TLrDxhlh}Enabled"),
-             LocCategory("Rebel", "{=C5T5nnix}Rebel"),
-             LocDescription("{=F1KDzuZZ}Enable viewer clan rebelling against their kingdom"),
+            [LocDisplayName("{=pYjIUlTE}Enabled"),
+             LocCategory("Rebel", "{=qgKGFYNu}Rebel"),
+             LocDescription("{=88BqaM2k}Enable viewer clan rebelling against their kingdom"),
              PropertyOrder(1), UsedImplicitly]
             public bool RebelEnabled { get; set; } = true;
 
-            [LocDisplayName("{=TLrDxhlh}Gold Cost"),
-             LocCategory("Rebel", "{=C5T5nnix}Rebel"),
-             LocDescription("{=F1KDzuZZ}Cost of starting a rebellion"),
+            [LocDisplayName("{=6PUxQuLg}Gold Cost"),
+             LocCategory("Rebel", "{=qgKGFYNu}Rebel"),
+             LocDescription("{=97hqQyTG}Cost of starting a rebellion"),
              PropertyOrder(2), UsedImplicitly]
             public int RebelPrice { get; set; } = 2500000;
 
-            [LocDisplayName("{=TLrDxhlh}Minimum Clan Tier"),
-             LocCategory("Rebel", "{=C5T5nnix}Rebel"),
-             LocDescription("{=F1KDzuZZ}Minimum clan tier to start a rebellion"),
+            [LocDisplayName("{=9rmGjERc}Minimum Clan Tier"),
+             LocCategory("Rebel", "{=qgKGFYNu}Rebel"),
+             LocDescription("{=ANLOgDZU}Minimum clan tier to start a rebellion"),
              PropertyOrder(3), UsedImplicitly]
             public int RebelClanTierMinimum { get; set; } = 2;
 
-            [LocDisplayName("{=TLrDxhlh}Enabled"),
-             LocCategory("Stats", "{=C5T5nnix}Stats"),
-             LocDescription("{=F1KDzuZZ}Enable stats command"),
+            [LocDisplayName("{=pYjIUlTE}Enabled"),
+             LocCategory("Stats", "{=rTee27gM}Stats"),
+             LocDescription("{=CFBJIpux}Enable stats command"),
              PropertyOrder(1), UsedImplicitly]
             public bool StatsEnabled { get; set; } = true;
 
@@ -100,17 +100,17 @@ namespace BLTAdoptAHero.Actions
             }
             if (Mission.Current != null)
             {
-                onFailure("{=wkhZ6q7d}You cannot manage your clan, as a mission is active!".Translate());
+                onFailure("{=CRCwDnag}You cannot manage your kingdom, as a mission is active!".Translate());
                 return;
             }
             if (adoptedHero.HeroState == Hero.CharacterStates.Prisoner)
             {
-                onFailure("{=wkhZ6q7d}You cannot manage your kingdom, as you are a prisoner!".Translate());
+                onFailure("{=Cjm2sCjR}You cannot manage your kingdom, as you are a prisoner!".Translate());
                 return;
             }
             if (adoptedHero.Clan == null)
             {
-                onFailure("{=wkhZ6q7d}You cannot manage your kingdom, as you are not in a clan".Translate());
+                onFailure("{=DYgac2Ut}You cannot manage your kingdom, as you are not in a clan".Translate());
                 return;
             }
 
@@ -118,10 +118,10 @@ namespace BLTAdoptAHero.Actions
             {
                 if (adoptedHero.Clan.Kingdom == null)
                 {
-                    onFailure("{=wkhZ6q7d}Your clan is not in a Kingdom".Translate());
+                    onFailure("{=EJ4Pd2Lg}Your clan is not in a Kingdom".Translate());
                     return;
                 }
-                onSuccess("{=wkhZ6q7d}Your clan {clanName} is a member of the kingom {kingdomName}".Translate(("clanName", adoptedHero.Clan.Name.ToString()), ("kingdomName", adoptedHero.Clan.Kingdom.Name.ToString())));
+                onSuccess("{=EkmpJvML}Your clan {clanName} is a member of the kingom {kingdomName}".Translate(("clanName", adoptedHero.Clan.Name.ToString()), ("kingdomName", adoptedHero.Clan.Kingdom.Name.ToString())));
                 return;
             }
 
@@ -141,7 +141,7 @@ namespace BLTAdoptAHero.Actions
                     HandleStatsCommand(settings, adoptedHero, onSuccess, onFailure);
                     break;
                 default:
-                    onFailure("{=wkhZ6q7d}Invalid or empty kingdom action, try <join/rebel/stats>".Translate());
+                    onFailure("{=FFxXuX5i}Invalid or empty kingdom action, try (join/rebel/stats)".Translate());
                     break;
             }
         }
@@ -150,83 +150,83 @@ namespace BLTAdoptAHero.Actions
         {
             if (!settings.JoinEnabled)
             {
-                onFailure("{=wkhZ6q7d}Joining kingdoms is disabled".Translate());
+                onFailure("{=FHPbdYpk}Joining kingdoms is disabled".Translate());
                 return;
             }
             if (adoptedHero.Clan.Kingdom != null)
             {
-                onFailure("{=wkhZ6q7d}Your clan is already in a kingdom, in order to leave you must rebel against them".Translate());
+                onFailure("{=GEGrsLPm}Your clan is already in a kingdom, in order to leave you must rebel against them".Translate());
                 return;
             }
             if (adoptedHero.IsClanLeader)
             {
-                onFailure("{=wkhZ6q7d}You cannot manage your kingdom, as you are not your clans leader!".Translate());
+                onFailure("{=HS14GdUa}You cannot manage your kingdom, as you are not your clans leader!".Translate());
                 return;
             }
             if (string.IsNullOrWhiteSpace(desiredName))
             {
-                onFailure("{=wkhZ6q7d}(join) (kingdom name)".Translate());
+                onFailure("{=IKXbDYU8}(join) (kingdom name)".Translate());
                 return;
             }
 
             var desiredKingdom = CampaignHelpers.AllHeroes.Select(h => h.Clan.Kingdom).Distinct().FirstOrDefault(c => c?.Name.ToString().Equals(desiredName, StringComparison.OrdinalIgnoreCase) == true);
             if (desiredKingdom == null)
             {
-                onFailure("{=CVcUtTWc}Could not find the kingdom with the name {name}".Translate(("name", desiredName)));
+                onFailure("{=JdZ2CelP}Could not find the kingdom with the name {name}".Translate(("name", desiredName)));
                 return;
             }
             if (desiredKingdom.Clans.Count >= settings.JoinMaxClans)
             {
-                onFailure("{=CVcUtTWc}The kingdom {name} is full".Translate(("name", desiredName)));
+                onFailure("{=KFzBPUry}The kingdom {name} is full".Translate(("name", desiredName)));
                 return;
             }
             if (desiredKingdom == Hero.MainHero.Clan.Kingdom && !settings.JoinAllowPlayer)
             {
-                onFailure("{=CVcUtTWc}Joining the players kingdom is disabled".Translate());
+                onFailure("{=L4dccNIC}Joining the players kingdom is disabled".Translate());
                 return;
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.JoinPrice)
             {
-                onFailure("{=CVcUtTWc}You do not have enough gold ({price}) to join a kingdom".Translate(("price", settings.JoinPrice.ToString())));
+                onFailure("{=LMAOSWIl}You do not have enough gold ({price}) to join a kingdom".Translate(("price", settings.JoinPrice.ToString())));
                 return;
             }
 
             BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.JoinPrice, true);
             ChangeKingdomAction.ApplyByJoinToKingdom(adoptedHero.Clan, desiredKingdom);
-            onSuccess("{=CVcUtTWc}Your clan {clanName} has joined the kingom {kingdomName}".Translate(("clanName", adoptedHero.Clan.Name.ToString()), ("kingdomName", adoptedHero.Clan.Kingdom.Name.ToString())));
-            Log.ShowInformation("{=K7nuJVCN}{clanName} has joined kingdom {kingdomName}!".Translate(("clanName", adoptedHero.Clan.Name.ToString()), ("kingdomName", adoptedHero.Clan.Kingdom.Name.ToString())), adoptedHero.CharacterObject, Log.Sound.Horns2);
+            onSuccess("{=LSea9bms}Your clan {clanName} has joined the kingom {kingdomName}".Translate(("clanName", adoptedHero.Clan.Name.ToString()), ("kingdomName", adoptedHero.Clan.Kingdom.Name.ToString())));
+            Log.ShowInformation("{=Lid1aV3k}{clanName} has joined kingdom {kingdomName}!".Translate(("clanName", adoptedHero.Clan.Name.ToString()), ("kingdomName", adoptedHero.Clan.Kingdom.Name.ToString())), adoptedHero.CharacterObject, Log.Sound.Horns2);
         }
 
         private void HandleRebelCommand(Settings settings, Hero adoptedHero, Action<string> onSuccess, Action<string> onFailure)
         {
             if (!settings.RebelEnabled)
             {
-                onFailure("{=wkhZ6q7d}Clan rebellion is disabled".Translate());
+                onFailure("{=MRstTtQa}Clan rebellion is disabled".Translate());
                 return;
             }
             if (adoptedHero.Clan.Kingdom == null)
             {
-                onFailure("{=wkhZ6q7d}Your clan is not in a kingdom".Translate());
+                onFailure("{=NbvwN9z3}Your clan is not in a kingdom".Translate());
                 return;
             }
             if (adoptedHero.IsClanLeader)
             {
-                onFailure("{=wkhZ6q7d}You cannot lead a rebellion agaisnt your kingdom, as you are not your clans leader!".Translate());
+                onFailure("{=Nzm5bI4I}You cannot lead a rebellion agaisnt your kingdom, as you are not your clans leader!".Translate());
                 return;
             }
             if (adoptedHero.Clan == adoptedHero.Clan.Kingdom.RulingClan)
             {
-                onFailure("{=ve1C1aCl}You already are the ruling clan".Translate());
+                onFailure("{=OgwKEDza}You already are the ruling clan".Translate());
                 return;
             }
             if (adoptedHero.Clan.Tier < settings.RebelClanTierMinimum)
             {
-                onFailure("{=ve1C1aCl}Your clan is not high enough tier to rebel".Translate());
+                onFailure("{=Ok94bnhi}Your clan is not high enough tier to rebel".Translate());
                 return;
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.RebelPrice)
             {
-                onFailure("{=ve1C1aCl}You do not have enough gold ({price}) to start a rebellion".Translate(("price", settings.RebelPrice.ToString())));
+                onFailure("{=PHGPejab}You do not have enough gold ({price}) to start a rebellion".Translate(("price", settings.RebelPrice.ToString())));
                 return;
             }
             BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.RebelPrice, true);
@@ -234,7 +234,7 @@ namespace BLTAdoptAHero.Actions
             adoptedHero.Clan.ClanLeaveKingdom();
             DeclareWarAction.ApplyByRebellion(adoptedHero.Clan, oldBoss);
             FactionManager.DeclareWar(adoptedHero.Clan, oldBoss);
-            onSuccess("{=I4JTuTy3}Your clan has rebelled against {oldBoss} and declared war".Translate(("oldBoss", oldBoss)));
+            onSuccess("{=PHuBl5tJ}Your clan has rebelled against {oldBoss} and declared war".Translate(("oldBoss", oldBoss)));
             return;
         }
 
@@ -242,21 +242,21 @@ namespace BLTAdoptAHero.Actions
         {
             if (!settings.StatsEnabled)
             {
-                onFailure("{=wkhZ6q7d}Kingdom stats is disabled".Translate());
+                onFailure("{=RtwwHrgB}Kingdom stats is disabled".Translate());
                 return;
             }
             if (adoptedHero.Clan.Kingdom == null)
             {
-                onFailure("{=wkhZ6q7d}Your clan is not in a kingdom".Translate());
+                onFailure("{=RvkJO6J9}Your clan is not in a kingdom".Translate());
                 return;
             }
 
             var clanStats = new StringBuilder();
-            clanStats.Append("{=wkhZ6q7d}Kingdom Name: {name} | ".Translate(("name", adoptedHero.Clan.Kingdom.Name.ToString())));
-            clanStats.Append("{=wkhZ6q7d}Ruling Clan: {rulingClan} | ".Translate(("rulingClan", adoptedHero.Clan.Kingdom.RulingClan.Name.ToString())));
-            clanStats.Append("{=wkhZ6q7d}Clan Count: {clanCount} | ".Translate(("clanCount", adoptedHero.Clan.Kingdom.Clans.Count.ToString())));
-            clanStats.Append("{=wkhZ6q7d}Strength: {strength} | ".Translate(("strength", Math.Round(adoptedHero.Clan.Kingdom.TotalStrength).ToString())));
-            onSuccess("{=wkhZ6q7d}{stats}".Translate(("stats", clanStats.ToString())));
+            clanStats.Append("{=SVlrGgol}Kingdom Name: {name} | ".Translate(("name", adoptedHero.Clan.Kingdom.Name.ToString())));
+            clanStats.Append("{=Ss588M9l}Ruling Clan: {rulingClan} | ".Translate(("rulingClan", adoptedHero.Clan.Kingdom.RulingClan.Name.ToString())));
+            clanStats.Append("{=T1FhhCH9}Clan Count: {clanCount} | ".Translate(("clanCount", adoptedHero.Clan.Kingdom.Clans.Count.ToString())));
+            clanStats.Append("{=TUOmh7NY}Strength: {strength} | ".Translate(("strength", Math.Round(adoptedHero.Clan.Kingdom.TotalStrength).ToString())));
+            onSuccess("{stats}".Translate(("stats", clanStats.ToString())));
         }
     }
 }
