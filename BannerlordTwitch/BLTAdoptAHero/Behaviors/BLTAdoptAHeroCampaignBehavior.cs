@@ -44,8 +44,8 @@ namespace BLTAdoptAHero
             public int Iteration { get; set; }
             public bool IsRetiredOrDead { get; set; }
             public bool IsCreatedHero { get; set; } = false;
-            public bool MesssageFlag { get; set; } = false;
-            public string MessageContent { get; set; } = null;
+            //public bool MesssageFlag { get; set; } = false;
+            //public string MessageContent { get; set; } = null;
 
             [UsedImplicitly]
             public AchievementStatsData AchievementStats { get; set; } = new();
@@ -126,11 +126,11 @@ namespace BLTAdoptAHero
                     }
 
                     // Also remove them from the equipment
-                    foreach (var s in hero.BattleEquipment
+                    foreach (var (element, index) in hero.BattleEquipment
                         .YieldFilledEquipmentSlots()
                         .Where(i => i.element.Item.Type == ItemObject.ItemTypeEnum.Invalid))
                     {
-                        hero.BattleEquipment[s.index] = EquipmentElement.Invalid;
+                        hero.BattleEquipment[index] = EquipmentElement.Invalid;
                     }
                 }
 
@@ -1122,6 +1122,11 @@ namespace BLTAdoptAHero
 
         public static void SetAgentStartingHealth(Hero hero, Agent agent)
         {
+            if (hero is null)
+            {
+                throw new ArgumentNullException(nameof(hero));
+            }
+
             if (BLTAdoptAHeroModule.CommonConfig.StartWithFullHealth)
             {
                 agent.Health = agent.HealthLimit;
@@ -1160,16 +1165,16 @@ namespace BLTAdoptAHero
             CampaignHelpers.SetHeroName(hero, new(GetFullName(userName)), new(userName));
         public bool GetIsCreatedHero(Hero hero) =>
             GetHeroData(hero).IsCreatedHero;
-        public bool GetMessageFlag(Hero hero) =>
-            GetHeroData(hero).MesssageFlag;
+        //public bool GetMessageFlag(Hero hero) =>
+        //    GetHeroData(hero).MesssageFlag;
         public void SetIsCreatedHero(Hero hero, bool value) =>
             GetHeroData(hero).IsCreatedHero = value;
-        public void SetMessageFlag(Hero hero, bool value) =>
-            GetHeroData(hero).MesssageFlag = value;
-        public string GetMessageContent(Hero hero) =>
-            GetHeroData(hero).MessageContent;
-        public string ClearMessageContent(Hero hero) =>
-            GetHeroData(hero).MessageContent = null;
+        //public void SetMessageFlag(Hero hero, bool value) =>
+        //    GetHeroData(hero).MesssageFlag = value;
+        //public string GetMessageContent(Hero hero) =>
+        //    GetHeroData(hero).MessageContent;
+        //public string ClearMessageContent(Hero hero) =>
+        //    GetHeroData(hero).MessageContent = null;
 
         private HeroData GetHeroData(Hero hero, bool suppressAutoRetire = false)
         {
