@@ -24,6 +24,7 @@ namespace BannerlordTwitch
     public class ReplyContext
     {
         [UsedImplicitly] public string UserName { get; private set; }
+        //[UsedImplicitly] public string DirtyName { get; private set; }
         [UsedImplicitly] public string ReplyId { get; private set; }
         [UsedImplicitly] public string Args { get; private set; }
         [UsedImplicitly] public int Bits { get; private set; }
@@ -33,7 +34,7 @@ namespace BannerlordTwitch
         [UsedImplicitly] public bool IsModerator { get; private set; }
         [UsedImplicitly] public bool IsSubscriber { get; private set; }
         [UsedImplicitly] public bool IsVip { get; private set; }
-        //public bool IsWhisper { get; private set; }
+        //[UsedImplicitly] public bool IsWhisper { get; private set; }
         [UsedImplicitly] public string RedemptionId { get; private set; }
         [UsedImplicitly] public ActionBase Source { get; private set; }
 
@@ -63,20 +64,20 @@ namespace BannerlordTwitch
                 IsModerator = msg.IsModerator,
                 IsSubscriber = msg.IsSubscriber,
                 IsVip = msg.IsVip,
+                //IsWhisper = false,
                 Source = source,
             };
 
-        // public static ReplyContext FromWhisper(ResponseBase source, WhisperMessage whisper) =>
-        //     new()
-        //     {
-        //         UserName = whisper.DisplayName,
-        //         ReplyId = whisper.MessageId,
-        //         Args = whisper.Message,
-        //         IsBroadcaster = whisper.UserType == UserType.Broadcaster,
-        //         IsModerator = whisper.UserType == UserType.Moderator,
-        //         IsWhisper = true,
-        //         Source = source,
-        //     };
+        //public static ReplyContext FromWhisper(ActionBase source, WhisperMessage whisper, string args) =>
+        //    new()
+        //    {
+        //        UserName = CleanDisplayName(whisper.DisplayName),
+        //        //DirtyName = whisper.DisplayName,
+        //        ReplyId = whisper.MessageId,
+        //        Args = args,
+        //        //IsWhisper = true,
+        //        Source = source,
+        //    };
 
         public static ReplyContext FromRedemption(ActionBase source, Redemption redemption) =>
             new()
@@ -84,6 +85,7 @@ namespace BannerlordTwitch
                 UserName = CleanDisplayName(redemption.User.DisplayName),
                 Args = redemption.UserInput,
                 RedemptionId = redemption.Id,
+                //IsWhisper = false,
                 Source = source,
             };
 
@@ -92,6 +94,7 @@ namespace BannerlordTwitch
             {
                 UserName = CleanDisplayName(userName),
                 Args = args,
+                //IsWhisper = false,
                 Source = source,
             };
     }
@@ -385,6 +388,12 @@ namespace BannerlordTwitch
 
         public void SendReply(ReplyContext context, params string[] messages)
         {
+            //if (context.IsWhisper)
+            //{
+            //    bot.SendWhisper(context.DirtyName, messages);
+            //    Log.Trace($"[{nameof(TwitchService)}] Whisper: {string.Join(", ", messages)}");
+            //    return;
+            //}
             if (context.Source.RespondInOverlay || IsSimTesting)
             {
                 Log.LogFeedResponse(context.UserName, messages);
@@ -393,12 +402,6 @@ namespace BannerlordTwitch
 
             if (context.Source.RespondInTwitch && !IsSimTesting)
             {
-                // if (context.IsWhisper)
-                // {
-                //     bot.SendWhisper(context.UserName, messages);
-                //     Log.Trace($"[whisper][{context.UserName}] {string.Join(" - ", messages)}");
-                // }
-                // else 
                 if (context.UserName != null)
                 {
                     bot.SendChatReply(context.UserName, messages);
@@ -483,6 +486,34 @@ namespace BannerlordTwitch
 #endif
             });
         }
+
+//        public void ExecuteCommandFromWhisper(string cmdName, WhisperMessage whisperMessage, string args)
+//        {
+//            MainThreadSync.Run(() =>
+//            {
+//                var cmd = this.settings.GetCommand(cmdName);
+//                if (cmd == null)
+//                {
+//                    Log.Trace($"[{nameof(TwitchService)}] Couldn't find command {cmdName}");
+//                    return;
+//                }
+
+//                var context = ReplyContext.FromWhisper(cmd, whisperMessage, args);
+
+//#if !DEBUG
+//                try
+//                {
+//#endif
+//                    ActionManager.HandleCommand(cmd.Handler, context, cmd.HandlerConfig);
+//#if !DEBUG
+//                }
+//                catch (Exception e)
+//                {
+//                    Log.Exception($"Command {cmdName} failed with exception {e.Message}, game might be unstable now!", e);
+//                }
+//#endif
+//            });
+//        }
 
         public bool TestCommand(string cmdName, string userName, string args)
         {

@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using BannerlordTwitch.Util;
 using BLTOverlay;
+using Microsoft.AspNet.SignalR.Messaging;
 using TwitchLib.Api;
+using TwitchLib.Api.Helix.Models.Moderation.GetModerators;
+using TwitchLib.Api.Helix.Models.Soundtrack;
+using TwitchLib.Api.Helix;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
+using TwitchLib.Client.Models.Builders;
 using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Events;
 using TwitchLib.Communication.Models;
+using TwitchLib.Client.Models.Internal;
+using TwitchLib.Client.Enums;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace BannerlordTwitch
 {
@@ -60,6 +68,7 @@ namespace BannerlordTwitch
                     client.OnLog -= Client_OnLog;
                     client.OnJoinedChannel -= Client_OnJoinedChannel;
                     client.OnMessageReceived -= Client_OnMessageReceived;
+                    //client.OnWhisperReceived -= Client_OnWhisperReceived;
                     client.OnConnected -= Client_OnConnected;
                     client.OnDisconnected -= Client_OnDisconnected;
                     client.Disconnect();
@@ -72,7 +81,7 @@ namespace BannerlordTwitch
                 client.OnMessageReceived += Client_OnMessageReceived;
                 client.OnConnected += Client_OnConnected;
                 client.OnDisconnected += Client_OnDisconnected;
-                // client.OnWhisperReceived += Client_OnWhisperReceived;
+                //client.OnWhisperReceived += Client_OnWhisperReceived;
 
                 client.Connect();
             }
@@ -157,24 +166,24 @@ namespace BannerlordTwitch
                 }
             }
 
-            public void SendWhisper(string userName, params string[] msg)
-            {
-                if (client.IsConnected)
-                {
-                    try
-                    {
-                        var parts = FormatMessage(msg);
-                        foreach (string part in parts)
-                        {
-                            client.SendWhisper(userName, BotPrefix + part);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error($"Failed to send reply: {e.Message}");
-                    }
-                }
-            }
+            //public void SendWhisper(string userName, params string[] msg)
+            //{
+            //    if (client.IsConnected)
+            //    {
+            //        try
+            //        {
+            //            var parts = FormatMessage(msg);
+            //            foreach (string part in parts)
+            //            {
+            //                client.SendWhisper(userName, "Command heard");
+            //            }
+            //        }
+            //        catch (Exception e)
+            //        {
+            //            Log.Error($"Failed to send reply: {e.Message}");
+            //        }
+            //    }
+            //}
 
             private void Client_OnLog(object sender, OnLogArgs e)
             {
@@ -240,10 +249,37 @@ namespace BannerlordTwitch
                 }
             }
 
-            // // private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
-            // {
-            //     HandleChatBoxMessage(e.WhisperMessage.Message, ReplyContext.FromWhisper(e.WhisperMessage));
-            // }
+            //private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
+            //{
+            //    // Double check we didn't already handle this message, as sometimes bot can be receiving them twice
+            //    if (!handledMessages.Add(e.WhisperMessage.MessageId))
+            //        return;
+
+            //    // Register the user info always and before doing anything else, so it is appropriately up to date in
+            //    // case a bot command is being issued
+            //    TwitchHub.AddUser(e.WhisperMessage.DisplayName, e.WhisperMessage.ColorHex);
+
+            //    string msg = e.WhisperMessage.Message;
+            //    if (msg.StartsWith("!"))
+            //    {
+            //        HandleWhisperMessage(msg.TrimStart('!'), e.WhisperMessage);
+            //    }
+            //}
+
+            //private void HandleWhisperMessage(string msg, WhisperMessage whisperMessage)
+            //{
+            //    string[] parts = msg.Split(' ');
+            //    if (parts[0] == "help")
+            //    {
+            //        BLTModule.TwitchService?.ShowCommandHelp();
+            //    }
+            //    else
+            //    {
+            //        string cmdName = parts[0];
+            //        string args = msg.Substring(cmdName.Length).Trim();
+            //        BLTModule.TwitchService?.ExecuteCommandFromWhisper(cmdName, whisperMessage, args);
+            //    }
+            //}
 
             private void HandleChatBoxMessage(string msg, ChatMessage chatMessage)
             {
