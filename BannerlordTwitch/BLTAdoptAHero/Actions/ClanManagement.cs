@@ -102,18 +102,43 @@ namespace BLTAdoptAHero.Actions
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.PropertyValuePair("Join Enabled".Translate(), $"{JoinEnabled}");
-                generator.PropertyValuePair("Max Heroes".Translate(), $"{JoinMaxHeroes}");
-                generator.PropertyValuePair("Join Price".Translate(), $"{JoinPrice}");
-                generator.PropertyValuePair("Allow Join Players Clan?".Translate(), $"{JoinAllowPlayer}");
-                generator.PropertyValuePair("Create Enabled".Translate(), $"{CreateEnabled}");
-                generator.PropertyValuePair("Create Price".Translate(), $"{CreatePrice}");
-                generator.PropertyValuePair("Lead Enabled".Translate(), $"{LeadEnabled}");
-                generator.PropertyValuePair("Lead Price".Translate(), $"{LeadPrice}");
-                generator.PropertyValuePair("Lead Challenge Heroes?".Translate(), $"{LeadChallengeHeroes}");
-                generator.PropertyValuePair("Rename Enabled".Translate(), $"{RenameEnabled}");
-                generator.PropertyValuePair("Rename Price".Translate(), $"{RenamePrice}");
-                generator.PropertyValuePair("Stats Enabled".Translate(), $"{StatsEnabled}");
+                var EnabledCommands = new StringBuilder();
+                if (JoinEnabled)
+                    EnabledCommands = EnabledCommands.Append("Join, ");
+                if (CreateEnabled)
+                    EnabledCommands = EnabledCommands.Append("Create, ");
+                if (LeadEnabled)
+                    EnabledCommands = EnabledCommands.Append("Lead, ");
+                if (RenameEnabled)
+                    EnabledCommands = EnabledCommands.Append("Rename, ");
+                if (StatsEnabled)
+                    EnabledCommands = EnabledCommands.Append("Stats, ");
+                if (EnabledCommands != null)
+                    generator.Value("<strong>Enabled Commands:</strong> {commands}".Translate(("commands", EnabledCommands.ToString().Substring(0, EnabledCommands.ToString().Length - 2))));
+
+                if (JoinEnabled)
+                    generator.Value("<strong>" +
+                                    "Join Config: " +
+                                    "</strong>" +
+                                    "Max Heroes={maxHeroes}, ".Translate(("maxHeroes", JoinMaxHeroes)) +
+                                    "Price={price}{icon}, ".Translate(("price", JoinPrice.ToString()), ("icon", Naming.Gold)) +
+                                    "Allow Join Players Clan?={allowPlayer}".Translate(("allowPlayer", JoinAllowPlayer.ToString())));
+                if (CreateEnabled)
+                    generator.Value("<strong>" +
+                                    "Create Config: " +
+                                    "</strong>" +
+                                    "Price={price}{icon}".Translate(("price", CreatePrice.ToString()), ("icon", Naming.Gold)));
+                if (LeadEnabled)
+                    generator.Value("<strong>" +
+                                    "Lead Config: " +
+                                    "</strong>" +
+                                    "Price={price}{icon}, ".Translate(("price", LeadPrice.ToString()),("icon",Naming.Gold)) +
+                                    "Challenge Heroes?={challengeHeroes}".Translate(("challengeHeroes", LeadChallengeHeroes.ToString())));
+                if (RenameEnabled)
+                    generator.Value("<strong>" +
+                                    "Rename Config: " +
+                                    "</strong>" +
+                                    "Price={price}{icon}".Translate(("price", RenamePrice.ToString()), ("icon", Naming.Gold)));
             }
         }
         public override Type HandlerConfigType => typeof(Settings);

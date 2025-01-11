@@ -77,14 +77,29 @@ namespace BLTAdoptAHero.Actions
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.PropertyValuePair("Join Enabled".Translate(), $"{JoinEnabled}");
-                generator.PropertyValuePair("Max Clans".Translate(), $"{JoinMaxClans}");
-                generator.PropertyValuePair("Join Price".Translate(), $"{JoinPrice}");
-                generator.PropertyValuePair("Allow Join Players Kingdom?".Translate(), $"{JoinAllowPlayer}");
-                generator.PropertyValuePair("Rebel Enabled".Translate(), $"{RebelEnabled}");
-                generator.PropertyValuePair("Rebel Price".Translate(), $"{RebelPrice}");
-                generator.PropertyValuePair("Rebel Minimum Clan Tier".Translate(), $"{RebelClanTierMinimum}");
-                generator.PropertyValuePair("Stats Enabled".Translate(), $"{StatsEnabled}");
+                var EnabledCommands = new StringBuilder();
+                if (JoinEnabled)
+                    EnabledCommands = EnabledCommands.Append("Join, ");
+                if (RebelEnabled)
+                    EnabledCommands = EnabledCommands.Append("Create, ");
+                if (StatsEnabled)
+                    EnabledCommands = EnabledCommands.Append("Stats, ");
+                if (EnabledCommands != null)
+                    generator.Value("<strong>Enabled Commands:</strong> {commands}".Translate(("commands", EnabledCommands.ToString().Substring(0, EnabledCommands.ToString().Length - 2))));
+
+                if (JoinEnabled)
+                    generator.Value("<strong>" +
+                                    "Join Config: " +
+                                    "</strong>" +
+                                    "Max Clans={maxHeroes}, ".Translate(("maxClans", JoinMaxClans.ToString())) +
+                                    "Price={price}{icon}, ".Translate(("price", JoinPrice.ToString()), ("icon", Naming.Gold)) +
+                                    "Allow Join Players Kingdom?={allowPlayer}".Translate(("allowPlayer", JoinAllowPlayer.ToString())));
+                if (RebelEnabled)
+                    generator.Value("<strong>" +
+                                    "Rebel Config: " +
+                                    "</strong>" +
+                                    "Price={price}{icon}, ".Translate(("price", RebelPrice.ToString()), ("icon", Naming.Gold)) +
+                                    "Minimum Clan Tier={tier}".Translate(("tier", RebelClanTierMinimum.ToString())));
             }
         }
         public override Type HandlerConfigType => typeof(Settings);

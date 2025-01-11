@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using BannerlordTwitch;
 using BannerlordTwitch.Helpers;
 using BannerlordTwitch.Localization;
@@ -33,7 +34,7 @@ namespace BLTAdoptAHero.Actions
 
             [LocDisplayName("{=jW4WABm2}Only on created heroes?"),
              LocCategory("General", "{=VmQECrnc}General"),
-             LocDescription("{=guSdSDEy}Only allow swapping gender for heroes that are created, instead of adopted"),
+             LocDescription("{=guSdSDEy}Only allow changing gender for heroes that are created, instead of adopted"),
              PropertyOrder(3), UsedImplicitly]
             public bool GenderDisabledonNative { get; set; } = true;
 
@@ -51,11 +52,18 @@ namespace BLTAdoptAHero.Actions
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
-                generator.PropertyValuePair("Change Hero Gender Enabled".Translate(), $"{GenderEnabled}");
-                generator.PropertyValuePair("Change Hero Gender Gold Cost".Translate(), $"{GenderCost}");
-                generator.PropertyValuePair("Only on created heroes?".Translate(), $"{GenderDisabledonNative}");
-                //generator.PropertyValuePair("Hero Marriage Enabled".Translate(), $"{MarriageEnabled}");
-                //generator.PropertyValuePair("Hero Marriage Gold Cost".Translate(), $"{MarriageCost}");
+                var EnabledCommands = new StringBuilder();
+                if (GenderEnabled)
+                    EnabledCommands = EnabledCommands.Append("Change Hero Gender, ");
+                if (EnabledCommands != null)
+                    generator.Value("<strong>Enabled Commands:</strong> {commands}".Translate(("commands", EnabledCommands.ToString().Substring(0, EnabledCommands.ToString().Length - 2))));
+
+                if (GenderEnabled)
+                    generator.Value("<strong>" +
+                                    "Gender Change Config: " +
+                                    "</strong>" +
+                                    "Price={price}{icon}, ".Translate(("price", GenderCost.ToString()), ("icon", Naming.Gold)) +
+                                    "Only on created heroes?={DisabledonNative}".Translate(("DisabledonNative", GenderDisabledonNative.ToString())));
             }
         }
 
@@ -84,33 +92,6 @@ namespace BLTAdoptAHero.Actions
             var command = splitArgs[0];
             switch (command.ToLower())
             {
-                //case ("marry"):
-                //    if (!settings.MarriageEnabled)
-                //    {
-                //        onFailure("{=wkhZ6q7d}Hero marriage is not enabled".Translate());
-                //        return;
-                //    }
-                //    if (adoptedHero.Spouse != null)
-                //    {
-                //        onFailure("{=wkhZ6q7d}You are already married".Translate());
-                //        return;
-                //    }
-                //    if (settings.MarriageCost > BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero))
-                //    {
-                //        onFailure("{=ve1C1aCl}You do not have enough gold ({price}) to marry".Translate(("price", settings.GenderCost.ToString())));
-                //        return;
-                //    }
-                //    var spouse = CampaignHelpers.AliveHeroes.Where(n => (n.Name?.Contains(BLTAdoptAHeroModule.Tag) == false) && (n.Spouse == null) && (adoptedHero.IsFemale == n.IsFemale)).SelectRandom();
-                //    if(spouse == null)
-                //    {
-                //        onFailure("{=wkhZ6q7d}No valid spouse found".Translate());
-                //        return;
-                //    }
-
-                //    BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.GenderCost);
-                //    onSuccess("{=wkhZ6q7d}Marriage message".Translate());
-                //    return;
-
                 case ("gender"):
                     if (!settings.GenderEnabled)
                     {
@@ -157,8 +138,34 @@ namespace BLTAdoptAHero.Actions
                             adoptedHero.CharacterObject);
                         return;
                     }
-                    onFailure("{=rPqyzuoG}Invalid gender (male/female)".Translate());
+                    onFailure("{=rPqyzuoG}Invalid entry (male/female)".Translate());
                     return;
+                //case ("marry"):
+                //    if (!settings.MarriageEnabled)
+                //    {
+                //        onFailure("{=wkhZ6q7d}Hero marriage is not enabled".Translate());
+                //        return;
+                //    }
+                //    if (adoptedHero.Spouse != null)
+                //    {
+                //        onFailure("{=wkhZ6q7d}You are already married".Translate());
+                //        return;
+                //    }
+                //    if (settings.MarriageCost > BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero))
+                //    {
+                //        onFailure("{=ve1C1aCl}You do not have enough gold ({price}) to marry".Translate(("price", settings.GenderCost.ToString())));
+                //        return;
+                //    }
+                //    var spouse = CampaignHelpers.AliveHeroes.Where(n => (n.Name?.Contains(BLTAdoptAHeroModule.Tag) == false) && (n.Spouse == null) && (adoptedHero.IsFemale == n.IsFemale)).SelectRandom();
+                //    if(spouse == null)
+                //    {
+                //        onFailure("{=wkhZ6q7d}No valid spouse found".Translate());
+                //        return;
+                //    }
+
+                //    BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.GenderCost);
+                //    onSuccess("{=wkhZ6q7d}Marriage message".Translate());
+                //    return;
                 default:
                     onFailure("{=6t9UWDR2}Invalid action".Translate());
                     return;
