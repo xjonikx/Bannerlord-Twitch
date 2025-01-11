@@ -404,11 +404,11 @@ namespace BLTAdoptAHero
         #region IDocumentable
         public void GenerateDocumentation(IDocumentationGenerator generator)
         {
-            generator.Div("tournament-config", () =>
-            {
-                generator.H1("{=AkDCrLgg}Tournament Config".Translate());
-                DocumentationHelpers.AutoDocument(generator, this);
-            });
+            //generator.Div("tournament-config", () =>
+            //{
+            //    generator.H1("{=AkDCrLgg}Tournament Config".Translate());
+            //    DocumentationHelpers.AutoDocument(generator, this);
+            //});
         }
         #endregion
     }

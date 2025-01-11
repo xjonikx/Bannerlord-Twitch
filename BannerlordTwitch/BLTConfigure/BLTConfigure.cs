@@ -19,7 +19,7 @@ namespace BLTConfigure
     {
         private readonly Thread thread;
         private BLTConfigureWindow wnd;
-        internal static GlobalOverlayConfig OverlayConfig { get; private set; }
+        //internal static GlobalOverlayConfig OverlayConfig { get; private set; }
 
         public BLTConfigureModule()
         {
@@ -31,7 +31,7 @@ namespace BLTConfigure
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly;
             };
-            GlobalOverlayConfig.Register();
+            //GlobalOverlayConfig.Register();
             thread = new Thread(() =>
             {
                 try
@@ -76,7 +76,7 @@ namespace BLTConfigure
                 if (game.GameType is Campaign)
                 {
                     // Reload settings here so they are fresh
-                    OverlayConfig = GlobalOverlayConfig.Get();
+                    //OverlayConfig = GlobalOverlayConfig.Get();
                 }
             }
             catch (Exception e)
