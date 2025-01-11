@@ -307,6 +307,7 @@
     <Compile Include="Achievements\StatisticClassSpecificRequirement.cs" />
     <Compile Include="Achievements\StatisticTotalRequirement.cs" />
     <Compile Include="Actions\AddGoldToHero.cs" />
+    <Compile Include="Actions\HeroToHeroGold.cs" />
     <Compile Include="Actions\AdoptAHero.cs" />
     <Compile Include="Actions\AttributePoints.cs" />
     <Compile Include="Actions\ClanManagement.cs" />

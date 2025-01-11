@@ -32,19 +32,17 @@ Commands:
     AllowPartyLeader: false
     AllowPlayerCompanion: false
     AllowWanderer: false
-    CreateClan: false
     CreateNew: true
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
-    OnlySameFaction: false
     OverrideAge: true
     StartingAgeRange:
       Max: 35
       Min: 18
     StartingClass: 00000000-0000-0000-0000-000000000000
     StartingEquipmentTier: 1
-    StartingGold: 50000
+    StartingGold: 250000
     StartingSkills:
     - MaxLevel: 125
       MinLevel: 50
@@ -65,7 +63,199 @@ Commands:
   ID: e317c63a-5a1f-455c-b953-6dcb92dc9424
   Name: '{=0grO6hB5}adopt'
   RespondInOverlay: true
-  RespondInTwitch: false
+  RespondInTwitch: true
+- Documentation: Adopt a randomly selected Hero, filtered by Clan
+  Enabled: true
+  Handler: AdoptAHero
+  HandlerConfig:
+    AllowMinorFactionHero: false
+    AllowNoble: true
+    AllowPartyLeader: false
+    AllowPlayerCompanion: false
+    AllowWanderer: true
+    CreateNew: false
+    Inheritance: 0.25
+    MaxInheritedCustomItems: 2
+    MinSubscribedMonths: 
+    OverrideAge: false
+    StartingAgeRange:
+      Max: 35
+      Min: 18
+    StartingClass: 00000000-0000-0000-0000-000000000000
+    StartingEquipmentTier: 1
+    StartingGold: 50000
+    StartingSkills:
+    - MaxLevel: 75
+      MinLevel: 25
+      Skill: All
+    SubscriberOnly: false
+    ViewerSelects: Clan
+  Help: ''
+  HideHelp: true
+  ID: 749a1d9f-516c-4c1c-9603-f22586c06818
+  Name: adoptByClan
+  RespondInOverlay: true
+  RespondInTwitch: true
+- Documentation: Adopt a randomly selected Hero, filtered by Culture <br> Can do "!adoptByCulture list" for a list of cultures
+  Enabled: true
+  Handler: AdoptAHero
+  HandlerConfig:
+    AllowMinorFactionHero: false
+    AllowNoble: true
+    AllowPartyLeader: false
+    AllowPlayerCompanion: false
+    AllowWanderer: true
+    CreateNew: false
+    Inheritance: 0.25
+    MaxInheritedCustomItems: 2
+    MinSubscribedMonths: 
+    OverrideAge: false
+    StartingAgeRange:
+      Max: 35
+      Min: 18
+    StartingClass: 00000000-0000-0000-0000-000000000000
+    StartingEquipmentTier: 1
+    StartingGold: 50000
+    StartingSkills:
+    - MaxLevel: 75
+      MinLevel: 25
+      Skill: All
+    SubscriberOnly: false
+    ViewerSelects: Culture
+  Help: ''
+  HideHelp: true
+  ID: 25aaa31b-f456-4629-9b0d-95088d079ce9
+  Name: adoptByCulture
+  RespondInOverlay: true
+  RespondInTwitch: true
+- Documentation: Adopt a randomly selected Hero, filtered by Faction <br> Can do "!adoptByFaction list" for a list of factions
+  Enabled: true
+  Handler: AdoptAHero
+  HandlerConfig:
+    AllowMinorFactionHero: false
+    AllowNoble: true
+    AllowPartyLeader: false
+    AllowPlayerCompanion: false
+    AllowWanderer: true
+    CreateNew: false
+    Inheritance: 0.25
+    MaxInheritedCustomItems: 2
+    MinSubscribedMonths: 
+    OverrideAge: false
+    StartingAgeRange:
+      Max: 35
+      Min: 18
+    StartingClass: 00000000-0000-0000-0000-000000000000
+    StartingEquipmentTier: 1
+    StartingGold: 50000
+    StartingSkills:
+    - MaxLevel: 75
+      MinLevel: 25
+      Skill: All
+    SubscriberOnly: false
+    ViewerSelects: Faction
+  Help: ''
+  HideHelp: true
+  ID: 8186522f-8087-4e8b-8be8-2cccf7b33aca
+  Name: adoptByFaction
+  RespondInOverlay: true
+  RespondInTwitch: true
+- Documentation: Adopt a randomly selected Hero, filtered by Hero Name
+  Enabled: true
+  Handler: AdoptAHero
+  HandlerConfig:
+    AllowMinorFactionHero: false
+    AllowNoble: true
+    AllowPartyLeader: false
+    AllowPlayerCompanion: false
+    AllowWanderer: true
+    CreateNew: false
+    Inheritance: 0.25
+    MaxInheritedCustomItems: 2
+    MinSubscribedMonths: 
+    OverrideAge: false
+    StartingAgeRange:
+      Max: 35
+      Min: 18
+    StartingClass: 00000000-0000-0000-0000-000000000000
+    StartingEquipmentTier: 1
+    StartingGold: 50000
+    StartingSkills:
+    - MaxLevel: 75
+      MinLevel: 25
+      Skill: All
+    SubscriberOnly: false
+    ViewerSelects: Name
+  Help: ''
+  HideHelp: true
+  ID: 34d71a7c-dd7a-4449-93ce-128e360f6712
+  Name: adoptByName
+  RespondInOverlay: true
+  RespondInTwitch: true
+- Documentation: Adopt a newly created Hero
+  Enabled: true
+  Handler: AdoptAHero
+  HandlerConfig:
+    AllowMinorFactionHero: false
+    AllowNoble: false
+    AllowPartyLeader: false
+    AllowPlayerCompanion: false
+    AllowWanderer: false
+    CreateNew: true
+    Inheritance: 0.25
+    MaxInheritedCustomItems: 2
+    MinSubscribedMonths: 
+    OverrideAge: false
+    StartingAgeRange:
+      Max: 35
+      Min: 18
+    StartingClass: 00000000-0000-0000-0000-000000000000
+    StartingEquipmentTier: 1
+    StartingGold: 50000
+    StartingSkills:
+    - MaxLevel: 75
+      MinLevel: 25
+      Skill: All
+    SubscriberOnly: false
+    ViewerSelects: Nothing
+  Help: ''
+  HideHelp: true
+  ID: 12306f90-ad7a-4016-b7c1-5c334d6d9f61
+  Name: adoptNew
+  RespondInOverlay: true
+  RespondInTwitch: true
+- Documentation: Adopt a randomly selected Hero
+  Enabled: true
+  Handler: AdoptAHero
+  HandlerConfig:
+    AllowMinorFactionHero: false
+    AllowNoble: true
+    AllowPartyLeader: false
+    AllowPlayerCompanion: false
+    AllowWanderer: true
+    CreateNew: false
+    Inheritance: 0.25
+    MaxInheritedCustomItems: 2
+    MinSubscribedMonths: 
+    OverrideAge: false
+    StartingAgeRange:
+      Max: 35
+      Min: 18
+    StartingClass: 00000000-0000-0000-0000-000000000000
+    StartingEquipmentTier: 1
+    StartingGold: 50000
+    StartingSkills:
+    - MaxLevel: 75
+      MinLevel: 25
+      Skill: All
+    SubscriberOnly: false
+    ViewerSelects: Nothing
+  Help: ''
+  HideHelp: true
+  ID: 4cbefb28-4d74-45f2-8e26-a23e8729eab1
+  Name: adoptRandom
+  RespondInOverlay: true
+  RespondInTwitch: true
 - Documentation: Use this when the streamer enters a battle, to spawn your adopted hero on the enemy side (along with your retinue).
   Enabled: true
   Handler: SummonHero
@@ -449,10 +639,10 @@ Commands:
   RespondInOverlay: true
   RespondInTwitch: false
 - Documentation: ''
-  Enabled: false
+  Enabled: true
   Handler: RetireMyHero
   HandlerConfig:
-    RetireCreatedOnly: true
+    RetireCreatedOnly: false
   Help: ''
   HideHelp: false
   ID: dd5268c5-3732-4c27-b990-6e364e66cc84
@@ -3490,7 +3680,7 @@ GlobalConfigs:
     WinXP: 50000
   Id: Adopt A Hero - Tournament Config
 Rewards:
-- Documentation: Adopt a randomly selected Hero, filtered by Culture. Almost all other actions require an adopted hero.
+- Documentation: Adopt a randomly selected Hero, filtered by Culture.  Enter "list" to get a list of cultures
   Enabled: true
   Handler: AdoptAHero
   HandlerConfig:
@@ -3499,12 +3689,10 @@ Rewards:
     AllowPartyLeader: false
     AllowPlayerCompanion: false
     AllowWanderer: true
-    CreateClan: false
     CreateNew: false
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
-    OnlySameFaction: false
     OverrideAge: true
     StartingAgeRange:
       Max: 35
@@ -3541,7 +3729,7 @@ Rewards:
     MaxPerUserPerStream: 
     Prompt: '{=6amYI1lf}Get a hero in game with a specific culture. Almost all other actions require an adopted hero. Enter part of the culture name:'
     Title: Adopt a Hero by Culture
-- Documentation: Adopt a randomly selected Hero, filtered by Faction. Almost all other actions require an adopted hero.
+- Documentation: Adopt a randomly selected Hero, filtered by Faction.  Enter "list" to get a list of factions
   Enabled: true
   Handler: AdoptAHero
   HandlerConfig:
@@ -3549,13 +3737,11 @@ Rewards:
     AllowNoble: true
     AllowPartyLeader: false
     AllowPlayerCompanion: false
-    AllowWanderer: false
-    CreateClan: false
+    AllowWanderer: true
     CreateNew: false
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
-    OnlySameFaction: false
     OverrideAge: true
     StartingAgeRange:
       Max: 35
@@ -3601,12 +3787,10 @@ Rewards:
     AllowPartyLeader: false
     AllowPlayerCompanion: false
     AllowWanderer: true
-    CreateClan: false
     CreateNew: false
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
-    OnlySameFaction: false
     OverrideAge: true
     StartingAgeRange:
       Max: 35
