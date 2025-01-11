@@ -13,6 +13,7 @@ using BannerlordTwitch.Util;
 using BLTAdoptAHero.Annotations;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
+using TaleWorlds.CampaignSystem.CharacterCreationContent;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -399,7 +400,7 @@ namespace BLTAdoptAHero
                         if (settings.CreateClan)
                         {
                             newClan = true;
-                            desiredClan = Clan.CreateClan("blt_clan_" + contextArgs + "_" + (object)Clan.All.Count(t => t.Name.ToString() == contextArgs));
+                            desiredClan = Clan.CreateClan("[BLT Clan]" + contextArgs + "_" + (object)Clan.All.Count(t => t.Name.ToString() == contextArgs));
                             CultureObject clanCulture = CampaignHelpers.MainCultures.SelectRandom();
                             Banner clanBanner = Banner.CreateRandomBanner();
                             desiredClan.InitializeClan(new TextObject(contextArgs), new TextObject(contextArgs), clanCulture, clanBanner);
