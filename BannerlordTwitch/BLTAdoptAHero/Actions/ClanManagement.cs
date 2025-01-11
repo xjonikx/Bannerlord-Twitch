@@ -286,6 +286,8 @@ namespace BLTAdoptAHero.Actions
             newClan.UpdateHomeSettlement(Settlement.All.SelectRandom());
             adoptedHero.Clan = newClan;
             newClan.SetLeader(adoptedHero);
+            if (!CampaignHelpers.IsEncyclopediaBookmarked(newClan))
+                CampaignHelpers.AddEncyclopediaBookmarkToItem(newClan);
             onSuccess("{=omDrEeDx}Created and leading clan {name}".Translate(("name", fullClanName)));
             Log.ShowInformation("{=TsmDfvuz}{heroName} has created and is leading clan {clanName}!".Translate(("heroName", adoptedHero.Name.ToString()), ("clanName", adoptedHero.Clan.Name.ToString())), adoptedHero.CharacterObject, Log.Sound.Horns2);
         }

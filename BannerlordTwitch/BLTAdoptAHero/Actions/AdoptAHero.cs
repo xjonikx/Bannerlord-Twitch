@@ -314,7 +314,7 @@ namespace BLTAdoptAHero
 
             if (settings.CreateNew && settings.ViewerSelects != Settings.ViewerSelect.Nothing)
             {
-                return (false, "{=mJfD7e2g}Config error: Can't create new hero and have random selection filters".Translate());
+                return (false, "{=mJfD7e2g}Config Error: Can't create new hero and have random selection filters".Translate());
             }
 
             CultureObject desiredCulture = null;
@@ -341,7 +341,7 @@ namespace BLTAdoptAHero
                     }
                     else
                     {
-                        return (false, "{=SViljL0E}Please enter part of the name of the culture you wish to adopt a hero from".Translate());
+                        return (false, "{=SViljL0E}Please enter the name of the culture you wish to adopt a hero from".Translate());
                     }
                 }
 
@@ -362,7 +362,7 @@ namespace BLTAdoptAHero
                     }
                     else
                     {
-                        return (false, "{=jjUmUpia}Please enter part of the name of the faction you wish to adopt a hero from".Translate());
+                        return (false, "{=jjUmUpia}Please enter the name of the faction you wish to adopt a hero from".Translate());
                     }
                 }
 
@@ -381,8 +381,8 @@ namespace BLTAdoptAHero
                             return false;
 
                         });
-
-                        contextArgs.Trim();
+                        if (desiredName == null)
+                            return (false, "{=q9m9Yp1F}Error could not find a hero with the name {desiredName}".Translate(("desiredName", desiredName)));
                     }
                     else
                     {
@@ -403,7 +403,6 @@ namespace BLTAdoptAHero
                             }
 
                             return false;
-
                         });
                         if (desiredClan == null)
                             return (false, "{=q9m9Yp1F}Error could not find a clan with the name {clanName}".Translate(("clanName", contextArgs)));
@@ -429,7 +428,7 @@ namespace BLTAdoptAHero
                     BLTAdoptAHeroCampaignBehavior.Current.SetIsCreatedHero(newHero, true);
                     var targetSettlement = Settlement.All.Where(s => s.IsTown).SelectRandom();
                     EnterSettlementAction.ApplyForCharacterOnly(newHero, targetSettlement);
-                    Log.Info($"Placed new hero {newHero.Name} at {targetSettlement.Name}");
+                    Log.Info($"Created and placed new hero {newHero.Name} at {targetSettlement.Name}");
                 }
             }
             else
