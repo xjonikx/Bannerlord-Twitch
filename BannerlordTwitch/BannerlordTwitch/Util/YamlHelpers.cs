@@ -55,7 +55,7 @@ namespace BannerlordTwitch.Util
         public static ISerializer CreateDefaultSerializer()
         {
             var builder = new SerializerBuilder();
-            foreach ((string tag, var type) in nodeTypeResolver.Value.tagMappings)
+            foreach ((string tag, var type) in nodeTypeResolver.Value.TagMappings)
             {
                 builder.WithTagMapping(tag, type);
             }
@@ -97,7 +97,7 @@ namespace BannerlordTwitch.Util
         // From https://github.com/aaubry/YamlDotNet/issues/343#issuecomment-424882014
         private sealed class TaggedNodeTypeResolver : INodeTypeResolver
         {
-            public Dictionary<string, Type> tagMappings { get; }
+            public Dictionary<string, Type> TagMappings { get; }
 
             public TaggedNodeTypeResolver()
             {
@@ -107,7 +107,7 @@ namespace BannerlordTwitch.Util
                     .SelectMany(s => s.GetTypes())
                     .Where(p => p.GetCustomAttribute<YamlTagged>() != null);
 
-                tagMappings = taggedTypes.ToDictionary(t => "!" + t.Name, t => t);
+                TagMappings = taggedTypes.ToDictionary(t => "!" + t.Name, t => t);
             }
 
             bool INodeTypeResolver.Resolve(NodeEvent nodeEvent, ref Type currentType)
@@ -125,7 +125,7 @@ namespace BannerlordTwitch.Util
                     typeName = typeName.Substring(0, typeName.Length - 2);
                 }
 
-                if (tagMappings.TryGetValue(typeName, out var predefinedType))
+                if (TagMappings.TryGetValue(typeName, out var predefinedType))
                 {
                     currentType = arrayType ? predefinedType.MakeArrayType() : predefinedType;
                     return true;

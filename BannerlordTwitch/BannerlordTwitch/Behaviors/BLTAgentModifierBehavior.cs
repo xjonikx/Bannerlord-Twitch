@@ -63,7 +63,7 @@ namespace BannerlordTwitch
 
         public void GenerateDocumentation(IDocumentationGenerator generator)
         {
-            string mountStr = ApplyToMount ? "{=qhIXgPGK}Mount".Translate() + " " : "";
+            _ = ApplyToMount ? "{=qhIXgPGK}Mount".Translate() + " " : "";
             if (ScalePercent != 100)
                 generator.P(ApplyToMount
                     ? "{qhIXgPGK}Mount {ScalePercent}% normal size".Translate(("ScalePercent", (int)ScalePercent))

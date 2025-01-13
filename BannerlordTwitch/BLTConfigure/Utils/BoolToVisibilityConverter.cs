@@ -23,7 +23,7 @@ namespace BLTConfigure
         public object Convert(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
-            if (!(value is bool))
+            if (value is not bool)
                 return null;
             return (bool)value ? TrueValue : FalseValue;
         }

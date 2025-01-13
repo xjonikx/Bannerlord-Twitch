@@ -32,8 +32,7 @@ namespace BLTConfigure.UI
 
         private static void HideCloseButtonChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var window = d as Window;
-            if (window == null) return;
+            if (d is not Window window) return;
 
             bool hideCloseButton = (bool)e.NewValue;
             if (hideCloseButton && !GetIsHiddenCloseButton(window))

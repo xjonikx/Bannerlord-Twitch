@@ -35,7 +35,7 @@ namespace BannerlordTwitch.Helpers
             }
         }
 
-        public void Trigger(MatrixFrame location, int relatedAgentIndex = -1)
+        public readonly void Trigger(MatrixFrame location, int relatedAgentIndex = -1)
         {
             Trigger(ParticleEffect, Sound, location, relatedAgentIndex);
         }
@@ -56,6 +56,6 @@ namespace BannerlordTwitch.Helpers
             }
         }
 
-        public override string ToString() => $"{OneShotParticleEffectItemSource.GetFriendlyName(ParticleEffect)} {Sound}";
+        public override readonly string ToString() => $"{OneShotParticleEffectItemSource.GetFriendlyName(ParticleEffect)} {Sound}";
     }
 }

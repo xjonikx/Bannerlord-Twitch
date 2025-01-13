@@ -8,7 +8,7 @@ namespace BannerlordTwitch.Util
         private static int seed = Environment.TickCount;
 
         private static readonly ThreadLocal<Random> random =
-            new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));
+            new(() => new Random(Interlocked.Increment(ref seed)));
 
         public static double Next()
         {
