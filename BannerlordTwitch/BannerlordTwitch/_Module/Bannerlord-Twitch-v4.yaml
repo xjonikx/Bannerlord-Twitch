@@ -1874,9 +1874,6 @@ GlobalConfigs:
     DisableEffectsInTournaments: true
   Id: Buffet - Effects Config
 - Config:
-    HeroesListMaxHeight: 5
-  Id: BLT Configure - Overlay Config
-- Config:
     DisablePowersInTournaments: true
     PowerDefs:
     - !AddHealthPower

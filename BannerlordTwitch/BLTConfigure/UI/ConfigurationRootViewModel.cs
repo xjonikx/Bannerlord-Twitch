@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using BannerlordTwitch;
 using BannerlordTwitch.Util;
+using TaleWorlds.Library;
 
 namespace BLTConfigure.UI
 {
@@ -88,20 +89,7 @@ namespace BLTConfigure.UI
 
         private void Load()
         {
-            try
-            {
-                EditedSettings = Settings.Load();
-            }
-            catch (Exception ex)
-            {
-                Log.Exception($"BLTConfigureWindow.Reload", ex);
-                // MessageBox.Show($"Either the settings file didn't exist, or it was corrupted.\nLoaded default settings.\nIf you want to keep your broken settings file then go and copy it somewhere now, as it will be overwritten on exit.\nError: {e}", "Failed to Load Settings!");
-            }
-
-            EditedSettings ??= new Settings();
-            ConfigureContext.CurrentlyEditedSettings = EditedSettings;
-
-            RefreshActionList();
+            ProfileChanged(1);
 
             try
             {
@@ -125,6 +113,7 @@ namespace BLTConfigure.UI
             ? string.Empty
             : $"Saved {(DateTime.Now - lastSaved).TotalSeconds:0} seconds ago. " +
               $"Reload save to apply changes.";
+        public string ActiveProfile => $"Profile: {Settings.ActiveProfile}";
 
         private async void UpdateLastSavedLoop()
         {
@@ -162,6 +151,32 @@ namespace BLTConfigure.UI
             {
                 Log.Exception($"BLTConfigureWindow.SaveAuth", ex);
             }
+        }
+
+        public void ProfileChanged(int Profile)
+        {
+            if (!Settings.GameStarted)
+            {
+                try
+                {
+                    Settings.ChangeProfile(Profile);
+                    PropertyChanged?.Invoke(this, new(nameof(ActiveProfile)));
+                    EditedSettings = Settings.Load();
+                    //Log.Info("Profile changed to " + Profile);
+                }
+                catch (Exception ex)
+                {
+                    Log.Exception($"BLTConfigureWindow.Reload", ex);
+                    // MessageBox.Show($"Either the settings file didn't exist, or it was corrupted.\nLoaded default settings.\nIf you want to keep your broken settings file then go and copy it somewhere now, as it will be overwritten on exit.\nError: {e}", "Failed to Load Settings!");
+                }
+
+                EditedSettings ??= new Settings();
+                ConfigureContext.CurrentlyEditedSettings = EditedSettings;
+
+                RefreshActionList();
+            }
+            else
+                Log.Error("Cannot change profile while game is running");
         }
 
         public ICollectionView ActionFilterView { get; set; }

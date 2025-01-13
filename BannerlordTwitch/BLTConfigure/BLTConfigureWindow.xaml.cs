@@ -144,17 +144,17 @@ namespace BLTConfigure
                 : string.Empty;
         }
 
-        private static int RoundUp(int numToRound, int multiple)
-        {
-            if (multiple == 0)
-                return numToRound;
+        //private static int RoundUp(int numToRound, int multiple)
+        //{
+        //    if (multiple == 0)
+        //        return numToRound;
 
-            int remainder = numToRound % multiple;
-            if (remainder == 0)
-                return numToRound;
+        //    int remainder = numToRound % multiple;
+        //    if (remainder == 0)
+        //        return numToRound;
 
-            return numToRound + multiple - remainder;
-        }
+        //    return numToRound + multiple - remainder;
+        //}
 
         private static string ProtectString(string unprotectedString)
         {
@@ -232,12 +232,7 @@ namespace BLTConfigure
             {
                 button.Visibility = Visibility.Collapsed;
                 GenerateTokenCancel.Visibility = Visibility.Visible;
-                string token = await TwitchAuthHelper.Authorize(MainScopes);
-
-                if (token == null)
-                {
-                    throw new AuthenticationException($"Didn't get token");
-                }
+                string token = await TwitchAuthHelper.Authorize(MainScopes) ?? throw new AuthenticationException($"Didn't get token");
                 UpdateToken(token);
                 ConfigurationRoot.SaveAuth();
             }
@@ -285,11 +280,7 @@ namespace BLTConfigure
             {
                 button.Visibility = Visibility.Collapsed;
                 GenerateBotTokenCancel.Visibility = Visibility.Visible;
-                string token = await TwitchAuthHelper.Authorize(BotScopes);
-                if (token == null)
-                {
-                    throw new AuthenticationException($"Didn't get token");
-                }
+                string token = await TwitchAuthHelper.Authorize(BotScopes) ?? throw new AuthenticationException($"Didn't get token");
                 UpdateBotToken(token);
                 ConfigurationRoot.SaveAuth();
             }

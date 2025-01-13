@@ -11,6 +11,8 @@ using BannerlordTwitch.Util;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
+using BLTConfigure.UI;
+using BannerlordTwitch;
 
 namespace BLTConfigure
 {
@@ -75,6 +77,7 @@ namespace BLTConfigure
             {
                 if (game.GameType is Campaign)
                 {
+                    Settings.GameStarted = true;
                     // Reload settings here so they are fresh
                     //OverlayConfig = GlobalOverlayConfig.Get();
                 }
@@ -84,6 +87,10 @@ namespace BLTConfigure
                 Log.Exception(nameof(OnGameStart), e);
                 MessageBox.Show($"Error in {nameof(OnGameStart)}, please report this on the discord: {e}", "Bannerlord Twitch Mod STARTUP ERROR");
             }
+        }
+        public override void OnGameEnd(Game game)
+        {
+            Settings.GameStarted = false;
         }
     }
 }

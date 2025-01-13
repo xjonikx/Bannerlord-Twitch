@@ -122,5 +122,20 @@ namespace BLTConfigure.UI
             Model.SaveSettings();
             Model.SaveAuth();
         }
+
+        private void Profile3Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            Model.ProfileChanged(3);
+        }
+
+        private void Profile2Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            Model.ProfileChanged(2);
+        }
+
+        private void Profile1Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            Model.ProfileChanged(1);
+        }
     }
 }
