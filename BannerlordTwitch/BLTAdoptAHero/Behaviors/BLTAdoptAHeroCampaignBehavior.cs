@@ -14,6 +14,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
@@ -44,6 +45,8 @@ namespace BLTAdoptAHero
             public int Iteration { get; set; }
             public bool IsRetiredOrDead { get; set; }
             public bool IsCreatedHero { get; set; } = false;
+            public TextObject LegacyName { get; set; } = null;
+
             //public bool MesssageFlag { get; set; } = false;
             //public string MessageContent { get; set; } = null;
 
@@ -336,6 +339,7 @@ namespace BLTAdoptAHero
             var hd = GetHeroData(newHero);
             hd.Owner = userName;
             hd.IsRetiredOrDead = false;
+            hd.LegacyName = newHero.Name;
             hd.Iteration = GetAncestors(userName).Max(a => (int?)a.Iteration + 1) ?? 0;
             SetHeroAdoptedName(newHero, userName);
         }
@@ -370,7 +374,7 @@ namespace BLTAdoptAHero
 
             string desc = hero.IsDead ? "{=ZtZL0lbX}deceased".Translate() : "{=ISrFBorj}retired".Translate();
             var oldName = hero.Name;
-            CampaignHelpers.SetHeroName(hero, new(hero.FirstName + $" {ToRoman(data.Iteration + 1)} ({desc})"), new TaleWorlds.Localization.TextObject(""));
+            CampaignHelpers.SetHeroName(hero, data.LegacyName);
             CampaignHelpers.RemoveEncyclopediaBookmarkFromItem(hero);
 
             // Don't leave retired heroes in the tournament queue 
@@ -1163,6 +1167,8 @@ namespace BLTAdoptAHero
 
         public static void SetHeroAdoptedName(Hero hero, string userName) =>
             CampaignHelpers.SetHeroName(hero, new(GetFullName(userName)), new(userName));
+        public TextObject GetHeroLegacyName(Hero hero) =>
+            GetHeroData(hero).LegacyName;
         public bool GetIsCreatedHero(Hero hero) =>
             GetHeroData(hero).IsCreatedHero;
         //public bool GetMessageFlag(Hero hero) =>
