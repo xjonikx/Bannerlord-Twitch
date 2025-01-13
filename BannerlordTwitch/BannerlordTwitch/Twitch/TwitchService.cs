@@ -1,21 +1,32 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using BannerlordTwitch.Dummy;
 using BannerlordTwitch.Localization;
 using BannerlordTwitch.Rewards;
 using BannerlordTwitch.Testing;
+using BannerlordTwitch.Twitch;
 using BannerlordTwitch.Util;
+using BLTOverlay;
 using JetBrains.Annotations;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
 using TwitchLib.Api;
 using TwitchLib.Api.Core.Enums;
 using TwitchLib.Api.Core.Exceptions;
 using TwitchLib.Api.Helix.Models.ChannelPoints.GetCustomReward;
 using TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomRewardRedemptionStatus;
+using TwitchLib.Api.Interfaces;
 using TwitchLib.Client.Models;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
+using TwitchLib.EventSub.Websockets;
+using TwitchLib.EventSub.Websockets.Client;
+using TwitchLib.EventSub.Websockets.Core.EventArgs;
+using TwitchLib.EventSub.Websockets.Core.EventArgs.Channel;
 using TwitchLib.PubSub;
 using TwitchLib.PubSub.Events;
 using TwitchLib.PubSub.Models.Responses.Messages.Redemption;
@@ -79,10 +90,10 @@ namespace BannerlordTwitch
         //         Source = source,
         //     };
         
-        public static ReplyContext FromRedemption(ActionBase source, Redemption redemption) =>
+        public static ReplyContext FromRedemption(ActionBase source, ChannelPointsCustomRewardRedemption redemption) =>
             new()
             {
-                UserName = CleanDisplayName(redemption.User.DisplayName),
+                UserName = CleanDisplayName(redemption.UserName),
                 Args = redemption.UserInput,
                 RedemptionId = redemption.Id,
                 Source = source,
@@ -101,14 +112,17 @@ namespace BannerlordTwitch
     // https://twitchtokengenerator.com/quick/AAYotwZPvU
     internal partial class TwitchService : IDisposable
     {
-        private TwitchPubSub pubSub;
+        private TwitchEventSubSocket eventsub;
         private readonly TwitchAPI api;
         private string channelId;
         private readonly AuthSettings authSettings;
 
+        private TwitchPubSub pubSub;
+
         private readonly Settings settings;
-        
-        private readonly ConcurrentDictionary<string, Redemption> redemptionCache = new();
+        private CancellationToken token;
+
+        private readonly ConcurrentDictionary<string, ChannelPointsCustomRewardRedemption> redemptionCache = new();
         private Bot bot;
 
         public TwitchService()
@@ -165,6 +179,18 @@ namespace BannerlordTwitch
                         Log.Error($"You must be a Twitch Partner or Affiliate to use the channel points system. You can still use the chat commands (you may need to add some in the configure window to get full functionality).");
                         return;
                     }
+
+                    eventsub = new TwitchEventSubSocket(null);
+
+                    //send authSettings.AccessToken
+                    eventsub.OnEventSubServiceConnected += OnEventSubConnected;
+                    eventsub.OnChannelPointsRewardsRedeemed += OnRewardRedeemed;
+                    RegisterRewardsAsync();
+                    
+                    _ = eventsub.StartAsync(token);
+
+                    /**
+
                     
                     // Create new instance of PubSub Client
                     pubSub = new TwitchPubSub();
@@ -195,10 +221,34 @@ namespace BannerlordTwitch
                     // Connect
                     pubSub.Connect();
                     pubSub.SendTopics(authSettings.AccessToken);
+                    **/
                 });
             });
         }
+
+        private async void OnEventSubConnected(object o, WebsocketConnectedArgs args)
+        {
+            var conditions = new Dictionary<string, string>()
+            {
+            };
+            var subscriptionResponse = await api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", conditions,
+            EventSubTransportMethod.Websocket, eventsub.SessionId);
+
+            //Listen to other event sub
+
+        }
         
+        /**
+        private void OnPubSubServiceConnected(object sender, EventArgs e)
+        {
+            Log.LogFeedSystem("{=BiYZ1CbN}TwitchService connected".Translate());
+
+#pragma warning disable 618
+            // Obsolete warning disabled because no new version has yet been written!
+            pubSub.ListenToRewards(channelId);
+#pragma warning restore 618
+            pubSub.SendTopics(authSettings.AccessToken);
+        }**/
         private async void RegisterRewardsAsync()
         {
             RemoveRewards();
@@ -286,15 +336,15 @@ namespace BannerlordTwitch
             }
         }
 
-        private void OnRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs redeemedArgs)
+        private void OnRewardRedeemed(object sender, ChannelPointsCustomRewardRedemption redeemedArgs)
         {
-            if (redeemedArgs.ChannelId == channelId)
+            if (redeemedArgs.BroadcasterUserId == channelId)
             {
-                OnRewardRedeemedInternal(sender, redeemedArgs.RewardRedeemed.Redemption);
+                OnRewardRedeemedInternal(sender, redeemedArgs);
             }
         }
 
-        private void OnRewardRedeemedInternal(object sender, Redemption redemption)
+        private void OnRewardRedeemedInternal(object sender, ChannelPointsCustomRewardRedemption redemption)
         {
             MainThreadSync.Run(() =>
             {
@@ -314,7 +364,7 @@ namespace BannerlordTwitch
                     return;
                 }
 
-                Log.Info($"Redemption of {redemption.Reward.Title} from {redemption.User.DisplayName} received!");
+                Log.Info($"Redemption of {redemption.Reward.Title} from {redemption.UserName} received!");
 
                 var context = ReplyContext.FromRedemption(reward, redemption);
 #if !DEBUG
@@ -516,7 +566,7 @@ namespace BannerlordTwitch
                 }
                 else
                 {
-                    Log.Info($"Skipped marking {redemption.Reward.Title} for {redemption.User.DisplayName} as fulfilled as DisableAutomaticFulfillment is set");
+                    Log.Info($"Skipped marking {redemption.Reward.Title} for {redemption.UserName} as fulfilled as DisableAutomaticFulfillment is set");
                 }
             }
             else
@@ -548,12 +598,12 @@ namespace BannerlordTwitch
             }
         }
 
-        private async Task SetRedemptionStatusAsync(Redemption redemption, CustomRewardRedemptionStatus status)
+        private async Task SetRedemptionStatusAsync(ChannelPointsCustomRewardRedemption redemption, CustomRewardRedemptionStatus status)
         {
             try
             {
                 await api.Helix.ChannelPoints.UpdateRedemptionStatusAsync(
-                    redemption.ChannelId,
+                    redemption.BroadcasterUserId,
                     redemption.Reward.Id,
                     new List<string> {redemption.Id},
                     new UpdateCustomRewardRedemptionStatusRequest {Status = status},
@@ -563,20 +613,11 @@ namespace BannerlordTwitch
             }
             catch (Exception e)
             {
-                Log.Error($"Failed to set redemption status of {redemption.Id} ({redemption.Reward.Title} for {redemption.User.DisplayName}) to {status}: {e.Message}");
+                Log.Error($"Failed to set redemption status of {redemption.Id} ({redemption.Reward.Title} for {redemption.UserName}) to {status}: {e.Message}");
             }
         }
 
-        private void OnPubSubServiceConnected(object sender, EventArgs e)
-        {
-            Log.LogFeedSystem("{=BiYZ1CbN}TwitchService connected".Translate());
 
-#pragma warning disable 618
-            // Obsolete warning disabled because no new version has yet been written!
-            pubSub.ListenToRewards(channelId);
-#pragma warning restore 618
-            pubSub.SendTopics(authSettings.AccessToken);
-        }
         
         // private void OnOnPubSubServiceClosed(object sender, EventArgs e)
         // {
@@ -614,7 +655,8 @@ namespace BannerlordTwitch
             StopSim();
             RemoveRewards();
             bot?.Dispose();
-            pubSub?.Disconnect();
+            _ = eventsub.StopAsync(token);
+            //pubSub?.Disconnect();
             Log.LogFeedSystem("{=mEcBdqNC}TwitchService stopped".Translate());
         }
 

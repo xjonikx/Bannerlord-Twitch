@@ -10,6 +10,7 @@ using TwitchLib.Api.Core.HttpCallHandlers;
 using TwitchLib.Api.Core.Interfaces;
 using TwitchLib.Api.Helix.Models.ChannelPoints;
 using TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
 using TwitchLib.PubSub.Events;
 
 namespace BannerlordTwitch.Dummy
@@ -65,7 +66,7 @@ namespace BannerlordTwitch.Dummy
         
         private readonly JsonSerializerSettings deserializerSettings = new() { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Ignore };
 
-        public event EventHandler<TwitchLib.PubSub.Models.Responses.Messages.Redemption.Redemption> OnRewardRedeemed;
+        public event EventHandler<ChannelPointsCustomRewardRedemption> OnRewardRedeemed;
         
         public AffiliateSpoofingHttpCallHandler(IHttpCallHandler http = null, ILogger<TwitchHttpClient> logger = null) : base(http, logger)
         {
@@ -84,7 +85,7 @@ namespace BannerlordTwitch.Dummy
                 var id = Guid.NewGuid();
                 activeRedemptions.Add(new Redemption(id.ToString(), user, args, reward.Id, reward.Title));
                 OnRewardRedeemed?.Invoke(this,
-                    JsonConvert.DeserializeObject<TwitchLib.PubSub.Models.Responses.Messages.Redemption.Redemption>(
+                    JsonConvert.DeserializeObject<ChannelPointsCustomRewardRedemption>(
                         JsonConvert.SerializeObject(new
                         {
                             id = id,
