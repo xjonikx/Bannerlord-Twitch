@@ -610,7 +610,6 @@
     <Compile Include="Overlay\PhysicalFileSystemEx.cs" />
     <Compile Include="Overlay\TwitchHub.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Twitch\TwitchEventSub.cs" />
     <Compile Include="Util\SaveSystem\DictionaryToArrayConverter.cs" />
     <Compile Include="Util\SaveSystem\MBGUIDConverter.cs" />
     <Compile Include="Util\SaveSystem\MBObjectBaseConverter.cs" />
