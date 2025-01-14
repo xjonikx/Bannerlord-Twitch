@@ -237,7 +237,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.JoinPrice)
             {
-                onFailure("{=AtU1Piwx}You do not have enough gold ({price}) to join a clan".Translate(("price", settings.JoinPrice.ToString())));
+                onFailure(Naming.NotEnoughGold(settings.JoinPrice, BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero)));
                 return;
             }
 
@@ -274,7 +274,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.CreatePrice)
             {
-                onFailure("{=wwdny8Wo}You do not have enough gold ({price}) to create a clan".Translate(("price", settings.CreatePrice.ToString())));
+                onFailure(Naming.NotEnoughGold(settings.CreatePrice, BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero)));
                 return;
             }
 
@@ -316,7 +316,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.LeadPrice)
             {
-                onFailure("{=A2KOZv2B}You do not have enough gold ({price}) to lead a clan".Translate(("price", settings.LeadPrice.ToString())));
+                onFailure(Naming.NotEnoughGold(settings.LeadPrice, BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero)));
                 return;
             }
             if (adoptedHero.Clan.Leader.Name.Contains(BLTAdoptAHeroModule.Tag))
@@ -367,7 +367,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.RenamePrice)
             {
-                onFailure("{=Dx3HtU6C}You do not have enough gold ({price}) to rename a clan".Translate(("price", settings.RenamePrice.ToString())));
+                onFailure(Naming.NotEnoughGold(settings.RenamePrice, BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero)));
                 return;
             }
 
@@ -395,7 +395,8 @@ namespace BLTAdoptAHero.Actions
             var clanStats = new StringBuilder();
             clanStats.Append("{=Ki8jvwkw}Clan Name: {name} | ".Translate(("name", adoptedHero.Clan.Name.ToString())));
             clanStats.Append("{=sZcYhSOL}Leader: {leader} | ".Translate(("leader", adoptedHero.Clan.Leader.Name.ToString())));
-            clanStats.Append("{=ch83d8zT}Kingdom: {kingdom} | ".Translate(("kingdom", adoptedHero.Clan.Kingdom.Name.ToString())));
+            if (adoptedHero.Clan.Kingdom != null)
+                clanStats.Append("{=ch83d8zT}Kingdom: {kingdom} | ".Translate(("kingdom", adoptedHero.Clan.Kingdom.Name.ToString())));
             clanStats.Append("{=Sg11nEUe}Tier: {tier} | ".Translate(("tier", adoptedHero.Clan.Tier.ToString())));
             clanStats.Append("{=ZFGikYn8}Strength: {strength} | ".Translate(("strength", Math.Round(adoptedHero.Clan.TotalStrength).ToString())));
             clanStats.Append("{=eHJYAZha}Members: {members}".Translate(("members", adoptedHero.Clan.Heroes.Count.ToString())));

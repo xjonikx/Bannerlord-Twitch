@@ -105,7 +105,7 @@ namespace BLTAdoptAHero.Actions
                     }
                     if (settings.GenderCost > BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero))
                     {
-                        onFailure("{=LbXx5Jxt}You do not have enough gold ({price}) to change gender".Translate(("price", settings.GenderCost.ToString())));
+                        onFailure(Naming.NotEnoughGold(settings.GenderCost, BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero)));
                         return;
                     }
                     if (string.Equals(splitArgs[1].ToLower(), "female", StringComparison.CurrentCultureIgnoreCase))

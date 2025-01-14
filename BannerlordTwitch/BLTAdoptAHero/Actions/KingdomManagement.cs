@@ -173,7 +173,7 @@ namespace BLTAdoptAHero.Actions
                 onFailure("{=GEGrsLPm}Your clan is already in a kingdom, in order to leave you must rebel against them".Translate());
                 return;
             }
-            if (adoptedHero.IsClanLeader)
+            if (!adoptedHero.IsClanLeader)
             {
                 onFailure("{=HS14GdUa}You cannot manage your kingdom, as you are not your clans leader!".Translate());
                 return;
@@ -202,7 +202,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.JoinPrice)
             {
-                onFailure("{=LMAOSWIl}You do not have enough gold ({price}) to join a kingdom".Translate(("price", settings.JoinPrice.ToString())));
+                onFailure(Naming.NotEnoughGold(settings.JoinPrice, BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero)));
                 return;
             }
 
@@ -224,7 +224,7 @@ namespace BLTAdoptAHero.Actions
                 onFailure("{=NbvwN9z3}Your clan is not in a kingdom".Translate());
                 return;
             }
-            if (adoptedHero.IsClanLeader)
+            if (!adoptedHero.IsClanLeader)
             {
                 onFailure("{=Nzm5bI4I}You cannot lead a rebellion agaisnt your kingdom, as you are not your clans leader!".Translate());
                 return;
@@ -241,7 +241,7 @@ namespace BLTAdoptAHero.Actions
             }
             if (BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero) < settings.RebelPrice)
             {
-                onFailure("{=PHGPejab}You do not have enough gold ({price}) to start a rebellion".Translate(("price", settings.RebelPrice.ToString())));
+                onFailure(Naming.NotEnoughGold(settings.RebelPrice, BLTAdoptAHeroCampaignBehavior.Current.GetHeroGold(adoptedHero)));
                 return;
             }
             BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.RebelPrice, true);

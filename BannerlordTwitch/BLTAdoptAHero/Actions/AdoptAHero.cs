@@ -328,7 +328,7 @@ namespace BLTAdoptAHero
                 //Set Culture filter if enabled
                 if (settings.ViewerSelects == Settings.ViewerSelect.Culture)
                 {
-                    if (contextArgs.Trim() == "list")
+                    if (contextArgs.Trim() == "list" || contextArgs.Trim() == "a")
                         return (false, "{=jjUmUpia}Culture list: {Cultures}".Translate(("Cultures", string.Join(", ", CampaignHelpers.MainCultures.Select(c => c.Name.ToString())))));
                     if (contextArgs.Length > 1)
                     {
@@ -348,7 +348,7 @@ namespace BLTAdoptAHero
                 //Set Faction filter if enabled
                 else if (settings.ViewerSelects == Settings.ViewerSelect.Faction)
                 {
-                    if (contextArgs.Trim() == "list")
+                    if (contextArgs.Trim() == "list" || contextArgs.Trim() == "a")
                         return (false, "{=jjUmUpia}Faction list: {Factions}".Translate(("Factions", string.Join(", ", CampaignHelpers.MainFactions.Select(c => c.Name.ToString())))));
                     if (contextArgs.Length > 1)
                     {
