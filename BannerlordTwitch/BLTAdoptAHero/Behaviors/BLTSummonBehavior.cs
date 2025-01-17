@@ -28,6 +28,7 @@ namespace BLTAdoptAHero
         {
             public Hero Hero;
             public bool WasPlayerSide;
+            public bool SpawnWithRetinue;
             public PartyBase Party;
             public AgentState State;
             public Agent CurrentAgent;
@@ -63,7 +64,7 @@ namespace BLTAdoptAHero
         /// <param name="party"></param>
         /// <param name="forced">Whether the player chose to summon, or was part of the battle without choosing it. This affects what statistics will be updated, so streaks etc. aren't broken</param>
         /// <returns></returns>
-        public HeroSummonState AddHeroSummonState(Hero hero, bool playerSide, PartyBase party, bool forced)
+        public HeroSummonState AddHeroSummonState(Hero hero, bool playerSide, PartyBase party, bool forced, bool withRetinue)
         {
             var heroSummonState = new HeroSummonState
             {
@@ -71,6 +72,7 @@ namespace BLTAdoptAHero
                 WasPlayerSide = playerSide,
                 Party = party,
                 SummonTime = CampaignHelpers.GetTotalMissionTime(),
+                SpawnWithRetinue = withRetinue,
             };
             heroSummonStates.Add(heroSummonState);
 
@@ -98,10 +100,11 @@ namespace BLTAdoptAHero
                                        && Mission.PlayerTeam?.IsValid == true
                                        && agent.Team.IsFriendOf(Mission.PlayerTeam),
                                        adoptedHero.GetMapEventParty(),
-                                       forced: true);
+                                       forced: true,
+                                       withRetinue: true);
 
                 // First spawn, so spawn retinue also
-                if (heroSummonState.TimesSummoned == 0 && RetinueAllowed())
+                if (heroSummonState.TimesSummoned == 0 && heroSummonState.SpawnWithRetinue && RetinueAllowed())
                 {
                     var formationClass = agent.Formation.FormationIndex;
                     SpawnRetinue(adoptedHero, ShouldBeMounted(formationClass), formationClass,

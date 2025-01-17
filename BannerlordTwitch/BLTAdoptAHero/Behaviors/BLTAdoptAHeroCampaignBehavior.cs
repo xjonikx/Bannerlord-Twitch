@@ -45,7 +45,7 @@ namespace BLTAdoptAHero
             public int Iteration { get; set; }
             public bool IsRetiredOrDead { get; set; }
             public bool IsCreatedHero { get; set; } = false;
-            public TextObject LegacyName { get; set; } = null;
+            public string LegacyName { get; set; } = null;
 
             //public bool MesssageFlag { get; set; } = false;
             //public string MessageContent { get; set; } = null;
@@ -339,7 +339,7 @@ namespace BLTAdoptAHero
             var hd = GetHeroData(newHero);
             hd.Owner = userName;
             hd.IsRetiredOrDead = false;
-            hd.LegacyName = newHero.Name;
+            hd.LegacyName = newHero.Name.ToString();
             hd.Iteration = GetAncestors(userName).Max(a => (int?)a.Iteration + 1) ?? 0;
             SetHeroAdoptedName(newHero, userName);
         }
@@ -374,7 +374,7 @@ namespace BLTAdoptAHero
 
             string desc = hero.IsDead ? "{=ZtZL0lbX}deceased".Translate() : "{=ISrFBorj}retired".Translate();
             var oldName = hero.Name;
-            CampaignHelpers.SetHeroName(hero, data.LegacyName);
+            CampaignHelpers.SetHeroName(hero, new TextObject(data.LegacyName));
             CampaignHelpers.RemoveEncyclopediaBookmarkFromItem(hero);
 
             // Don't leave retired heroes in the tournament queue 
@@ -385,7 +385,8 @@ namespace BLTAdoptAHero
             Log.Info("{=wzpkEmTL}Dead or retired hero {OldName} renamed to {HeroName}"
                 .Translate(("OldName", oldName), ("HeroName", hero.Name)));
 
-            data.IsRetiredOrDead = true;
+            //data.IsRetiredOrDead = true;
+            heroData.Remove(hero);
         }
         #endregion
 
@@ -1167,7 +1168,7 @@ namespace BLTAdoptAHero
 
         public static void SetHeroAdoptedName(Hero hero, string userName) =>
             CampaignHelpers.SetHeroName(hero, new(GetFullName(userName)), new(userName));
-        public TextObject GetHeroLegacyName(Hero hero) =>
+        public string GetHeroLegacyName(Hero hero) =>
             GetHeroData(hero).LegacyName;
         public bool GetIsCreatedHero(Hero hero) =>
             GetHeroData(hero).IsCreatedHero;

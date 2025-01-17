@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using BannerlordTwitch;
 using BannerlordTwitch.Helpers;
@@ -96,10 +97,16 @@ namespace BLTAdoptAHero
              PropertyOrder(1), UsedImplicitly]
             public bool OnPlayerSide { get; set; }
 
+            [LocDisplayName("{=WrEr2Ovi}Spawn with Retinue"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=K0vIkJBp}Whether hero spawns with their retinue in the battle or alone"),
+             PropertyOrder(2), UsedImplicitly]
+            public bool WithRetinue { get; set; }
+
             [LocDisplayName("{=WrEr2Ovi}Allow When Depleted"),
              LocCategory("General", "{=C5T5nnix}General"),
              LocDescription("{=K0vIkJBp}Whether this summon is allowed when no vanilla troops are left, only applies to battles and sieges"),
-             PropertyOrder(2), UsedImplicitly]
+             PropertyOrder(3), UsedImplicitly]
             public bool AllowWhenDepleted { get; set; }
 
             [LocDisplayName("{=HOZnxjGb}Gold Cost"),
@@ -125,6 +132,14 @@ namespace BLTAdoptAHero
              LocDescription("{=gnh3KY5a}HP the hero gets every second they are alive in the mission"),
              PropertyOrder(2), UsedImplicitly]
             public float HealPerSecond { get; set; }
+
+            [LocDisplayName("{=dvbkxJQz}Shout Percentage"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=KLJtpEjg}Chance that hero shouts when summoning into battle"),
+             UIRangeAttribute(0, 1, 0.05f),
+             Editor(typeof(SliderFloatEditor), typeof(SliderFloatEditor)),
+             PropertyOrder(10), UsedImplicitly]
+            public float ShoutPercent { get; set; } = 0.25f;
 
             public void GenerateDocumentation(IDocumentationGenerator generator)
             {
@@ -589,7 +604,7 @@ namespace BLTAdoptAHero
                     replaceExisting: false
                 );
 
-                heroSummonState = BLTSummonBehavior.Current.AddHeroSummonState(adoptedHero, settings.OnPlayerSide, party, forced: false);
+                heroSummonState = BLTSummonBehavior.Current.AddHeroSummonState(adoptedHero, settings.OnPlayerSide, party, forced: false, settings.WithRetinue);
             }
 
             if (settings.OnPlayerSide)
@@ -611,11 +626,13 @@ namespace BLTAdoptAHero
                 formation.SetSpawnIndex(0);
             }
 
-            // Finished
-            Log.ShowInformation(!string.IsNullOrEmpty(context.Args)
+            if (MBRandom.RandomInt(0, 100) < (int)Math.Round(settings.ShoutPercent * 100))
+            {
+                Log.ShowInformation(!string.IsNullOrEmpty(context.Args)
                     ? context.Args
                     : GetShouts(settings).SelectRandomWeighted(shout => shout.Weight)?.Text?.ToString() ?? "...",
                 adoptedHero.CharacterObject, settings.AlertSound);
+            }
 
             BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.GoldCost);
 

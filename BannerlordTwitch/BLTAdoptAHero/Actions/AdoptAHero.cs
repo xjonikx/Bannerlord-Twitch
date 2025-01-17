@@ -42,6 +42,11 @@ namespace BLTAdoptAHero
              LocDescription("{=F1KDzuZZ}Create a new hero instead of adopting an existing one (they will be a wanderer at a random tavern)"),
              PropertyOrder(1), UsedImplicitly]
             public bool CreateNew { get; set; }
+            [LocDisplayName("{=TLrDxhlh}In-game Notification?"),
+             LocCategory("General", "{=C5T5nnix}General"),
+             LocDescription("{=F1KDzuZZ}Enable/Disable the ingame adoption notification)"),
+             PropertyOrder(2), UsedImplicitly]
+            public bool Notifications { get; set; }
 
             public enum ViewerSelect
             {
@@ -312,7 +317,7 @@ namespace BLTAdoptAHero
         {
             Hero newHero = null;
 
-            if (settings.CreateNew && settings.ViewerSelects != Settings.ViewerSelect.Nothing)
+            if (settings.CreateNew && (settings.ViewerSelects == Settings.ViewerSelect.Clan || settings.ViewerSelects == Settings.ViewerSelect.Faction || settings.ViewerSelects == Settings.ViewerSelect.Name))
             {
                 return (false, "{=mJfD7e2g}Config Error: Can't create new hero and have random selection filters".Translate());
             }
@@ -527,10 +532,12 @@ namespace BLTAdoptAHero
             {
                 inherited.Add($"{inheritedGold}{Naming.Gold}");
             }
-
-            Log.ShowInformation(
-                "{=K7nuJVCN}{OldName} is now known as {NewName}!".Translate(("OldName", oldName), ("NewName", newHero.Name)),
-                newHero.CharacterObject, Log.Sound.Horns2);
+            if (settings.Notifications)
+                Log.ShowInformation(
+                    "{=K7nuJVCN}{OldName} is now known as {NewName}!".Translate(("OldName", oldName), ("NewName", newHero.Name)),
+                    newHero.CharacterObject, Log.Sound.Horns2);
+            else
+                Log.Info("{=K7nuJVCN}{OldName} is now known as {NewName}!".Translate(("OldName", oldName), ("NewName", newHero.Name)));
 
             return inherited.Any()
                 ? (true, "{=PAc5S0GY}{OldName} is now known as {NewName}, they have {NewGold} (inheriting {Inherited})!"

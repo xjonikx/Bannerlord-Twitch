@@ -124,6 +124,55 @@ namespace BannerlordTwitch
             return settings;
         }
 
+        //public static void ImportOld()
+        //{
+        //    Settings settings = null;
+        //    // Try loading settings from the active profile
+        //    try
+        //    {
+        //        PlatformFilePath ProfileFilePath = FileSystem.GetConfigPath($"Bannerlord-Twitch-v3.yaml");
+        //        PlatformFilePath ProfileFilePath2 = FileSystem.GetConfigPath($"Bannerlord-Twitch-v4.yaml");
+        //        if (FileSystem.FileExists(ProfileFilePath))
+        //        {
+        //            try
+        //            {
+        //                settings = YamlHelpers.Deserialize<Settings>(FileSystem.GetFileContentString(ProfileFilePath));
+        //                Log.Info($"Settings imported from {ProfileFilePath}");
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Log.Exception($"Exception loading settings from {ProfileFilePath}: {ex.Message}", ex);
+        //            }
+        //        }
+        //        else if (FileSystem.FileExists(ProfileFilePath2))
+        //        {
+        //            try
+        //            {
+        //                settings = YamlHelpers.Deserialize<Settings>(FileSystem.GetFileContentString(ProfileFilePath2));
+        //                Log.Info($"Settings imported from {ProfileFilePath2}");
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Log.Exception($"Exception loading settings from {ProfileFilePath2}: {ex.Message}", ex);
+        //            }
+        //        }
+        //        else
+        //            Log.Info($"No settings found at {ProfileFilePath} or {ProfileFilePath2}");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Exception($"Failed to import settings", ex);
+        //    }
+
+        //    SettingsHelpers.CallInDepth<IUpdateFromDefault>(settings,
+        //        config => config.OnUpdateFromDefault(settings));
+
+        //    SettingsPostLoad(settings);
+
+        //    Log.Info($"Settings succesfully imported");
+
+        //}
+
         public static void Save(Settings settings)
         {
             SettingsPreSave(settings);
@@ -135,48 +184,6 @@ namespace BannerlordTwitch
             ActiveProfile = Profile;
         }
 #endif
-        //public static void SaveSettingsBackup(Settings settings)
-        //{
-        //    SettingsPreSave(settings);
-        //    try
-        //    {
-        //        string configStr = YamlHelpers.Serialize(settings);
-        //        var backup = GetLastBackup();
-        //        if (backup.HasValue)
-        //        {
-        //            string prevBackupStr = FileSystem.GetFileContentString(backup.Value);
-        //            if (configStr == prevBackupStr)
-        //            {
-        //                Log.Info($"Skipping settings backup, as settings haven't changed since last backup");
-        //                return;
-        //            }
-        //        }
-
-        //        var newBackupPath = FileSystem.GetConfigPath($"Bannerlord-Twitch-v4-Backup-{DateTime.Now:yyyy-dd-M--HH-mm-ss}.yaml");
-        //        FileSystem.SaveFileString(newBackupPath, configStr);
-        //        Log.Info($"Backed up settings to {newBackupPath}");
-
-        //        // Delete old config backups
-        //        foreach (var o in GetBackupConfigPaths()
-        //            .OrderByDescending(f => f.FileName).Skip(5))
-        //        {
-        //            FileSystem.DeleteFile(o);
-        //            Log.Info($"Deleted old settings backup {o}");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Exception($"Settings backup failed: {ex.Message}", ex);
-        //    }
-        //}
-
-        //private static IEnumerable<PlatformFilePath> GetBackupConfigPaths() =>
-        //    FileSystem.GetFiles(FileSystem.GetConfigDir(), "Bannerlord-Twitch-v4-Backup-*.yaml");
-
-        //private static PlatformFilePath? GetLastBackup() =>
-        //    GetBackupConfigPaths().OrderByDescending(f => f.FileName)
-        //        .Cast<PlatformFilePath?>()
-        //        .FirstOrDefault();
 
         private static void SettingsPostLoad(Settings settings)
         {
