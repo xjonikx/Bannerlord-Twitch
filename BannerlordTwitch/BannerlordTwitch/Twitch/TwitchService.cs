@@ -230,6 +230,7 @@ namespace BannerlordTwitch
         {
             var conditions = new Dictionary<string, string>()
             {
+                { "broadcaster_user_id", channelId }
             };
             var subscriptionResponse = await api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", conditions,
             EventSubTransportMethod.Websocket, eventsub.SessionId);
@@ -357,7 +358,7 @@ namespace BannerlordTwitch
                     return;
                 }
 
-                if (redemption.Status != "UNFULFILLED")
+                if (redemption.Status.ToLower() != "unfulfilled")
                 {
                     Log.Info($"Reward {redemption.Reward.Title} status {redemption.Status} is not interesting, " +
                              $"ignoring it");
@@ -655,7 +656,7 @@ namespace BannerlordTwitch
             StopSim();
             RemoveRewards();
             bot?.Dispose();
-            _ = eventsub.StopAsync(token);
+            _ = eventsub?.StopAsync(token);
             //pubSub?.Disconnect();
             Log.LogFeedSystem("{=mEcBdqNC}TwitchService stopped".Translate());
         }
