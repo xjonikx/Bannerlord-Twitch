@@ -611,12 +611,12 @@
     <Compile Include="Overlay\PhysicalFileSystemEx.cs" />
     <Compile Include="Overlay\TwitchHub.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="BLTModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveSystem\DictionaryToArrayConverter.cs" />
     <Compile Include="SaveSystem\MBGUIDConverter.cs" />
     <Compile Include="SaveSystem\MBObjectBaseConverter.cs" />
     <Compile Include="SaveSystem\ScopedJsonSync.cs" />
-    <Compile Include="BLTModule.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ActionBase.cs" />
     <Compile Include="Settings\AuthSettings.cs" />
     <Compile Include="Settings\Command.cs" />
@@ -696,7 +696,7 @@
     <Content Include="Overlay\ConsoleFeed\ConsoleFeed.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SaveSystem\ButterLibLicense.txt" />
+    <Resource Include="SaveSystem\ButterLibLicense.txt" />
     <Content Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />

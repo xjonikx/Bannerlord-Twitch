@@ -36,6 +36,7 @@ Commands:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: true
     StartingAgeRange:
       Max: 35
@@ -77,6 +78,7 @@ Commands:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: false
     StartingAgeRange:
       Max: 35
@@ -109,6 +111,7 @@ Commands:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: false
     StartingAgeRange:
       Max: 35
@@ -141,6 +144,7 @@ Commands:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: false
     StartingAgeRange:
       Max: 35
@@ -173,6 +177,7 @@ Commands:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: false
     StartingAgeRange:
       Max: 35
@@ -205,6 +210,7 @@ Commands:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: false
     StartingAgeRange:
       Max: 35
@@ -237,6 +243,7 @@ Commands:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: false
     StartingAgeRange:
       Max: 35
@@ -271,6 +278,8 @@ Commands:
     HealPerSecond: 0
     OnPlayerSide: false
     PreferredFormation: Infantry
+    ShoutPercent: 0.25
+    WithRetinue: false
   Help: ''
   HideHelp: false
   ID: 9082614c-46a3-47f9-b198-e56babde5745
@@ -716,6 +725,8 @@ Commands:
     HealPerSecond: 0
     OnPlayerSide: true
     PreferredFormation: Infantry
+    ShoutPercent: 0.25
+    WithRetinue: false
   Help: ''
   HideHelp: false
   ID: 01a497f3-d529-4780-80dd-41343b3e05ad
@@ -3690,6 +3701,7 @@ Rewards:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: true
     StartingAgeRange:
       Max: 35
@@ -3739,6 +3751,7 @@ Rewards:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: true
     StartingAgeRange:
       Max: 35
@@ -3788,6 +3801,7 @@ Rewards:
     Inheritance: 0.25
     MaxInheritedCustomItems: 2
     MinSubscribedMonths: 
+    Notifications: false
     OverrideAge: true
     StartingAgeRange:
       Max: 35
@@ -3839,6 +3853,8 @@ Rewards:
     HealPerSecond: 0
     OnPlayerSide: false
     PreferredFormation: LightCavalry
+    ShoutPercent: 0.25
+    WithRetinue: false
   ID: 422cc8d9-84cb-4cc9-afdf-889e615fdea6
   RespondInOverlay: true
   RespondInTwitch: false
@@ -4078,6 +4094,8 @@ Rewards:
     HealPerSecond: 0
     OnPlayerSide: true
     PreferredFormation: LightCavalry
+    ShoutPercent: 0.25
+    WithRetinue: false
   ID: 77c1dbd8-02cb-47d7-9796-7308e989b7f3
   RespondInOverlay: true
   RespondInTwitch: false

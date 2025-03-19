@@ -538,7 +538,7 @@ namespace BLTConfigure
 
         private void CopyOverlayUrlButton_OnClick(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(OverlayUrl);
+            Clipboard.SetDataObject(OverlayUrl,false);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
