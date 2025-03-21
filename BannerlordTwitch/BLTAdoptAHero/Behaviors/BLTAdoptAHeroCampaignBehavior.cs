@@ -385,8 +385,8 @@ namespace BLTAdoptAHero
             Log.Info("{=wzpkEmTL}Dead or retired hero {OldName} renamed to {HeroName}"
                 .Translate(("OldName", oldName), ("HeroName", hero.Name)));
 
-            //data.IsRetiredOrDead = true;
-            heroData.Remove(hero);
+            data.IsRetiredOrDead = true;
+            //heroData.Remove(hero);
         }
         #endregion
 
