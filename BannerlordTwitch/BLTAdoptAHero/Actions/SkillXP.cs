@@ -64,6 +64,8 @@ namespace BLTAdoptAHero
                 return (false, "{=vK5z2Naq}Couldn't find a skill to improve".Translate());
             }
 
+            if (hero.IsDead) return (false, "Hero is dead");
+
             int prevSkill = hero.HeroDeveloper.GetSkillXpProgress(skill);
             int prevLevel = hero.GetSkillValue(skill);
             hero.HeroDeveloper.AddSkillXp(skill, amount,

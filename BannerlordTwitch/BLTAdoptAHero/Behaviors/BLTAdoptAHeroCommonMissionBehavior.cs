@@ -359,7 +359,7 @@ namespace BLTAdoptAHero
 
                 MissionInfoHub.UpdateHero(new()
                 {
-                    Name = hero.FirstName.Raw(),
+                    Name = hero.FirstName?.Raw()??"",
                     IsPlayerSide = summonState?.WasPlayerSide ?? IsHeroOnPlayerSide(hero),
                     TournamentTeam = MissionHelpers.InTournament() ? heroState.LastTeamIndex : -1,
                     MaxHP = agent?.HealthLimit ?? 100,

@@ -136,7 +136,7 @@ namespace BLTAdoptAHero
 
         public void NameItem(ItemModifier itemModifier, string name)
         {
-            if (customItemModifiers.TryGetValue(itemModifier, out var modifierData))
+            if (customItemModifiers.TryGetValue(itemModifier, out ItemModifierData modifierData))
             {
                 itemModifier.SetName(new(name));
                 modifierData.CustomName = name;

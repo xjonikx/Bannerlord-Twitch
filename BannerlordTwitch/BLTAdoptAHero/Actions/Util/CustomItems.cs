@@ -186,7 +186,7 @@ namespace BLTAdoptAHero.Actions.Util
 
         private static void CompleteCraftedItem(ItemObject item)
         {
-            ItemObject.InitAsPlayerCraftedItem(ref item);
+            //ItemObject.InitAsPlayerCraftedItem(ref item);
             MBObjectManager.Instance.RegisterObject(item);
             CampaignEventDispatcher.Instance.OnNewItemCrafted(item, null, false);
         }
