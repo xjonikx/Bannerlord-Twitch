@@ -104,15 +104,15 @@ namespace BLTAdoptAHero.Actions
             {
                 var EnabledCommands = new StringBuilder();
                 if (JoinEnabled)
-                    EnabledCommands = EnabledCommands.Append("{=}Join, ".Translate());
+                    EnabledCommands = EnabledCommands.Append("{=q5JhpNMF}Join, ".Translate());
                 if (CreateEnabled)
-                    EnabledCommands = EnabledCommands.Append("Create, ");
+                    EnabledCommands = EnabledCommands.Append("{=9lAIycwE}Create, ".Translate());
                 if (LeadEnabled)
-                    EnabledCommands = EnabledCommands.Append("Lead, ");
+                    EnabledCommands = EnabledCommands.Append("{=TrSSHcbH}Lead, ".Translate());
                 if (RenameEnabled)
-                    EnabledCommands = EnabledCommands.Append("Rename, ");
+                    EnabledCommands = EnabledCommands.Append("{=ugFdRADy}Rename, ".Translate());
                 if (StatsEnabled)
-                    EnabledCommands = EnabledCommands.Append("Stats, ");
+                    EnabledCommands = EnabledCommands.Append("{=mlayrmHr}Stats, ".Translate());
                 if (EnabledCommands != null)
                     generator.Value("<strong>Enabled Commands:</strong> {commands}".Translate(("commands", EnabledCommands.ToString().Substring(0, EnabledCommands.ToString().Length - 2))));
 
