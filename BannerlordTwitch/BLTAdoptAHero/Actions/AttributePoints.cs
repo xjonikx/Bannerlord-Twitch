@@ -98,7 +98,7 @@ namespace BLTAdoptAHero
                         : "{=2vli3BCR}You have gained a point in {Attribute}, you now have {NewAmount}!")
                     .Translate(
                         ("Amount", amount),
-                        ("Attribute", attribute),
+                        ("Attribute", CampaignHelpers.GetAttributeName(characterAttribute)),
                         ("NewAmount", adoptedHero.GetAttributeValue(attribute)))
                 );
         }
