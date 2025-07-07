@@ -45,17 +45,17 @@ namespace BLTAdoptAHero
 				onFailure("{=Z4vYZzSq}Not enough gold !".Translate());
 				return;
 			}
-			double num = Math.Truncate((double)(adoptedHero.Age - (float)settings.Age));
-			if (num < (double)Campaign.Current.Models.AgeModel.BecomeChildAge)
-			{
-				onFailure("{=yWo2v3yu}You cannot rejuvenate bellow child age".Translate());
-				return;
-			}
+			//double num = Math.Truncate((double)(adoptedHero.Age - (float)settings.Age));
+			//if (num < (double)Campaign.Current.Models.AgeModel.BecomeChildAge)
+			//{
+			//	onFailure("{=yWo2v3yu}You cannot rejuvenate bellow child age".Translate());
+			//	return;
+			//}
 			if (adoptedHero.Age < 18)
-            {
-                onFailure("{=yWo2v3yu}You cannot rejuvenate bellow child age".Translate());
-                return;
-            }
+            		{
+               			 onFailure("{=yWo2v3yu}You cannot rejuvenate bellow child age".Translate());
+               			 return;
+            		}
 			BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.Price, true);
 			adoptedHero.SetBirthDay(adoptedHero.BirthDay + CampaignTime.Years((float)settings.Age));
 			onSuccess("{=XidEZXAO}Your rejuvenated of {Age} years you are now {newAge}".Translate(new ValueTuple<string, object>[]
