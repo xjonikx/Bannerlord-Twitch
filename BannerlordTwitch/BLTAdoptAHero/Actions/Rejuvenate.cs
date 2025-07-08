@@ -52,7 +52,7 @@ namespace BLTAdoptAHero
 			//}
 			if ((float)((int)Math.Truncate((double)adoptedHero.Age)) <= 18f)
 			{
-				onFailure("{=yWo2v3yu}You cannot rejuvenate bellow child age МОЯ ПРОВЕРКА".Translate());
+				onFailure("{=yWo2v3yu}You cannot rejuvenate bellow child age".Translate());
 				return;
 			}
 			int num2 = BLTAdoptAHeroCampaignBehavior.Current.ChangeHeroGold(adoptedHero, -settings.Price, true);
