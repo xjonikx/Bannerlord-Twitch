@@ -127,7 +127,7 @@ namespace BLTAdoptAHero
                         infoStrings.Add($"Clan {adoptedHero.Clan.Name}");
                     }
                     infoStrings.Add($"{adoptedHero.Culture.Name}");
-                    infoStrings.Add("{=4TVRrlOw}{Age} yrs".Translate(("Age", (int)Math.Ceiling(adoptedHero.Age))));
+                    infoStrings.Add("{=4TVRrlOw}{Age} yrs".Translate(("Age", (int)Math.Truncate((double)adoptedHero.Age))));
                     infoStrings.Add("{=jY2QJdA3}{HP} / {MaxHP} HP".Translate(
                         ("HP", adoptedHero.HitPoints), ("MaxHP", adoptedHero.CharacterObject.MaxHitPoints())));
                     if (adoptedHero.LastKnownClosestSettlement != null)
